@@ -1,43 +1,62 @@
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/code_builder.dart' as code_builder;
 
 import '../models/openapi_spec.dart';
+import 'utils/name_utils.dart';
 
 class EnumGenerator {
-  static Class generateEnumClass(String name, Schema schema) {
-    final enumValues = schema.enum_ as List<dynamic>;
+  static code_builder.Class generateEnumClass(String name, Schema schema) {
+    final normalizedName = NameUtils.normalizeClassName(name);
 
-    return Class((b) => b
-      ..name = name
-      ..annotations.add(refer('JsonEnum'))
-      ..constructors.add(Constructor((c) => c
-        ..constant = true
-        ..optionalParameters.add(Parameter((p) => p
-          ..name = 'value'
-          ..type = refer('String')
-          ..required = true))))
-      ..fields.add(Field((f) => f
-        ..name = 'value'
-        ..type = refer('String')
-        ..modifier = FieldModifier.final$))
-      ..methods.addAll([
-        Method((m) => m
+    return code_builder.Class((b) {
+      b.name = normalizedName;
+      b.annotations.addAll([
+        code_builder.refer('freezed'),
+        code_builder.refer('JsonEnum'),
+      ]);
+      b.mixins.add(code_builder.refer('_\$$normalizedName'));
+
+      // 列挙値の定義
+      for (final value in schema.enum_!) {
+        final normalizedValue =
+            NameUtils.normalizePropertyName(value.toLowerCase());
+        b.fields.add(code_builder.Field((fb) {
+          fb.name = normalizedValue;
+          fb.static = true;
+          fb.modifier = code_builder.FieldModifier.constant;
+          fb.type = code_builder.refer(normalizedName);
+          fb.assignment = code_builder.Code('$normalizedName(\'$value\')');
+        }));
+      }
+
+      // コンストラクタの追加
+      b.constructors.addAll([
+        code_builder.Constructor((c) => c
+          ..factory = true
+          ..constant = true
+          ..optionalParameters.add(code_builder.Parameter((p) => p
+            ..name = 'value'
+            ..type = code_builder.refer('String')))
+          ..lambda = true
+          ..redirect = code_builder.refer('_$normalizedName')),
+        code_builder.Constructor((c) => c
+          ..factory = true
           ..name = 'fromJson'
-          ..static = true
-          ..returns = refer(name)
-          ..requiredParameters.add(Parameter((p) => p
+          ..lambda = true
+          ..requiredParameters.add(code_builder.Parameter((p) => p
             ..name = 'json'
-            ..type = refer('Map<String, dynamic>')))
-          ..body = Code('return $name(value: json[\'value\'] as String);')),
-        Method((m) => m
-          ..name = 'toJson'
-          ..returns = refer('Map<String, dynamic>')
-          ..body = Code('return {\'value\': value};')),
-      ])
-      ..fields.add(Field((f) => f
-        ..name = 'values'
+            ..type = code_builder.refer('String')))
+          ..body = code_builder.Code('$normalizedName(json)')),
+      ]);
+
+      // valuesゲッターの追加
+      b.methods.add(code_builder.Method((m) => m
         ..static = true
-        ..modifier = FieldModifier.constant
-        ..type = refer('List<String>')
-        ..assignment = Code(enumValues.map((v) => '\'$v\'').join(', ')))));
+        ..returns = code_builder.refer('List<$normalizedName>')
+        ..name = 'values'
+        ..type = code_builder.MethodType.getter
+        ..lambda = true
+        ..body = code_builder.Code(
+            '[${schema.enum_!.map((e) => NameUtils.normalizePropertyName(e.toLowerCase())).join(', ')}]')));
+    });
   }
 }

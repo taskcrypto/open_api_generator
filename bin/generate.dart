@@ -23,12 +23,13 @@ void main(List<String> arguments) async {
     exit(1);
   }
 
-  final inputFile = results['input'] as String;
+  final inputFilePath = results['input'] as String;
   final outputDir = results['output'] as String;
   final baseUrl = results['base-url'] as String;
 
   try {
-    final content = await File(inputFile).readAsString();
+    final inputFile = File(inputFilePath);
+    final content = await inputFile.readAsString();
     final Map<String, dynamic> spec;
 
     if (inputFile.path.endsWith('.yaml') || inputFile.path.endsWith('.yml')) {
