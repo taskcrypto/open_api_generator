@@ -22,7 +22,7 @@ OpenAPI/Swagger仕様からタイプセーフなDartコードを自動生成し�
 dependencies:
   openapi_generator_flutter:
     git:
-      url: https://github.com/taskcrypto/openapi_generator_flutter.git
+      url: https://github.com/taskcrypto/open_api_generator
       ref: main  # または特定のタグやコミットハッシュを指定
 ```
 
@@ -40,7 +40,7 @@ flutter pub get
 dependencies:
   openapi_generator_flutter:
     git:
-      url: https://github.com/taskcrypto/openapi_generator_flutter.git
+      url: url: https://github.com/taskcrypto/open_api_generator
       ref: v1.0.0  # 使用したいバージョンのタグを指定
 ```
 
@@ -52,7 +52,7 @@ dependencies:
 dependencies:
   openapi_generator_flutter:
     git:
-      url: git@github.com:taskcrypto/openapi_generator_flutter.git
+      url: git@github.com:taskcrypto/open_api_generator
       ref: main
 ```
 
