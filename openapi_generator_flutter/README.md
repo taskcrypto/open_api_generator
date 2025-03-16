@@ -1,5 +1,8 @@
 # OpenAPI Generator for Flutter
 
+AIコーディングの練習ライブラリです
+使ってもいいですが、一歳責任は持てません
+
 FlutterアプリケーションのためのOpenAPI（Swagger）クライアントジェネレーター。
 
 ## 特徴
