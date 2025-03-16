@@ -79,53 +79,44 @@ final queryParams = <String, dynamic>{
 '''));
     }
 
-    // Process path parameters
-    var urlPath = path;
-    final pathParams = RegExp(r'\{([^}]+)\}').allMatches(path);
-    for (final match in pathParams) {
-      final paramName = match.group(1)!;
-      final camelCaseName = _toCamelCase(paramName);
-      urlPath = urlPath.replaceFirst('{$paramName}', '\$$camelCaseName');
-    }
-
-    // Add URL builder
-    final queryParamsArg = queryParams.isNotEmpty
-        ? '.replace(queryParameters: queryParams.map((key, value) => MapEntry(key, value.toString())))'
-        : '';
-    bodyBuilder.statements.add(code_builder.Code('''
-final uri = Uri.parse('\${baseUrl}$urlPath')$queryParamsArg;
-'''));
-
-    // Add HTTP request
-    final headers = <String, String>{};
-    if (requestBody != null) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // ヘッダーパラメータを追加
+    // Add headers
     final headerParams = operation.parameters
             ?.where((p) => p.in_ == 'header')
             .map((p) => _toCamelCase(p.name))
             .toList() ??
         [];
 
-    final headersCode = headers.isEmpty && headerParams.isEmpty
-        ? ''
-        : ''',
-      headers: {
-        ${headers.entries.map((e) => '\'${e.key}\': \'${e.value}\',').join('\n        ')}
-        ${headerParams.map((p) => '\'${_toHeaderCase(p)}\': $p,').join('\n        ')}
-      }''';
+    if (headerParams.isNotEmpty) {
+      bodyBuilder.statements.add(code_builder.Code('''
+final headers = <String, dynamic>{
+  ${headerParams.map((p) {
+        final param = operation.parameters!
+            .firstWhere((op) => _toCamelCase(op.name) == p);
+        return param.required
+            ? '\'${_toHeaderCase(p)}\': $p,'
+            : 'if ($p != null) \'${_toHeaderCase(p)}\': $p,';
+      }).join('\n  ')}
+};
+'''));
+    }
 
-    final bodyCode = requestBody == null
-        ? ''
-        : ''',
-      body: jsonEncode(body.toJson())''';
+    // Add Dio request
+    final dioOptions = <String>[];
+    if (queryParams.isNotEmpty) {
+      dioOptions.add('queryParameters: queryParams');
+    }
+    if (headerParams.isNotEmpty) {
+      dioOptions.add('options: Options(headers: headers)');
+    }
+    if (requestBody != null) {
+      dioOptions.add('data: body.toJson()');
+    }
+
+    final dioOptionsStr =
+        dioOptions.isEmpty ? '' : ', ${dioOptions.join(', ')}';
 
     bodyBuilder.statements.add(code_builder.Code('''
-final response = await http.$httpMethod(
-  uri$headersCode$bodyCode
-);
+final response = await _dio.$httpMethod('\${baseUrl}$path'$dioOptionsStr);
 '''));
 
     // Add response handling
@@ -293,19 +284,18 @@ throw ApiException(
 
   static code_builder.Code _generateResponseHandling(String responseType) {
     if (responseType.startsWith('List<')) {
+      final itemType = responseType.substring(5, responseType.length - 1);
       return code_builder.Code('''
-final json = jsonDecode(response.body) as List<dynamic>;
-return json.map((e) => ${responseType.substring(5, responseType.length - 1)}.fromJson(e as Map<String, dynamic>)).toList();
+final data = response.data as List<dynamic>;
+return data.map((e) => $itemType.fromJson(e as Map<String, dynamic>)).toList();
 ''');
     } else if (responseType != 'void') {
       return code_builder.Code('''
-final json = jsonDecode(response.body) as Map<String, dynamic>;
-return $responseType.fromJson(json);
+final data = response.data as Map<String, dynamic>;
+return $responseType.fromJson(data);
 ''');
     } else {
-      return code_builder.Code('''
-return;
-''');
+      return code_builder.Code('return;');
     }
   }
 

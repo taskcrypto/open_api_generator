@@ -53,8 +53,7 @@ class ApiGenerator {
 
       final library = code_builder.Library((b) => b
         ..directives.addAll([
-          code_builder.Directive.import('package:http/http.dart', as: 'http'),
-          code_builder.Directive.import('dart:convert'),
+          code_builder.Directive.import('package:dio/dio.dart'),
           code_builder.Directive.import('../index.dart'),
         ])
         ..body.add(_generateCategoryApiClientClass(category, methods)));
@@ -72,9 +71,12 @@ class ApiGenerator {
 
     // メインのクライアントクラスを生成
     final mainLibrary = code_builder.Library((b) => b
-      ..directives.addAll(methodsByCategory.keys.map((category) =>
-          code_builder.Directive.import(
-              './client/${category.toLowerCase()}_client.dart')))
+      ..directives.addAll([
+        code_builder.Directive.import('package:dio/dio.dart'),
+        ...methodsByCategory.keys.map((category) =>
+            code_builder.Directive.import(
+                './client/${category.toLowerCase()}_client.dart')),
+      ])
       ..body.add(_generateMainApiClientClass(methodsByCategory.keys.toList())));
 
     final emitter = code_builder.DartEmitter();
@@ -358,14 +360,25 @@ class ApiGenerator {
       String category, List<code_builder.Method> methods) {
     return code_builder.Class((b) => b
       ..name = '${category}Client'
-      ..fields.add(code_builder.Field((f) => f
-        ..name = 'baseUrl'
-        ..type = code_builder.refer('String')
-        ..modifier = code_builder.FieldModifier.final$))
-      ..constructors.add(code_builder.Constructor((c) => c
-        ..requiredParameters.add(code_builder.Parameter((p) => p
+      ..fields.addAll([
+        code_builder.Field((f) => f
           ..name = 'baseUrl'
-          ..toThis = true))))
+          ..type = code_builder.refer('String')
+          ..modifier = code_builder.FieldModifier.final$),
+        code_builder.Field((f) => f
+          ..name = '_dio'
+          ..type = code_builder.refer('Dio')
+          ..modifier = code_builder.FieldModifier.final$),
+      ])
+      ..constructors.add(code_builder.Constructor((c) => c
+        ..requiredParameters.addAll([
+          code_builder.Parameter((p) => p
+            ..name = 'baseUrl'
+            ..toThis = true),
+          code_builder.Parameter((p) => p
+            ..name = '_dio'
+            ..toThis = true),
+        ])))
       ..methods.addAll(methods));
   }
 
@@ -377,6 +390,10 @@ class ApiGenerator {
         ..name = 'baseUrl'
         ..type = code_builder.refer('String')
         ..modifier = code_builder.FieldModifier.final$),
+      code_builder.Field((f) => f
+        ..name = '_dio'
+        ..type = code_builder.refer('Dio')
+        ..modifier = code_builder.FieldModifier.final$),
       ...categories.map((category) => code_builder.Field((f) => f
         ..name = category.toLowerCase()
         ..type = code_builder.refer('${category}Client')
@@ -384,7 +401,7 @@ class ApiGenerator {
     ];
 
     final initializers = categories.map((category) => code_builder.Code(
-        '${category.toLowerCase()} = ${category}Client(baseUrl)'));
+        '${category.toLowerCase()} = ${category}Client(baseUrl, _dio)'));
 
     return code_builder.Class((b) => b
       ..name = 'ApiClient'
@@ -393,7 +410,26 @@ class ApiGenerator {
         ..requiredParameters.add(code_builder.Parameter((p) => p
           ..name = 'baseUrl'
           ..toThis = true))
-        ..initializers.addAll(initializers))));
+        ..optionalParameters.addAll([
+          code_builder.Parameter((p) => p
+            ..name = 'options'
+            ..type = code_builder.refer('BaseOptions?')
+            ..named = true),
+          code_builder.Parameter((p) => p
+            ..name = 'interceptors'
+            ..type = code_builder.refer('List<Interceptor>?')
+            ..named = true),
+        ])
+        ..initializers.addAll([
+          code_builder.Code(
+              '_dio = Dio(options ?? BaseOptions(baseUrl: baseUrl))'),
+          ...initializers,
+        ])
+        ..body = code_builder.Code('''
+if (interceptors != null) {
+  _dio.interceptors.addAll(interceptors);
+}
+'''))));
   }
 
   /// インデックスファイルを生成

@@ -128,6 +128,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/dio-5.8.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "dio_web_adapter",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "file",
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/file-7.0.1",
       "packageUri": "lib/",
@@ -174,12 +186,6 @@
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/graphs-2.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
-    },
-    {
-      "name": "http",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/http-1.2.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.3"
     },
     {
       "name": "http_multi_server",
@@ -458,7 +464,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-03-16T07:55:49.007999Z",
+  "generated": "2025-03-16T08:31:32.636743Z",
   "generator": "pub",
   "generatorVersion": "3.3.2"
 }
