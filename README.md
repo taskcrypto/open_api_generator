@@ -158,59 +158,24 @@ lib/generated/
 
 ### 基本的な使用方法
 
-```dart
-import 'package:your_app/generated/index.dart';
+- `openapi_config.yaml`
 
-void main() async {
-  // APIクライアントの初期化
-  final client = ApiClient(
-    baseUrl: 'https://api.example.com',
-    options: ClientOptions(
-      timeout: Duration(seconds: 30),
-      headers: {'Authorization': 'Bearer token'},
-    ),
-  );
-
-  // APIリクエストの実行
-  try {
-    final response = await client.pet.findPetsByStatus(['available']);
-    print('利用可能なペット: ${response.length}匹');
-    
-    // 型安全なレスポンス処理
-    for (final pet in response) {
-      print('${pet.name}: ${pet.status}');
-    }
-  } on ApiException catch (e) {
-    print('APIエラー: [${e.statusCode}] ${e.message}');
-  }
-}
+``` yaml
+OPENAPI_OUTPUT_DIR: ../APP_NAME/lib/generated
+OPENAPI_BASE_URL: https://HOST.COM/OPEN_API_URL.yaml
 ```
 
-### カスタムインターセプターの使用
+プロジェクト構成例：
 
-```dart
-class AuthInterceptor implements RequestInterceptor {
-  @override
-  Future<Request> intercept(Request request) async {
-    return request.copyWith(
-      headers: {
-        ...request.headers,
-        'Authorization': 'Bearer ${await getToken()}',
-      },
-    );
-  }
-}
-
-final client = ApiClient(
-  baseUrl: 'https://api.example.com',
-  interceptors: [AuthInterceptor()],
-);
+``` shell
+my-workspace/
+├── open_api_generator/     # ジェネレータープロジェクト
+│   ├── bin/
+│   │   └── generate.dart
+│   └── generate-api.sh
+└── flutter_client/         # クライアントプロジェクト
+    ├── openapi-config.yaml # 設定ファイル
+    ├── kabu_station_api.yaml  # OpenAPI仕様ファイル
+    └── lib/
+        └── generated/      # 生成されたコードの出力先
 ```
-
-## コントリビューション
-
-プロジェクトへの貢献を歓迎します！詳細は[CONTRIBUTING.md](CONTRIBUTING.md)をご覧ください。
-
-## ライセンス
-
-MIT License - 詳細は[LICENSE](LICENSE)ファイルをご覧ください。

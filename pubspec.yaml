@@ -1,6 +1,6 @@
 name: openapi_generator_flutter
 description: OpenAPI (Swagger) client generator for Flutter applications
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/taskcrypto/openapi_generator_flutter
 homepage: https://github.com/taskcrypto/openapi_generator_flutter
 issue_tracker: https://github.com/taskcrypto/openapi_generator_flutter/issues
