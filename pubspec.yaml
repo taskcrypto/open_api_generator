@@ -1,0 +1,30 @@
+name: openapi_generator_flutter
+description: A Flutter OpenAPI client generator that creates type-safe API clients from OpenAPI specifications.
+version: 1.0.0
+repository: https://github.com/yourusername/openapi_generator_flutter
+homepage: https://github.com/yourusername/openapi_generator_flutter
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  http: ^1.1.0
+  path: ^1.8.3
+  yaml: ^3.1.2
+  args: ^2.4.2
+  code_builder: ^4.10.0
+  dart_style: ^2.3.4
+  recase: ^4.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.7
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1 
