@@ -9,6 +9,6 @@ part 'board_client.g.dart';
 abstract class BoardClient {
   factory BoardClient(Dio dio, {String? baseUrl}) = _BoardClient;
 
-  @GET('/board/{symbol}') Future<HttpResponse<BoardSuccess>> getBoardBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/board/{symbol}') Future<HttpResponse<BoardSuccess>> getBoardBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, }) {  } 
 
 }

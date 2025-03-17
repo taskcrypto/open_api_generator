@@ -1,89 +1,63 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'symbolsuccess.freezed.dart';
 part 'symbolsuccess.g.dart';
 
-@JsonSerializable()
-class SymbolSuccess {
-  SymbolSuccess({
-    this.Symbol,
-    this.SymbolName,
-    this.DisplayName,
-    this.Exchange,
-    this.ExchangeName,
-    this.BisCategory,
-    this.TotalMarketValue,
-    this.TotalStocks,
-    this.TradingUnit,
-    this.FiscalYearEndBasic,
-    this.PriceRangeGroup,
-    this.KCMarginBuy,
-    this.KCMarginSell,
-    this.MarginBuy,
-    this.MarginSell,
-    this.UpperLimit,
-    this.LowerLimit,
-    this.Underlyer,
-    this.DerivMonth,
-    this.TradeStart,
-    this.TradeEnd,
-    this.StrikePrice,
-    this.PutOrCall,
-    this.ClearingPrice,
-  });
+@freezed
+class SymbolSuccess with _$SymbolSuccess {
+  const factory SymbolSuccess({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'SymbolName')
+    String? symbolName,
+    @JsonKey(name: 'DisplayName')
+    String? displayName,
+    @JsonKey(name: 'Exchange')
+    int? exchange,
+    @JsonKey(name: 'ExchangeName')
+    String? exchangeName,
+    @JsonKey(name: 'BisCategory')
+    String? bisCategory,
+    @JsonKey(name: 'TotalMarketValue')
+    double? totalMarketValue,
+    @JsonKey(name: 'TotalStocks')
+    double? totalStocks,
+    @JsonKey(name: 'TradingUnit')
+    double? tradingUnit,
+    @JsonKey(name: 'FiscalYearEndBasic')
+    int? fiscalYearEndBasic,
+    @JsonKey(name: 'PriceRangeGroup')
+    String? priceRangeGroup,
+    @JsonKey(name: 'KCMarginBuy')
+    bool? kCMarginBuy,
+    @JsonKey(name: 'KCMarginSell')
+    bool? kCMarginSell,
+    @JsonKey(name: 'MarginBuy')
+    bool? marginBuy,
+    @JsonKey(name: 'MarginSell')
+    bool? marginSell,
+    @JsonKey(name: 'UpperLimit')
+    double? upperLimit,
+    @JsonKey(name: 'LowerLimit')
+    double? lowerLimit,
+    @JsonKey(name: 'Underlyer')
+    String? underlyer,
+    @JsonKey(name: 'DerivMonth')
+    String? derivMonth,
+    @JsonKey(name: 'TradeStart')
+    int? tradeStart,
+    @JsonKey(name: 'TradeEnd')
+    int? tradeEnd,
+    @JsonKey(name: 'StrikePrice')
+    double? strikePrice,
+    @JsonKey(name: 'PutOrCall')
+    int? putOrCall,
+    @JsonKey(name: 'ClearingPrice')
+    double? clearingPrice,
+  }) = _SymbolSuccess;
 
   factory SymbolSuccess.fromJson(Map<String, dynamic> json) =>
       _$SymbolSuccessFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SymbolSuccessToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'SymbolName')
-  final String? SymbolName;
-  @JsonKey(name: 'DisplayName')
-  final String? DisplayName;
-  @JsonKey(name: 'Exchange')
-  final int? Exchange;
-  @JsonKey(name: 'ExchangeName')
-  final String? ExchangeName;
-  @JsonKey(name: 'BisCategory')
-  final String? BisCategory;
-  @JsonKey(name: 'TotalMarketValue')
-  final double? TotalMarketValue;
-  @JsonKey(name: 'TotalStocks')
-  final double? TotalStocks;
-  @JsonKey(name: 'TradingUnit')
-  final double? TradingUnit;
-  @JsonKey(name: 'FiscalYearEndBasic')
-  final int? FiscalYearEndBasic;
-  @JsonKey(name: 'PriceRangeGroup')
-  final String? PriceRangeGroup;
-  @JsonKey(name: 'KCMarginBuy')
-  final bool? KCMarginBuy;
-  @JsonKey(name: 'KCMarginSell')
-  final bool? KCMarginSell;
-  @JsonKey(name: 'MarginBuy')
-  final bool? MarginBuy;
-  @JsonKey(name: 'MarginSell')
-  final bool? MarginSell;
-  @JsonKey(name: 'UpperLimit')
-  final double? UpperLimit;
-  @JsonKey(name: 'LowerLimit')
-  final double? LowerLimit;
-  @JsonKey(name: 'Underlyer')
-  final String? Underlyer;
-  @JsonKey(name: 'DerivMonth')
-  final String? DerivMonth;
-  @JsonKey(name: 'TradeStart')
-  final int? TradeStart;
-  @JsonKey(name: 'TradeEnd')
-  final int? TradeEnd;
-  @JsonKey(name: 'StrikePrice')
-  final double? StrikePrice;
-  @JsonKey(name: 'PutOrCall')
-  final int? PutOrCall;
-  @JsonKey(name: 'ClearingPrice')
-  final double? ClearingPrice;
 }

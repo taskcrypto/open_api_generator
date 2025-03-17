@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'unregisterallsuccess.freezed.dart';
 part 'unregisterallsuccess.g.dart';
 
-@JsonSerializable()
-class UnregisterAllSuccess {
-  UnregisterAllSuccess({
-    this.RegistList,
-  });
+@freezed
+class UnregisterAllSuccess with _$UnregisterAllSuccess {
+  const factory UnregisterAllSuccess({
+    @JsonKey(name: 'RegistList')
+    Map<String, dynamic>? registList,
+  }) = _UnregisterAllSuccess;
 
   factory UnregisterAllSuccess.fromJson(Map<String, dynamic> json) =>
       _$UnregisterAllSuccessFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UnregisterAllSuccessToJson(this);
-
-  @JsonKey(name: 'RegistList')
-  final Map<String, dynamic>? RegistList;
 }

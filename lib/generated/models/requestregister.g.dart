@@ -6,12 +6,16 @@ part of 'requestregister.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestRegister _$RequestRegisterFromJson(Map<String, dynamic> json) =>
-    RequestRegister(
-      Symbols: json['Symbols'] as List<dynamic>?,
+_$RequestRegisterImpl _$$RequestRegisterImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestRegisterImpl(
+      symbols: (json['Symbols'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RequestRegisterToJson(RequestRegister instance) =>
+Map<String, dynamic> _$$RequestRegisterImplToJson(
+        _$RequestRegisterImpl instance) =>
     <String, dynamic>{
-      'Symbols': instance.Symbols,
+      'Symbols': instance.symbols,
     };

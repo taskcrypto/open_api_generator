@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requestregister.freezed.dart';
 part 'requestregister.g.dart';
 
-@JsonSerializable()
-class RequestRegister {
-  RequestRegister({
-    this.Symbols,
-  });
+@freezed
+class RequestRegister with _$RequestRegister {
+  const factory RequestRegister({
+    @JsonKey(name: 'Symbols')
+    List<Map<String, dynamic>>? symbols,
+  }) = _RequestRegister;
 
   factory RequestRegister.fromJson(Map<String, dynamic> json) =>
       _$RequestRegisterFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestRegisterToJson(this);
-
-  @JsonKey(name: 'Symbols')
-  final List<dynamic>? Symbols;
 }

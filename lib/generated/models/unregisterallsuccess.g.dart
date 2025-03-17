@@ -6,14 +6,14 @@ part of 'unregisterallsuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UnregisterAllSuccess _$UnregisterAllSuccessFromJson(
+_$UnregisterAllSuccessImpl _$$UnregisterAllSuccessImplFromJson(
         Map<String, dynamic> json) =>
-    UnregisterAllSuccess(
-      RegistList: json['RegistList'] as Map<String, dynamic>?,
+    _$UnregisterAllSuccessImpl(
+      registList: json['RegistList'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$UnregisterAllSuccessToJson(
-        UnregisterAllSuccess instance) =>
+Map<String, dynamic> _$$UnregisterAllSuccessImplToJson(
+        _$UnregisterAllSuccessImpl instance) =>
     <String, dynamic>{
-      'RegistList': instance.RegistList,
+      'RegistList': instance.registList,
     };

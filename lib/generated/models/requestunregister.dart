@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requestunregister.freezed.dart';
 part 'requestunregister.g.dart';
 
-@JsonSerializable()
-class RequestUnregister {
-  RequestUnregister({
-    this.Symbols,
-  });
+@freezed
+class RequestUnregister with _$RequestUnregister {
+  const factory RequestUnregister({
+    @JsonKey(name: 'Symbols')
+    List<Map<String, dynamic>>? symbols,
+  }) = _RequestUnregister;
 
   factory RequestUnregister.fromJson(Map<String, dynamic> json) =>
       _$RequestUnregisterFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestUnregisterToJson(this);
-
-  @JsonKey(name: 'Symbols')
-  final List<dynamic>? Symbols;
 }

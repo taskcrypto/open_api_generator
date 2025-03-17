@@ -6,12 +6,14 @@ part of 'requestcancelorder.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestCancelOrder _$RequestCancelOrderFromJson(Map<String, dynamic> json) =>
-    RequestCancelOrder(
-      OrderId: json['OrderId'] as String?,
+_$RequestCancelOrderImpl _$$RequestCancelOrderImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestCancelOrderImpl(
+      orderID: json['OrderId'] as String?,
     );
 
-Map<String, dynamic> _$RequestCancelOrderToJson(RequestCancelOrder instance) =>
+Map<String, dynamic> _$$RequestCancelOrderImplToJson(
+        _$RequestCancelOrderImpl instance) =>
     <String, dynamic>{
-      'OrderId': instance.OrderId,
+      'OrderId': instance.orderID,
     };

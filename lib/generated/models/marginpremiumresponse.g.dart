@@ -6,18 +6,18 @@ part of 'marginpremiumresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MarginPremiumResponse _$MarginPremiumResponseFromJson(
+_$MarginPremiumResponseImpl _$$MarginPremiumResponseImplFromJson(
         Map<String, dynamic> json) =>
-    MarginPremiumResponse(
-      Symbol: json['Symbol'] as String?,
-      GeneralMargin: json['GeneralMargin'] as Map<String, dynamic>?,
-      DayTrade: json['DayTrade'] as Map<String, dynamic>?,
+    _$MarginPremiumResponseImpl(
+      symbol: json['Symbol'] as String?,
+      generalMargin: json['GeneralMargin'] as Map<String, dynamic>?,
+      dayTrade: json['DayTrade'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$MarginPremiumResponseToJson(
-        MarginPremiumResponse instance) =>
+Map<String, dynamic> _$$MarginPremiumResponseImplToJson(
+        _$MarginPremiumResponseImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'GeneralMargin': instance.GeneralMargin,
-      'DayTrade': instance.DayTrade,
+      'Symbol': instance.symbol,
+      'GeneralMargin': instance.generalMargin,
+      'DayTrade': instance.dayTrade,
     };

@@ -9,6 +9,6 @@ part 'token_client.g.dart';
 abstract class TokenClient {
   factory TokenClient(Dio dio, {String? baseUrl}) = _TokenClient;
 
-  @POST('/token') Future<HttpResponse<TokenSuccess>> postToken({@Body() required RequestToken body});
+  @POST('/token') Future<HttpResponse<TokenSuccess>> postToken({@Body() required RequestToken body}) {  } 
 
 }

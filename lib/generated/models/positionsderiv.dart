@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'positionsderiv.freezed.dart';
 part 'positionsderiv.g.dart';
 
-@JsonSerializable()
-class PositionsDeriv {
-  PositionsDeriv({
-    this.HoldID,
-    this.Qty,
-  });
+@freezed
+class PositionsDeriv with _$PositionsDeriv {
+  const factory PositionsDeriv({
+    @JsonKey(name: 'HoldID')
+    String? holdID,
+    @JsonKey(name: 'Qty')
+    int? qty,
+  }) = _PositionsDeriv;
 
   factory PositionsDeriv.fromJson(Map<String, dynamic> json) =>
       _$PositionsDerivFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PositionsDerivToJson(this);
-
-  @JsonKey(name: 'HoldID')
-  final String? HoldID;
-  @JsonKey(name: 'Qty')
-  final int? Qty;
 }

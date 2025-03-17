@@ -6,12 +6,14 @@ part of 'registsuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegistSuccess _$RegistSuccessFromJson(Map<String, dynamic> json) =>
-    RegistSuccess(
-      RegistList: json['RegistList'] as List<dynamic>?,
+_$RegistSuccessImpl _$$RegistSuccessImplFromJson(Map<String, dynamic> json) =>
+    _$RegistSuccessImpl(
+      registList: (json['RegistList'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RegistSuccessToJson(RegistSuccess instance) =>
+Map<String, dynamic> _$$RegistSuccessImplToJson(_$RegistSuccessImpl instance) =>
     <String, dynamic>{
-      'RegistList': instance.RegistList,
+      'RegistList': instance.registList,
     };

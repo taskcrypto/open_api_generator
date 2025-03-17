@@ -6,18 +6,20 @@ part of 'rankingbymarginresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RankingByMarginResponse _$RankingByMarginResponseFromJson(
+_$RankingByMarginResponseImpl _$$RankingByMarginResponseImplFromJson(
         Map<String, dynamic> json) =>
-    RankingByMarginResponse(
-      Type: json['Type'] as String?,
-      ExchangeDivision: json['ExchangeDivision'] as String?,
-      Ranking: json['Ranking'] as List<dynamic>?,
+    _$RankingByMarginResponseImpl(
+      type: json['Type'] as String?,
+      exchangeDivision: json['ExchangeDivision'] as String?,
+      ranking: (json['Ranking'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RankingByMarginResponseToJson(
-        RankingByMarginResponse instance) =>
+Map<String, dynamic> _$$RankingByMarginResponseImplToJson(
+        _$RankingByMarginResponseImpl instance) =>
     <String, dynamic>{
-      'Type': instance.Type,
-      'ExchangeDivision': instance.ExchangeDivision,
-      'Ranking': instance.Ranking,
+      'Type': instance.type,
+      'ExchangeDivision': instance.exchangeDivision,
+      'Ranking': instance.ranking,
     };

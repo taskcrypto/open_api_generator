@@ -6,36 +6,36 @@ part of 'requestsendorderderivoption.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestSendOrderDerivOption _$RequestSendOrderDerivOptionFromJson(
+_$RequestSendOrderDerivOptionImpl _$$RequestSendOrderDerivOptionImplFromJson(
         Map<String, dynamic> json) =>
-    RequestSendOrderDerivOption(
-      Symbol: json['Symbol'] as String?,
-      Exchange: (json['Exchange'] as num?)?.toInt(),
-      TradeType: (json['TradeType'] as num?)?.toInt(),
-      TimeInForce: (json['TimeInForce'] as num?)?.toInt(),
-      Side: json['Side'] as String?,
-      Qty: (json['Qty'] as num?)?.toInt(),
-      ClosePositionOrder: (json['ClosePositionOrder'] as num?)?.toInt(),
-      ClosePositions: json['ClosePositions'] as List<dynamic>?,
-      FrontOrderType: (json['FrontOrderType'] as num?)?.toInt(),
-      Price: (json['Price'] as num?)?.toDouble(),
-      ExpireDay: (json['ExpireDay'] as num?)?.toInt(),
-      ReverseLimitOrder: json['ReverseLimitOrder'] as Map<String, dynamic>?,
+    _$RequestSendOrderDerivOptionImpl(
+      symbol: json['Symbol'] as String?,
+      exchange: (json['Exchange'] as num?)?.toInt(),
+      tradeType: (json['TradeType'] as num?)?.toInt(),
+      timeInForce: (json['TimeInForce'] as num?)?.toInt(),
+      side: json['Side'] as String?,
+      qty: (json['Qty'] as num?)?.toInt(),
+      closePositionOrder: (json['ClosePositionOrder'] as num?)?.toInt(),
+      closePositions: json['ClosePositions'] as List<dynamic>?,
+      frontOrderType: (json['FrontOrderType'] as num?)?.toInt(),
+      price: (json['Price'] as num?)?.toDouble(),
+      expireDay: (json['ExpireDay'] as num?)?.toInt(),
+      reverseLimitOrder: json['ReverseLimitOrder'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$RequestSendOrderDerivOptionToJson(
-        RequestSendOrderDerivOption instance) =>
+Map<String, dynamic> _$$RequestSendOrderDerivOptionImplToJson(
+        _$RequestSendOrderDerivOptionImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'Exchange': instance.Exchange,
-      'TradeType': instance.TradeType,
-      'TimeInForce': instance.TimeInForce,
-      'Side': instance.Side,
-      'Qty': instance.Qty,
-      'ClosePositionOrder': instance.ClosePositionOrder,
-      'ClosePositions': instance.ClosePositions,
-      'FrontOrderType': instance.FrontOrderType,
-      'Price': instance.Price,
-      'ExpireDay': instance.ExpireDay,
-      'ReverseLimitOrder': instance.ReverseLimitOrder,
+      'Symbol': instance.symbol,
+      'Exchange': instance.exchange,
+      'TradeType': instance.tradeType,
+      'TimeInForce': instance.timeInForce,
+      'Side': instance.side,
+      'Qty': instance.qty,
+      'ClosePositionOrder': instance.closePositionOrder,
+      'ClosePositions': instance.closePositions,
+      'FrontOrderType': instance.frontOrderType,
+      'Price': instance.price,
+      'ExpireDay': instance.expireDay,
+      'ReverseLimitOrder': instance.reverseLimitOrder,
     };

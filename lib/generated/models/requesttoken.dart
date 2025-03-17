@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requesttoken.freezed.dart';
 part 'requesttoken.g.dart';
 
-@JsonSerializable()
-class RequestToken {
-  RequestToken({
-    this.APIPassword,
-  });
+@freezed
+class RequestToken with _$RequestToken {
+  const factory RequestToken({
+    @JsonKey(name: 'APIPassword')
+    String? aPIPassword,
+  }) = _RequestToken;
 
   factory RequestToken.fromJson(Map<String, dynamic> json) =>
       _$RequestTokenFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestTokenToJson(this);
-
-  @JsonKey(name: 'APIPassword')
-  final String? APIPassword;
 }

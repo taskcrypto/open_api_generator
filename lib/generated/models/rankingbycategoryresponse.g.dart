@@ -6,18 +6,20 @@ part of 'rankingbycategoryresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RankingByCategoryResponse _$RankingByCategoryResponseFromJson(
+_$RankingByCategoryResponseImpl _$$RankingByCategoryResponseImplFromJson(
         Map<String, dynamic> json) =>
-    RankingByCategoryResponse(
-      Type: json['Type'] as String?,
-      ExchangeDivision: json['ExchangeDivision'] as String?,
-      Ranking: json['Ranking'] as List<dynamic>?,
+    _$RankingByCategoryResponseImpl(
+      type: json['Type'] as String?,
+      exchangeDivision: json['ExchangeDivision'] as String?,
+      ranking: (json['Ranking'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RankingByCategoryResponseToJson(
-        RankingByCategoryResponse instance) =>
+Map<String, dynamic> _$$RankingByCategoryResponseImplToJson(
+        _$RankingByCategoryResponseImpl instance) =>
     <String, dynamic>{
-      'Type': instance.Type,
-      'ExchangeDivision': instance.ExchangeDivision,
-      'Ranking': instance.Ranking,
+      'Type': instance.type,
+      'ExchangeDivision': instance.exchangeDivision,
+      'Ranking': instance.ranking,
     };

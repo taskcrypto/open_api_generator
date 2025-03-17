@@ -6,21 +6,22 @@ part of 'walletmarginsuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WalletMarginSuccess _$WalletMarginSuccessFromJson(Map<String, dynamic> json) =>
-    WalletMarginSuccess(
-      MarginAccountWallet: (json['MarginAccountWallet'] as num?)?.toDouble(),
-      DepositkeepRate: (json['DepositkeepRate'] as num?)?.toDouble(),
-      ConsignmentDepositRate:
+_$WalletMarginSuccessImpl _$$WalletMarginSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WalletMarginSuccessImpl(
+      marginAccountWallet: (json['MarginAccountWallet'] as num?)?.toDouble(),
+      depositkeepRate: (json['DepositkeepRate'] as num?)?.toDouble(),
+      consignmentDepositRate:
           (json['ConsignmentDepositRate'] as num?)?.toDouble(),
-      CashOfConsignmentDepositRate:
+      cashOfConsignmentDepositRate:
           (json['CashOfConsignmentDepositRate'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$WalletMarginSuccessToJson(
-        WalletMarginSuccess instance) =>
+Map<String, dynamic> _$$WalletMarginSuccessImplToJson(
+        _$WalletMarginSuccessImpl instance) =>
     <String, dynamic>{
-      'MarginAccountWallet': instance.MarginAccountWallet,
-      'DepositkeepRate': instance.DepositkeepRate,
-      'ConsignmentDepositRate': instance.ConsignmentDepositRate,
-      'CashOfConsignmentDepositRate': instance.CashOfConsignmentDepositRate,
+      'MarginAccountWallet': instance.marginAccountWallet,
+      'DepositkeepRate': instance.depositkeepRate,
+      'ConsignmentDepositRate': instance.consignmentDepositRate,
+      'CashOfConsignmentDepositRate': instance.cashOfConsignmentDepositRate,
     };

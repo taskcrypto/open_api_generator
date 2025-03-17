@@ -6,18 +6,20 @@ part of 'rankingbytickcountresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RankingByTickCountResponse _$RankingByTickCountResponseFromJson(
+_$RankingByTickCountResponseImpl _$$RankingByTickCountResponseImplFromJson(
         Map<String, dynamic> json) =>
-    RankingByTickCountResponse(
-      Type: json['Type'] as String?,
-      ExchangeDivision: json['ExchangeDivision'] as String?,
-      Ranking: json['Ranking'] as List<dynamic>?,
+    _$RankingByTickCountResponseImpl(
+      type: json['Type'] as String?,
+      exchangeDivision: json['ExchangeDivision'] as String?,
+      ranking: (json['Ranking'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RankingByTickCountResponseToJson(
-        RankingByTickCountResponse instance) =>
+Map<String, dynamic> _$$RankingByTickCountResponseImplToJson(
+        _$RankingByTickCountResponseImpl instance) =>
     <String, dynamic>{
-      'Type': instance.Type,
-      'ExchangeDivision': instance.ExchangeDivision,
-      'Ranking': instance.Ranking,
+      'Type': instance.type,
+      'ExchangeDivision': instance.exchangeDivision,
+      'Ranking': instance.ranking,
     };

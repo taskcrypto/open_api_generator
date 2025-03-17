@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'ordersuccess.freezed.dart';
 part 'ordersuccess.g.dart';
 
-@JsonSerializable()
-class OrderSuccess {
-  OrderSuccess({
-    this.Result,
-    this.OrderId,
-  });
+@freezed
+class OrderSuccess with _$OrderSuccess {
+  const factory OrderSuccess({
+    @JsonKey(name: 'Result')
+    int? result,
+    @JsonKey(name: 'OrderId')
+    String? orderID,
+  }) = _OrderSuccess;
 
   factory OrderSuccess.fromJson(Map<String, dynamic> json) =>
       _$OrderSuccessFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OrderSuccessToJson(this);
-
-  @JsonKey(name: 'Result')
-  final int? Result;
-  @JsonKey(name: 'OrderId')
-  final String? OrderId;
 }

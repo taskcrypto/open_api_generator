@@ -1,68 +1,49 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requestsendorder.freezed.dart';
 part 'requestsendorder.g.dart';
 
-@JsonSerializable()
-class RequestSendOrder {
-  RequestSendOrder({
-    this.Symbol,
-    this.Exchange,
-    this.SecurityType,
-    this.Side,
-    this.CashMargin,
-    this.MarginTradeType,
-    this.MarginPremiumUnit,
-    this.DelivType,
-    this.FundType,
-    this.AccountType,
-    this.Qty,
-    this.ClosePositionOrder,
-    this.ClosePositions,
-    this.FrontOrderType,
-    this.Price,
-    this.ExpireDay,
-    this.ReverseLimitOrder,
-  });
+@freezed
+class RequestSendOrder with _$RequestSendOrder {
+  const factory RequestSendOrder({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'Exchange')
+    int? exchange,
+    @JsonKey(name: 'SecurityType')
+    int? securityType,
+    @JsonKey(name: 'Side')
+    String? side,
+    @JsonKey(name: 'CashMargin')
+    int? cashMargin,
+    @JsonKey(name: 'MarginTradeType')
+    int? marginTradeType,
+    @JsonKey(name: 'MarginPremiumUnit')
+    double? marginPremiumUnit,
+    @JsonKey(name: 'DelivType')
+    int? delivType,
+    @JsonKey(name: 'FundType')
+    String? fundType,
+    @JsonKey(name: 'AccountType')
+    int? accountType,
+    @JsonKey(name: 'Qty')
+    int? qty,
+    @JsonKey(name: 'ClosePositionOrder')
+    int? closePositionOrder,
+    @JsonKey(name: 'ClosePositions')
+    List<dynamic>? closePositions,
+    @JsonKey(name: 'FrontOrderType')
+    int? frontOrderType,
+    @JsonKey(name: 'Price')
+    double? price,
+    @JsonKey(name: 'ExpireDay')
+    int? expireDay,
+    @JsonKey(name: 'ReverseLimitOrder')
+    Map<String, dynamic>? reverseLimitOrder,
+  }) = _RequestSendOrder;
 
   factory RequestSendOrder.fromJson(Map<String, dynamic> json) =>
       _$RequestSendOrderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestSendOrderToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'Exchange')
-  final int? Exchange;
-  @JsonKey(name: 'SecurityType')
-  final int? SecurityType;
-  @JsonKey(name: 'Side')
-  final String? Side;
-  @JsonKey(name: 'CashMargin')
-  final int? CashMargin;
-  @JsonKey(name: 'MarginTradeType')
-  final int? MarginTradeType;
-  @JsonKey(name: 'MarginPremiumUnit')
-  final double? MarginPremiumUnit;
-  @JsonKey(name: 'DelivType')
-  final int? DelivType;
-  @JsonKey(name: 'FundType')
-  final String? FundType;
-  @JsonKey(name: 'AccountType')
-  final int? AccountType;
-  @JsonKey(name: 'Qty')
-  final int? Qty;
-  @JsonKey(name: 'ClosePositionOrder')
-  final int? ClosePositionOrder;
-  @JsonKey(name: 'ClosePositions')
-  final List<dynamic>? ClosePositions;
-  @JsonKey(name: 'FrontOrderType')
-  final int? FrontOrderType;
-  @JsonKey(name: 'Price')
-  final double? Price;
-  @JsonKey(name: 'ExpireDay')
-  final int? ExpireDay;
-  @JsonKey(name: 'ReverseLimitOrder')
-  final Map<String, dynamic>? ReverseLimitOrder;
 }

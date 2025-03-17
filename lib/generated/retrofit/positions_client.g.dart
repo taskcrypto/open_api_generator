@@ -18,49 +18,6 @@ class _PositionsClient implements PositionsClient {
 
   String? baseUrl;
 
-  @override
-  Future<HttpResponse<List<PositionsSuccess>>> getPositions({
-    required String xapikey,
-    required String product,
-    required String symbol,
-    required String side,
-    required String addinfo,
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'product': product,
-      r'symbol': symbol,
-      r'side': side,
-      r'addinfo': addinfo,
-    };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
-    _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<PositionsSuccess>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/positions',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    var value = _result.data!
-        .map(
-            (dynamic i) => PositionsSuccess.fromJson(i as Map<String, dynamic>))
-        .toList();
-    final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
-  }
-
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

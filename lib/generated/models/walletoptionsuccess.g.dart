@@ -6,17 +6,18 @@ part of 'walletoptionsuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WalletOptionSuccess _$WalletOptionSuccessFromJson(Map<String, dynamic> json) =>
-    WalletOptionSuccess(
-      OptionBuyTradeLimit: (json['OptionBuyTradeLimit'] as num?)?.toDouble(),
-      OptionSellTradeLimit: (json['OptionSellTradeLimit'] as num?)?.toDouble(),
-      MarginRequirement: (json['MarginRequirement'] as num?)?.toDouble(),
+_$WalletOptionSuccessImpl _$$WalletOptionSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WalletOptionSuccessImpl(
+      optionBuyTradeLimit: (json['OptionBuyTradeLimit'] as num?)?.toDouble(),
+      optionSellTradeLimit: (json['OptionSellTradeLimit'] as num?)?.toDouble(),
+      marginRequirement: (json['MarginRequirement'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$WalletOptionSuccessToJson(
-        WalletOptionSuccess instance) =>
+Map<String, dynamic> _$$WalletOptionSuccessImplToJson(
+        _$WalletOptionSuccessImpl instance) =>
     <String, dynamic>{
-      'OptionBuyTradeLimit': instance.OptionBuyTradeLimit,
-      'OptionSellTradeLimit': instance.OptionSellTradeLimit,
-      'MarginRequirement': instance.MarginRequirement,
+      'OptionBuyTradeLimit': instance.optionBuyTradeLimit,
+      'OptionSellTradeLimit': instance.optionSellTradeLimit,
+      'MarginRequirement': instance.marginRequirement,
     };

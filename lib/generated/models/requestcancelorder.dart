@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requestcancelorder.freezed.dart';
 part 'requestcancelorder.g.dart';
 
-@JsonSerializable()
-class RequestCancelOrder {
-  RequestCancelOrder({
-    this.OrderId,
-  });
+@freezed
+class RequestCancelOrder with _$RequestCancelOrder {
+  const factory RequestCancelOrder({
+    @JsonKey(name: 'OrderId')
+    String? orderID,
+  }) = _RequestCancelOrder;
 
   factory RequestCancelOrder.fromJson(Map<String, dynamic> json) =>
       _$RequestCancelOrderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestCancelOrderToJson(this);
-
-  @JsonKey(name: 'OrderId')
-  final String? OrderId;
 }

@@ -6,13 +6,14 @@ part of 'ordersuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderSuccess _$OrderSuccessFromJson(Map<String, dynamic> json) => OrderSuccess(
-      Result: (json['Result'] as num?)?.toInt(),
-      OrderId: json['OrderId'] as String?,
+_$OrderSuccessImpl _$$OrderSuccessImplFromJson(Map<String, dynamic> json) =>
+    _$OrderSuccessImpl(
+      result: (json['Result'] as num?)?.toInt(),
+      orderID: json['OrderId'] as String?,
     );
 
-Map<String, dynamic> _$OrderSuccessToJson(OrderSuccess instance) =>
+Map<String, dynamic> _$$OrderSuccessImplToJson(_$OrderSuccessImpl instance) =>
     <String, dynamic>{
-      'Result': instance.Result,
-      'OrderId': instance.OrderId,
+      'Result': instance.result,
+      'OrderId': instance.orderID,
     };

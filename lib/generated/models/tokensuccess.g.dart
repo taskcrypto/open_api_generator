@@ -6,13 +6,14 @@ part of 'tokensuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TokenSuccess _$TokenSuccessFromJson(Map<String, dynamic> json) => TokenSuccess(
-      ResultCode: (json['ResultCode'] as num?)?.toInt(),
-      Token: json['Token'] as String?,
+_$TokenSuccessImpl _$$TokenSuccessImplFromJson(Map<String, dynamic> json) =>
+    _$TokenSuccessImpl(
+      resultCode: (json['ResultCode'] as num?)?.toInt(),
+      token: json['Token'] as String?,
     );
 
-Map<String, dynamic> _$TokenSuccessToJson(TokenSuccess instance) =>
+Map<String, dynamic> _$$TokenSuccessImplToJson(_$TokenSuccessImpl instance) =>
     <String, dynamic>{
-      'ResultCode': instance.ResultCode,
-      'Token': instance.Token,
+      'ResultCode': instance.resultCode,
+      'Token': instance.token,
     };

@@ -6,14 +6,16 @@ part of 'symbolnamesuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SymbolNameSuccess _$SymbolNameSuccessFromJson(Map<String, dynamic> json) =>
-    SymbolNameSuccess(
-      Symbol: json['Symbol'] as String?,
-      SymbolName: json['SymbolName'] as String?,
+_$SymbolNameSuccessImpl _$$SymbolNameSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SymbolNameSuccessImpl(
+      symbol: json['Symbol'] as String?,
+      symbolName: json['SymbolName'] as String?,
     );
 
-Map<String, dynamic> _$SymbolNameSuccessToJson(SymbolNameSuccess instance) =>
+Map<String, dynamic> _$$SymbolNameSuccessImplToJson(
+        _$SymbolNameSuccessImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'SymbolName': instance.SymbolName,
+      'Symbol': instance.symbol,
+      'SymbolName': instance.symbolName,
     };

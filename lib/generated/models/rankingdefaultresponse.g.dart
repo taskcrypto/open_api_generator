@@ -6,18 +6,20 @@ part of 'rankingdefaultresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RankingDefaultResponse _$RankingDefaultResponseFromJson(
+_$RankingDefaultResponseImpl _$$RankingDefaultResponseImplFromJson(
         Map<String, dynamic> json) =>
-    RankingDefaultResponse(
-      Type: json['Type'] as String?,
-      ExchangeDivision: json['ExchangeDivision'] as String?,
-      Ranking: json['Ranking'] as List<dynamic>?,
+    _$RankingDefaultResponseImpl(
+      type: json['Type'] as String?,
+      exchangeDivision: json['ExchangeDivision'] as String?,
+      ranking: (json['Ranking'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RankingDefaultResponseToJson(
-        RankingDefaultResponse instance) =>
+Map<String, dynamic> _$$RankingDefaultResponseImplToJson(
+        _$RankingDefaultResponseImpl instance) =>
     <String, dynamic>{
-      'Type': instance.Type,
-      'ExchangeDivision': instance.ExchangeDivision,
-      'Ranking': instance.Ranking,
+      'Type': instance.type,
+      'ExchangeDivision': instance.exchangeDivision,
+      'Ranking': instance.ranking,
     };

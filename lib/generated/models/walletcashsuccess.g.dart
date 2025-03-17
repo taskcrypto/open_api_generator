@@ -6,18 +6,20 @@ part of 'walletcashsuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WalletCashSuccess _$WalletCashSuccessFromJson(Map<String, dynamic> json) =>
-    WalletCashSuccess(
-      StockAccountWallet: (json['StockAccountWallet'] as num?)?.toDouble(),
-      AuKCStockAccountWallet:
+_$WalletCashSuccessImpl _$$WalletCashSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WalletCashSuccessImpl(
+      stockAccountWallet: (json['StockAccountWallet'] as num?)?.toDouble(),
+      auKCStockAccountWallet:
           (json['AuKCStockAccountWallet'] as num?)?.toDouble(),
-      AuJbnStockAccountWallet:
+      auJbnStockAccountWallet:
           (json['AuJbnStockAccountWallet'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$WalletCashSuccessToJson(WalletCashSuccess instance) =>
+Map<String, dynamic> _$$WalletCashSuccessImplToJson(
+        _$WalletCashSuccessImpl instance) =>
     <String, dynamic>{
-      'StockAccountWallet': instance.StockAccountWallet,
-      'AuKCStockAccountWallet': instance.AuKCStockAccountWallet,
-      'AuJbnStockAccountWallet': instance.AuJbnStockAccountWallet,
+      'StockAccountWallet': instance.stockAccountWallet,
+      'AuKCStockAccountWallet': instance.auKCStockAccountWallet,
+      'AuJbnStockAccountWallet': instance.auJbnStockAccountWallet,
     };

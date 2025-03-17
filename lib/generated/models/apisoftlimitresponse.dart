@@ -1,41 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'apisoftlimitresponse.freezed.dart';
 part 'apisoftlimitresponse.g.dart';
 
-@JsonSerializable()
-class ApiSoftLimitResponse {
-  ApiSoftLimitResponse({
-    this.Stock,
-    this.Margin,
-    this.Future,
-    this.FutureMini,
-    this.FutureMicro,
-    this.Option,
-    this.MiniOption,
-    this.KabuSVersion,
-  });
+@freezed
+class ApiSoftLimitResponse with _$ApiSoftLimitResponse {
+  const factory ApiSoftLimitResponse({
+    @JsonKey(name: 'Stock')
+    double? stock,
+    @JsonKey(name: 'Margin')
+    double? margin,
+    @JsonKey(name: 'Future')
+    double? future,
+    @JsonKey(name: 'FutureMini')
+    double? futureMini,
+    @JsonKey(name: 'FutureMicro')
+    double? futureMicro,
+    @JsonKey(name: 'Option')
+    double? option,
+    @JsonKey(name: 'MiniOption')
+    double? miniOption,
+    @JsonKey(name: 'KabuSVersion')
+    String? kabuSVersion,
+  }) = _ApiSoftLimitResponse;
 
   factory ApiSoftLimitResponse.fromJson(Map<String, dynamic> json) =>
       _$ApiSoftLimitResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ApiSoftLimitResponseToJson(this);
-
-  @JsonKey(name: 'Stock')
-  final double? Stock;
-  @JsonKey(name: 'Margin')
-  final double? Margin;
-  @JsonKey(name: 'Future')
-  final double? Future;
-  @JsonKey(name: 'FutureMini')
-  final double? FutureMini;
-  @JsonKey(name: 'FutureMicro')
-  final double? FutureMicro;
-  @JsonKey(name: 'Option')
-  final double? Option;
-  @JsonKey(name: 'MiniOption')
-  final double? MiniOption;
-  @JsonKey(name: 'KabuSVersion')
-  final String? KabuSVersion;
 }

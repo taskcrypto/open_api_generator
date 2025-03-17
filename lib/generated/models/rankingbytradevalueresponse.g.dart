@@ -6,18 +6,20 @@ part of 'rankingbytradevalueresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RankingByTradeValueResponse _$RankingByTradeValueResponseFromJson(
+_$RankingByTradeValueResponseImpl _$$RankingByTradeValueResponseImplFromJson(
         Map<String, dynamic> json) =>
-    RankingByTradeValueResponse(
-      Type: json['Type'] as String?,
-      ExchangeDivision: json['ExchangeDivision'] as String?,
-      Ranking: json['Ranking'] as List<dynamic>?,
+    _$RankingByTradeValueResponseImpl(
+      type: json['Type'] as String?,
+      exchangeDivision: json['ExchangeDivision'] as String?,
+      ranking: (json['Ranking'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RankingByTradeValueResponseToJson(
-        RankingByTradeValueResponse instance) =>
+Map<String, dynamic> _$$RankingByTradeValueResponseImplToJson(
+        _$RankingByTradeValueResponseImpl instance) =>
     <String, dynamic>{
-      'Type': instance.Type,
-      'ExchangeDivision': instance.ExchangeDivision,
-      'Ranking': instance.Ranking,
+      'Type': instance.type,
+      'ExchangeDivision': instance.exchangeDivision,
+      'Ranking': instance.ranking,
     };

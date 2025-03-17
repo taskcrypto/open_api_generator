@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'symbolnamesuccess.freezed.dart';
 part 'symbolnamesuccess.g.dart';
 
-@JsonSerializable()
-class SymbolNameSuccess {
-  SymbolNameSuccess({
-    this.Symbol,
-    this.SymbolName,
-  });
+@freezed
+class SymbolNameSuccess with _$SymbolNameSuccess {
+  const factory SymbolNameSuccess({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'SymbolName')
+    String? symbolName,
+  }) = _SymbolNameSuccess;
 
   factory SymbolNameSuccess.fromJson(Map<String, dynamic> json) =>
       _$SymbolNameSuccessFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SymbolNameSuccessToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'SymbolName')
-  final String? SymbolName;
 }

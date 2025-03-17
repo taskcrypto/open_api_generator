@@ -9,6 +9,6 @@ part 'apisoftlimit_client.g.dart';
 abstract class ApisoftlimitClient {
   factory ApisoftlimitClient(Dio dio, {String? baseUrl}) = _ApisoftlimitClient;
 
-  @GET('/apisoftlimit') Future<HttpResponse<ApiSoftLimitResponse>> getApisoftlimit({@Header('X-API-KEY') required String xapikey});
+  @GET('/apisoftlimit') Future<HttpResponse<ApiSoftLimitResponse>> getApisoftlimit({@Header('X-API-KEY') required String xapikey}) {  } 
 
 }

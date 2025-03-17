@@ -9,6 +9,6 @@ part 'regulations_client.g.dart';
 abstract class RegulationsClient {
   factory RegulationsClient(Dio dio, {String? baseUrl}) = _RegulationsClient;
 
-  @GET('/regulations/{symbol}') Future<HttpResponse<RegulationsResponse>> getRegulationsBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/regulations/{symbol}') Future<HttpResponse<RegulationsResponse>> getRegulationsBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, }) {  } 
 
 }

@@ -1,80 +1,57 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'positionssuccess.freezed.dart';
 part 'positionssuccess.g.dart';
 
-@JsonSerializable()
-class PositionsSuccess {
-  PositionsSuccess({
-    this.ExecutionID,
-    this.AccountType,
-    this.Symbol,
-    this.SymbolName,
-    this.Exchange,
-    this.ExchangeName,
-    this.SecurityType,
-    this.ExecutionDay,
-    this.Price,
-    this.LeavesQty,
-    this.HoldQty,
-    this.Side,
-    this.Expenses,
-    this.Commission,
-    this.CommissionTax,
-    this.ExpireDay,
-    this.MarginTradeType,
-    this.CurrentPrice,
-    this.Valuation,
-    this.ProfitLoss,
-    this.ProfitLossRate,
-  });
+@freezed
+class PositionsSuccess with _$PositionsSuccess {
+  const factory PositionsSuccess({
+    @JsonKey(name: 'ExecutionID')
+    String? executionID,
+    @JsonKey(name: 'AccountType')
+    int? accountType,
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'SymbolName')
+    String? symbolName,
+    @JsonKey(name: 'Exchange')
+    int? exchange,
+    @JsonKey(name: 'ExchangeName')
+    String? exchangeName,
+    @JsonKey(name: 'SecurityType')
+    int? securityType,
+    @JsonKey(name: 'ExecutionDay')
+    int? executionDay,
+    @JsonKey(name: 'Price')
+    double? price,
+    @JsonKey(name: 'LeavesQty')
+    double? leavesQty,
+    @JsonKey(name: 'HoldQty')
+    double? holdQty,
+    @JsonKey(name: 'Side')
+    String? side,
+    @JsonKey(name: 'Expenses')
+    double? expenses,
+    @JsonKey(name: 'Commission')
+    double? commission,
+    @JsonKey(name: 'CommissionTax')
+    double? commissionTax,
+    @JsonKey(name: 'ExpireDay')
+    int? expireDay,
+    @JsonKey(name: 'MarginTradeType')
+    int? marginTradeType,
+    @JsonKey(name: 'CurrentPrice')
+    double? currentPrice,
+    @JsonKey(name: 'Valuation')
+    double? valuation,
+    @JsonKey(name: 'ProfitLoss')
+    double? profitLoss,
+    @JsonKey(name: 'ProfitLossRate')
+    double? profitLossRate,
+  }) = _PositionsSuccess;
 
   factory PositionsSuccess.fromJson(Map<String, dynamic> json) =>
       _$PositionsSuccessFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PositionsSuccessToJson(this);
-
-  @JsonKey(name: 'ExecutionID')
-  final String? ExecutionID;
-  @JsonKey(name: 'AccountType')
-  final int? AccountType;
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'SymbolName')
-  final String? SymbolName;
-  @JsonKey(name: 'Exchange')
-  final int? Exchange;
-  @JsonKey(name: 'ExchangeName')
-  final String? ExchangeName;
-  @JsonKey(name: 'SecurityType')
-  final int? SecurityType;
-  @JsonKey(name: 'ExecutionDay')
-  final int? ExecutionDay;
-  @JsonKey(name: 'Price')
-  final double? Price;
-  @JsonKey(name: 'LeavesQty')
-  final double? LeavesQty;
-  @JsonKey(name: 'HoldQty')
-  final double? HoldQty;
-  @JsonKey(name: 'Side')
-  final String? Side;
-  @JsonKey(name: 'Expenses')
-  final double? Expenses;
-  @JsonKey(name: 'Commission')
-  final double? Commission;
-  @JsonKey(name: 'CommissionTax')
-  final double? CommissionTax;
-  @JsonKey(name: 'ExpireDay')
-  final int? ExpireDay;
-  @JsonKey(name: 'MarginTradeType')
-  final int? MarginTradeType;
-  @JsonKey(name: 'CurrentPrice')
-  final double? CurrentPrice;
-  @JsonKey(name: 'Valuation')
-  final double? Valuation;
-  @JsonKey(name: 'ProfitLoss')
-  final double? ProfitLoss;
-  @JsonKey(name: 'ProfitLossRate')
-  final double? ProfitLossRate;
 }

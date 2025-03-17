@@ -6,14 +6,15 @@ part of 'positionsderiv.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PositionsDeriv _$PositionsDerivFromJson(Map<String, dynamic> json) =>
-    PositionsDeriv(
-      HoldID: json['HoldID'] as String?,
-      Qty: (json['Qty'] as num?)?.toInt(),
+_$PositionsDerivImpl _$$PositionsDerivImplFromJson(Map<String, dynamic> json) =>
+    _$PositionsDerivImpl(
+      holdID: json['HoldID'] as String?,
+      qty: (json['Qty'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$PositionsDerivToJson(PositionsDeriv instance) =>
+Map<String, dynamic> _$$PositionsDerivImplToJson(
+        _$PositionsDerivImpl instance) =>
     <String, dynamic>{
-      'HoldID': instance.HoldID,
-      'Qty': instance.Qty,
+      'HoldID': instance.holdID,
+      'Qty': instance.qty,
     };

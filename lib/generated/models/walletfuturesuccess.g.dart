@@ -6,18 +6,19 @@ part of 'walletfuturesuccess.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WalletFutureSuccess _$WalletFutureSuccessFromJson(Map<String, dynamic> json) =>
-    WalletFutureSuccess(
-      FutureTradeLimit: (json['FutureTradeLimit'] as num?)?.toDouble(),
-      MarginRequirement: (json['MarginRequirement'] as num?)?.toDouble(),
-      MarginRequirementSell:
+_$WalletFutureSuccessImpl _$$WalletFutureSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WalletFutureSuccessImpl(
+      futureTradeLimit: (json['FutureTradeLimit'] as num?)?.toDouble(),
+      marginRequirement: (json['MarginRequirement'] as num?)?.toDouble(),
+      marginRequirementSell:
           (json['MarginRequirementSell'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$WalletFutureSuccessToJson(
-        WalletFutureSuccess instance) =>
+Map<String, dynamic> _$$WalletFutureSuccessImplToJson(
+        _$WalletFutureSuccessImpl instance) =>
     <String, dynamic>{
-      'FutureTradeLimit': instance.FutureTradeLimit,
-      'MarginRequirement': instance.MarginRequirement,
-      'MarginRequirementSell': instance.MarginRequirementSell,
+      'FutureTradeLimit': instance.futureTradeLimit,
+      'MarginRequirement': instance.marginRequirement,
+      'MarginRequirementSell': instance.marginRequirementSell,
     };

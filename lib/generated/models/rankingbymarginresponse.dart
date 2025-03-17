@@ -1,26 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'rankingbymarginresponse.freezed.dart';
 part 'rankingbymarginresponse.g.dart';
 
-@JsonSerializable()
-class RankingByMarginResponse {
-  RankingByMarginResponse({
-    this.Type,
-    this.ExchangeDivision,
-    this.Ranking,
-  });
+@freezed
+class RankingByMarginResponse with _$RankingByMarginResponse {
+  const factory RankingByMarginResponse({
+    @JsonKey(name: 'Type')
+    String? type,
+    @JsonKey(name: 'ExchangeDivision')
+    String? exchangeDivision,
+    @JsonKey(name: 'Ranking')
+    List<Map<String, dynamic>>? ranking,
+  }) = _RankingByMarginResponse;
 
   factory RankingByMarginResponse.fromJson(Map<String, dynamic> json) =>
       _$RankingByMarginResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RankingByMarginResponseToJson(this);
-
-  @JsonKey(name: 'Type')
-  final String? Type;
-  @JsonKey(name: 'ExchangeDivision')
-  final String? ExchangeDivision;
-  @JsonKey(name: 'Ranking')
-  final List<dynamic>? Ranking;
 }

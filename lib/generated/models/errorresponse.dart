@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'errorresponse.freezed.dart';
 part 'errorresponse.g.dart';
 
-@JsonSerializable()
-class ErrorResponse {
-  ErrorResponse({
-    this.Code,
-    this.Message,
-  });
+@freezed
+class ErrorResponse with _$ErrorResponse {
+  const factory ErrorResponse({
+    @JsonKey(name: 'Code')
+    int? code,
+    @JsonKey(name: 'Message')
+    String? message,
+  }) = _ErrorResponse;
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
-
-  @JsonKey(name: 'Code')
-  final int? Code;
-  @JsonKey(name: 'Message')
-  final String? Message;
 }

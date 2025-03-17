@@ -6,15 +6,18 @@ part of 'regulationsresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegulationsResponse _$RegulationsResponseFromJson(Map<String, dynamic> json) =>
-    RegulationsResponse(
-      Symbol: json['Symbol'] as String?,
-      RegulationsInfo: json['RegulationsInfo'] as List<dynamic>?,
+_$RegulationsResponseImpl _$$RegulationsResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RegulationsResponseImpl(
+      symbol: json['Symbol'] as String?,
+      regulationsInfo: (json['RegulationsInfo'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RegulationsResponseToJson(
-        RegulationsResponse instance) =>
+Map<String, dynamic> _$$RegulationsResponseImplToJson(
+        _$RegulationsResponseImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'RegulationsInfo': instance.RegulationsInfo,
+      'Symbol': instance.symbol,
+      'RegulationsInfo': instance.regulationsInfo,
     };

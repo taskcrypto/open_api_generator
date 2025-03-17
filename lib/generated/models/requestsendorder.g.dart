@@ -6,44 +6,46 @@ part of 'requestsendorder.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestSendOrder _$RequestSendOrderFromJson(Map<String, dynamic> json) =>
-    RequestSendOrder(
-      Symbol: json['Symbol'] as String?,
-      Exchange: (json['Exchange'] as num?)?.toInt(),
-      SecurityType: (json['SecurityType'] as num?)?.toInt(),
-      Side: json['Side'] as String?,
-      CashMargin: (json['CashMargin'] as num?)?.toInt(),
-      MarginTradeType: (json['MarginTradeType'] as num?)?.toInt(),
-      MarginPremiumUnit: (json['MarginPremiumUnit'] as num?)?.toDouble(),
-      DelivType: (json['DelivType'] as num?)?.toInt(),
-      FundType: json['FundType'] as String?,
-      AccountType: (json['AccountType'] as num?)?.toInt(),
-      Qty: (json['Qty'] as num?)?.toInt(),
-      ClosePositionOrder: (json['ClosePositionOrder'] as num?)?.toInt(),
-      ClosePositions: json['ClosePositions'] as List<dynamic>?,
-      FrontOrderType: (json['FrontOrderType'] as num?)?.toInt(),
-      Price: (json['Price'] as num?)?.toDouble(),
-      ExpireDay: (json['ExpireDay'] as num?)?.toInt(),
-      ReverseLimitOrder: json['ReverseLimitOrder'] as Map<String, dynamic>?,
+_$RequestSendOrderImpl _$$RequestSendOrderImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestSendOrderImpl(
+      symbol: json['Symbol'] as String?,
+      exchange: (json['Exchange'] as num?)?.toInt(),
+      securityType: (json['SecurityType'] as num?)?.toInt(),
+      side: json['Side'] as String?,
+      cashMargin: (json['CashMargin'] as num?)?.toInt(),
+      marginTradeType: (json['MarginTradeType'] as num?)?.toInt(),
+      marginPremiumUnit: (json['MarginPremiumUnit'] as num?)?.toDouble(),
+      delivType: (json['DelivType'] as num?)?.toInt(),
+      fundType: json['FundType'] as String?,
+      accountType: (json['AccountType'] as num?)?.toInt(),
+      qty: (json['Qty'] as num?)?.toInt(),
+      closePositionOrder: (json['ClosePositionOrder'] as num?)?.toInt(),
+      closePositions: json['ClosePositions'] as List<dynamic>?,
+      frontOrderType: (json['FrontOrderType'] as num?)?.toInt(),
+      price: (json['Price'] as num?)?.toDouble(),
+      expireDay: (json['ExpireDay'] as num?)?.toInt(),
+      reverseLimitOrder: json['ReverseLimitOrder'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$RequestSendOrderToJson(RequestSendOrder instance) =>
+Map<String, dynamic> _$$RequestSendOrderImplToJson(
+        _$RequestSendOrderImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'Exchange': instance.Exchange,
-      'SecurityType': instance.SecurityType,
-      'Side': instance.Side,
-      'CashMargin': instance.CashMargin,
-      'MarginTradeType': instance.MarginTradeType,
-      'MarginPremiumUnit': instance.MarginPremiumUnit,
-      'DelivType': instance.DelivType,
-      'FundType': instance.FundType,
-      'AccountType': instance.AccountType,
-      'Qty': instance.Qty,
-      'ClosePositionOrder': instance.ClosePositionOrder,
-      'ClosePositions': instance.ClosePositions,
-      'FrontOrderType': instance.FrontOrderType,
-      'Price': instance.Price,
-      'ExpireDay': instance.ExpireDay,
-      'ReverseLimitOrder': instance.ReverseLimitOrder,
+      'Symbol': instance.symbol,
+      'Exchange': instance.exchange,
+      'SecurityType': instance.securityType,
+      'Side': instance.side,
+      'CashMargin': instance.cashMargin,
+      'MarginTradeType': instance.marginTradeType,
+      'MarginPremiumUnit': instance.marginPremiumUnit,
+      'DelivType': instance.delivType,
+      'FundType': instance.fundType,
+      'AccountType': instance.accountType,
+      'Qty': instance.qty,
+      'ClosePositionOrder': instance.closePositionOrder,
+      'ClosePositions': instance.closePositions,
+      'FrontOrderType': instance.frontOrderType,
+      'Price': instance.price,
+      'ExpireDay': instance.expireDay,
+      'ReverseLimitOrder': instance.reverseLimitOrder,
     };

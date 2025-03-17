@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'primaryexchangeresponse.freezed.dart';
 part 'primaryexchangeresponse.g.dart';
 
-@JsonSerializable()
-class PrimaryExchangeResponse {
-  PrimaryExchangeResponse({
-    this.Symbol,
-    this.PrimaryExchange,
-  });
+@freezed
+class PrimaryExchangeResponse with _$PrimaryExchangeResponse {
+  const factory PrimaryExchangeResponse({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'PrimaryExchange')
+    int? primaryExchange,
+  }) = _PrimaryExchangeResponse;
 
   factory PrimaryExchangeResponse.fromJson(Map<String, dynamic> json) =>
       _$PrimaryExchangeResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PrimaryExchangeResponseToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'PrimaryExchange')
-  final int? PrimaryExchange;
 }

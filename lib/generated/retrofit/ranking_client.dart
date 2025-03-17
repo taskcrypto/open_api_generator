@@ -9,6 +9,6 @@ part 'ranking_client.g.dart';
 abstract class RankingClient {
   factory RankingClient(Dio dio, {String? baseUrl}) = _RankingClient;
 
-  @GET('/ranking') Future<HttpResponse<void>> getRanking({@Header('X-API-KEY') required String xapikey, @Query('Type') required String Type, @Query('ExchangeDivision') required String ExchangeDivision, });
+  @GET('/ranking') Future<HttpResponse<void>> getRanking({@Header('X-API-KEY') required String xapikey, @Query('Type') required String Type, @Query('ExchangeDivision') required String ExchangeDivision, }) {  } 
 
 }

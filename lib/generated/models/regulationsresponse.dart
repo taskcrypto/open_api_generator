@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'regulationsresponse.freezed.dart';
 part 'regulationsresponse.g.dart';
 
-@JsonSerializable()
-class RegulationsResponse {
-  RegulationsResponse({
-    this.Symbol,
-    this.RegulationsInfo,
-  });
+@freezed
+class RegulationsResponse with _$RegulationsResponse {
+  const factory RegulationsResponse({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'RegulationsInfo')
+    List<Map<String, dynamic>>? regulationsInfo,
+  }) = _RegulationsResponse;
 
   factory RegulationsResponse.fromJson(Map<String, dynamic> json) =>
       _$RegulationsResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RegulationsResponseToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'RegulationsInfo')
-  final List<dynamic>? RegulationsInfo;
 }

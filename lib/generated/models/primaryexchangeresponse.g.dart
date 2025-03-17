@@ -6,16 +6,16 @@ part of 'primaryexchangeresponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PrimaryExchangeResponse _$PrimaryExchangeResponseFromJson(
+_$PrimaryExchangeResponseImpl _$$PrimaryExchangeResponseImplFromJson(
         Map<String, dynamic> json) =>
-    PrimaryExchangeResponse(
-      Symbol: json['Symbol'] as String?,
-      PrimaryExchange: (json['PrimaryExchange'] as num?)?.toInt(),
+    _$PrimaryExchangeResponseImpl(
+      symbol: json['Symbol'] as String?,
+      primaryExchange: (json['PrimaryExchange'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$PrimaryExchangeResponseToJson(
-        PrimaryExchangeResponse instance) =>
+Map<String, dynamic> _$$PrimaryExchangeResponseImplToJson(
+        _$PrimaryExchangeResponseImpl instance) =>
     <String, dynamic>{
-      'Symbol': instance.Symbol,
-      'PrimaryExchange': instance.PrimaryExchange,
+      'Symbol': instance.symbol,
+      'PrimaryExchange': instance.primaryExchange,
     };

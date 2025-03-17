@@ -1,26 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'marginpremiumresponse.freezed.dart';
 part 'marginpremiumresponse.g.dart';
 
-@JsonSerializable()
-class MarginPremiumResponse {
-  MarginPremiumResponse({
-    this.Symbol,
-    this.GeneralMargin,
-    this.DayTrade,
-  });
+@freezed
+class MarginPremiumResponse with _$MarginPremiumResponse {
+  const factory MarginPremiumResponse({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'GeneralMargin')
+    Map<String, dynamic>? generalMargin,
+    @JsonKey(name: 'DayTrade')
+    Map<String, dynamic>? dayTrade,
+  }) = _MarginPremiumResponse;
 
   factory MarginPremiumResponse.fromJson(Map<String, dynamic> json) =>
       _$MarginPremiumResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MarginPremiumResponseToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'GeneralMargin')
-  final Map<String, dynamic>? GeneralMargin;
-  @JsonKey(name: 'DayTrade')
-  final Map<String, dynamic>? DayTrade;
 }

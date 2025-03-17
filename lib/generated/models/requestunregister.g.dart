@@ -6,12 +6,16 @@ part of 'requestunregister.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestUnregister _$RequestUnregisterFromJson(Map<String, dynamic> json) =>
-    RequestUnregister(
-      Symbols: json['Symbols'] as List<dynamic>?,
+_$RequestUnregisterImpl _$$RequestUnregisterImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RequestUnregisterImpl(
+      symbols: (json['Symbols'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
-Map<String, dynamic> _$RequestUnregisterToJson(RequestUnregister instance) =>
+Map<String, dynamic> _$$RequestUnregisterImplToJson(
+        _$RequestUnregisterImpl instance) =>
     <String, dynamic>{
-      'Symbols': instance.Symbols,
+      'Symbols': instance.symbols,
     };

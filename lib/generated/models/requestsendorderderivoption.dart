@@ -1,53 +1,39 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'requestsendorderderivoption.freezed.dart';
 part 'requestsendorderderivoption.g.dart';
 
-@JsonSerializable()
-class RequestSendOrderDerivOption {
-  RequestSendOrderDerivOption({
-    this.Symbol,
-    this.Exchange,
-    this.TradeType,
-    this.TimeInForce,
-    this.Side,
-    this.Qty,
-    this.ClosePositionOrder,
-    this.ClosePositions,
-    this.FrontOrderType,
-    this.Price,
-    this.ExpireDay,
-    this.ReverseLimitOrder,
-  });
+@freezed
+class RequestSendOrderDerivOption with _$RequestSendOrderDerivOption {
+  const factory RequestSendOrderDerivOption({
+    @JsonKey(name: 'Symbol')
+    String? symbol,
+    @JsonKey(name: 'Exchange')
+    int? exchange,
+    @JsonKey(name: 'TradeType')
+    int? tradeType,
+    @JsonKey(name: 'TimeInForce')
+    int? timeInForce,
+    @JsonKey(name: 'Side')
+    String? side,
+    @JsonKey(name: 'Qty')
+    int? qty,
+    @JsonKey(name: 'ClosePositionOrder')
+    int? closePositionOrder,
+    @JsonKey(name: 'ClosePositions')
+    List<dynamic>? closePositions,
+    @JsonKey(name: 'FrontOrderType')
+    int? frontOrderType,
+    @JsonKey(name: 'Price')
+    double? price,
+    @JsonKey(name: 'ExpireDay')
+    int? expireDay,
+    @JsonKey(name: 'ReverseLimitOrder')
+    Map<String, dynamic>? reverseLimitOrder,
+  }) = _RequestSendOrderDerivOption;
 
   factory RequestSendOrderDerivOption.fromJson(Map<String, dynamic> json) =>
       _$RequestSendOrderDerivOptionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RequestSendOrderDerivOptionToJson(this);
-
-  @JsonKey(name: 'Symbol')
-  final String? Symbol;
-  @JsonKey(name: 'Exchange')
-  final int? Exchange;
-  @JsonKey(name: 'TradeType')
-  final int? TradeType;
-  @JsonKey(name: 'TimeInForce')
-  final int? TimeInForce;
-  @JsonKey(name: 'Side')
-  final String? Side;
-  @JsonKey(name: 'Qty')
-  final int? Qty;
-  @JsonKey(name: 'ClosePositionOrder')
-  final int? ClosePositionOrder;
-  @JsonKey(name: 'ClosePositions')
-  final List<dynamic>? ClosePositions;
-  @JsonKey(name: 'FrontOrderType')
-  final int? FrontOrderType;
-  @JsonKey(name: 'Price')
-  final double? Price;
-  @JsonKey(name: 'ExpireDay')
-  final int? ExpireDay;
-  @JsonKey(name: 'ReverseLimitOrder')
-  final Map<String, dynamic>? ReverseLimitOrder;
 }
