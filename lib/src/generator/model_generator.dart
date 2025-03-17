@@ -31,8 +31,8 @@ class ModelGenerator {
     // モデルファイルを生成
     for (final entry in schemas.entries) {
       final modelName = _getModelName(entry.key);
-      final modelFile =
-          File('${modelsDir.path}/${modelName.toLowerCase()}.dart');
+      final snakeCaseName = _toSnakeCase(modelName);
+      final modelFile = File('${modelsDir.path}/$snakeCaseName.dart');
       final buffer = StringBuffer();
 
       // ヘッダーコメント
@@ -43,8 +43,8 @@ class ModelGenerator {
           "import 'package:freezed_annotation/freezed_annotation.dart';\n");
 
       // partディレクティブ
-      buffer.writeln("part '${modelName.toLowerCase()}.freezed.dart';");
-      buffer.writeln("part '${modelName.toLowerCase()}.g.dart';\n");
+      buffer.writeln("part '$snakeCaseName.freezed.dart';");
+      buffer.writeln("part '$snakeCaseName.g.dart';\n");
 
       // クラス定義
       buffer.writeln('@freezed');
@@ -71,14 +71,15 @@ class ModelGenerator {
     }
 
     // index.dartを生成
-    final indexFile = File('$outputPath/models/index.dart');
+    final indexFile = File('$outputPath/models_index.dart');
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
 
     // モデルのエクスポート
     for (final entry in schemas.entries) {
       final modelName = _getModelName(entry.key);
-      indexBuffer.writeln("export '${modelName.toLowerCase()}.dart';");
+      final snakeCaseName = _toSnakeCase(modelName);
+      indexBuffer.writeln("export 'models/$snakeCaseName.dart';");
     }
 
     await indexFile.writeAsString(indexBuffer.toString());
@@ -112,20 +113,23 @@ class ModelGenerator {
   String _toCamelCase(String input) {
     if (input.isEmpty) return input;
 
-    // 入力文字列を単語に分割
-    final words = input.split(RegExp(r'[_\-\s]'));
+    // 区切り文字を削除して単語を結合
+    final cleanInput = input.replaceAll(RegExp(r'[_\-\s]'), '');
 
-    // 単語を処理
-    final result = words.asMap().entries.map((entry) {
-      final word = entry.value;
-      if (word.isEmpty) return '';
+    // 最初の文字のみを小文字に変換
+    return cleanInput[0].toLowerCase() + cleanInput.substring(1);
+  }
 
-      // 最初の単語は小文字、それ以外は最初の文字を大文字に
-      return entry.key == 0
-          ? word.toLowerCase()
-          : word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join('');
+  String _toSnakeCase(String input) {
+    if (input.isEmpty) return input;
 
-    return result;
+    // 大文字の前で分割し、アンダースコアを追加
+    final result = input.replaceAllMapped(
+      RegExp(r'[A-Z]'),
+      (match) => '_${match.group(0)!.toLowerCase()}',
+    );
+
+    // 先頭のアンダースコアを削除
+    return result.startsWith('_') ? result.substring(1) : result;
   }
 }

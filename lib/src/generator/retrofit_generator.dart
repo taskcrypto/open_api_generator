@@ -82,6 +82,16 @@ class RetrofitGenerator {
 
     final indexFile = File('$outputPath/retrofit/index.dart');
     await indexFile.writeAsString(indexBuffer.toString());
+
+    // モデルインデックスファイルを生成
+    final modelIndexFile = File('$outputPath/models_index.dart');
+    final modelIndexBuffer = StringBuffer();
+    modelIndexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+    for (final entry in _schemas.entries) {
+      modelIndexBuffer
+          .writeln('export \'models/${_toSnakeCase(entry.key)}.dart\';');
+    }
+    await modelIndexFile.writeAsString(modelIndexBuffer.toString());
   }
 
   Map<String, List<code_builder.Method>> _generateMethods() {
@@ -335,5 +345,15 @@ class RetrofitGenerator {
     }
 
     indexFile.writeAsString(indexBuffer.toString());
+  }
+
+  String _toSnakeCase(String input) {
+    if (input.isEmpty) return input;
+    final words = input.split(RegExp(r'[_\- ]'));
+    final snakeCase = words.map((word) {
+      if (word.isEmpty) return '';
+      return word.toLowerCase();
+    }).join('_');
+    return snakeCase;
   }
 }
