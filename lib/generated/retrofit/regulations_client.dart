@@ -1,0 +1,14 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
+import '../models/index.dart';
+part 'regulations_client.g.dart';
+
+@RestApi()
+abstract class RegulationsClient {
+  factory RegulationsClient(Dio dio, {String? baseUrl}) = _RegulationsClient;
+
+  @GET('/regulations/{symbol}') Future<HttpResponse<RegulationsResponse>> regulationsGet({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+
+}

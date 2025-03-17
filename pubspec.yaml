@@ -26,6 +26,8 @@ dependencies:
   json_serializable: ^6.7.1
   build_runner: ^2.4.8
   freezed: ^2.4.7
+  retrofit: ^4.0.3
+  retrofit_generator: ^7.0.8
 
 dev_dependencies:
   lints: ^2.1.1
