@@ -9,6 +9,6 @@ part 'exchange_client.g.dart';
 abstract class ExchangeClient {
   factory ExchangeClient(Dio dio, {String? baseUrl}) = _ExchangeClient;
 
-  @GET('/exchange/{symbol}') Future<HttpResponse<ExchangeResponse>> getExchangeBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, }) {  } 
+  @GET('/exchange/{symbol}') Future<HttpResponse<ExchangeResponse>> getExchangeBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
 }

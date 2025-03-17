@@ -257,8 +257,7 @@ class RetrofitGenerator {
           .refer(httpMethod, 'package:retrofit/retrofit.dart')
           .call([code_builder.literalString(path)]))
       ..optionalParameters.addAll(parameters)
-      ..lambda = false
-      ..body = code_builder.Code(''));
+      ..lambda = false);
   }
 
   String _getModelName(String schemaName) {

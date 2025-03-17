@@ -18,6 +18,41 @@ class _RankingClient implements RankingClient {
 
   String? baseUrl;
 
+  @override
+  Future<HttpResponse<void>> getRanking({
+    required String xapikey,
+    required String Type,
+    required String ExchangeDivision,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'Type': Type,
+      r'ExchangeDivision': ExchangeDivision,
+    };
+    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/ranking',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final httpResponse = HttpResponse(null, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

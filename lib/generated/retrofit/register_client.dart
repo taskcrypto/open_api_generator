@@ -9,6 +9,6 @@ part 'register_client.g.dart';
 abstract class RegisterClient {
   factory RegisterClient(Dio dio, {String? baseUrl}) = _RegisterClient;
 
-  @PUT('/register') Future<HttpResponse<RegistSuccess>> putRegister({@Header('X-API-KEY') required String xapikey, @Body() required RequestRegister body, }) {  } 
+  @PUT('/register') Future<HttpResponse<RegistSuccess>> putRegister({@Header('X-API-KEY') required String xapikey, @Body() required RequestRegister body, });
 
 }

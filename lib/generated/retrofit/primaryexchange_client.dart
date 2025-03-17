@@ -9,6 +9,6 @@ part 'primaryexchange_client.g.dart';
 abstract class PrimaryexchangeClient {
   factory PrimaryexchangeClient(Dio dio, {String? baseUrl}) = _PrimaryexchangeClient;
 
-  @GET('/primaryexchange/{symbol}') Future<HttpResponse<PrimaryExchangeResponse>> getPrimaryexchangeBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, }) {  } 
+  @GET('/primaryexchange/{symbol}') Future<HttpResponse<PrimaryExchangeResponse>> getPrimaryexchangeBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
 }

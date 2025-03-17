@@ -9,10 +9,10 @@ part 'sendorder_client.g.dart';
 abstract class SendorderClient {
   factory SendorderClient(Dio dio, {String? baseUrl}) = _SendorderClient;
 
-  @POST('/sendorder') Future<HttpResponse<OrderSuccess>> postSendorder({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrder body, }) {  } 
+  @POST('/sendorder') Future<HttpResponse<OrderSuccess>> postSendorder({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrder body, });
 
-  @POST('/sendorder/future') Future<HttpResponse<OrderSuccess>> postSendorderFuture({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrderDerivFuture body, }) {  } 
+  @POST('/sendorder/future') Future<HttpResponse<OrderSuccess>> postSendorderFuture({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrderDerivFuture body, });
 
-  @POST('/sendorder/option') Future<HttpResponse<OrderSuccess>> postSendorderOption({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrderDerivOption body, }) {  } 
+  @POST('/sendorder/option') Future<HttpResponse<OrderSuccess>> postSendorderOption({@Header('X-API-KEY') required String xapikey, @Body() required RequestSendOrderDerivOption body, });
 
 }

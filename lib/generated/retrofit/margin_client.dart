@@ -9,6 +9,6 @@ part 'margin_client.g.dart';
 abstract class MarginClient {
   factory MarginClient(Dio dio, {String? baseUrl}) = _MarginClient;
 
-  @GET('/margin/marginpremium/{symbol}') Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, }) {  } 
+  @GET('/margin/marginpremium/{symbol}') Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
 }

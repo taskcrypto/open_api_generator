@@ -18,6 +18,56 @@ class _OrdersClient implements OrdersClient {
 
   String? baseUrl;
 
+  @override
+  Future<HttpResponse<List<InvalidType>>> getOrders({
+    required String xapikey,
+    required String product,
+    required String id,
+    required String updtime,
+    required String details,
+    required String symbol,
+    required String state,
+    required String side,
+    required String cashmargin,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'product': product,
+      r'id': id,
+      r'updtime': updtime,
+      r'details': details,
+      r'symbol': symbol,
+      r'state': state,
+      r'side': side,
+      r'cashmargin': cashmargin,
+    };
+    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<HttpResponse<List<InvalidType>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/orders',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => InvalidType.fromJson(i as Map<String, dynamic>))
+        .toList();
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
