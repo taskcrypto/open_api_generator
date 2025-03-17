@@ -9,6 +9,6 @@ part 'positions_client.g.dart';
 abstract class PositionsClient {
   factory PositionsClient(Dio dio, {String? baseUrl}) = _PositionsClient;
 
-  @GET('/positions') Future<HttpResponse<List<PositionsSuccess>>> positionsGet({@Header('X-API-KEY') required String xapikey, @Query('product') required String product, @Query('symbol') required String symbol, @Query('side') required String side, @Query('addinfo') required String addinfo, });
+  @GET('/positions') Future<HttpResponse<List<PositionsSuccess>>> getPositions({@Header('X-API-KEY') required String xapikey, @Query('product') required String product, @Query('symbol') required String symbol, @Query('side') required String side, @Query('addinfo') required String addinfo, });
 
 }

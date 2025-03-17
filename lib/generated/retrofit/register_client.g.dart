@@ -19,7 +19,7 @@ class _RegisterClient implements RegisterClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<RegistSuccess>> registerPut({
+  Future<HttpResponse<RegistSuccess>> putRegister({
     required String xapikey,
     required RequestRegister body,
   }) async {

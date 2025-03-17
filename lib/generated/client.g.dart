@@ -13,7 +13,7 @@ class _Client implements Client {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.kabucom.net/kabusapi';
+    baseUrl ??= 'https://api.kabu.com.net/kabusapi';
   }
 
   final Dio _dio;

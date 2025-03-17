@@ -6,7 +6,7 @@ import 'retrofit/index.dart';
 
 part 'client.g.dart';
 
-@RestApi(baseUrl: 'https://api.kabucom.net/kabusapi')
+@RestApi(baseUrl: 'https://api.kabu.com.net/kabusapi')
 abstract class Client {
   factory Client(
     Dio dio, {

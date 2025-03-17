@@ -19,7 +19,7 @@ class _SymbolClient implements SymbolClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<SymbolSuccess>> symbolGet({
+  Future<HttpResponse<SymbolSuccess>> getSymbolBySymbol({
     required String xapikey,
     required String symbol,
     required String addinfo,

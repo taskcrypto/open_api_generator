@@ -19,7 +19,7 @@ class _RegulationsClient implements RegulationsClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<RegulationsResponse>> regulationsGet({
+  Future<HttpResponse<RegulationsResponse>> getRegulationsBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

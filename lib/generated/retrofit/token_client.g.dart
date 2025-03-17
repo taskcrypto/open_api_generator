@@ -19,7 +19,7 @@ class _TokenClient implements TokenClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<TokenSuccess>> tokenPost(
+  Future<HttpResponse<TokenSuccess>> postToken(
       {required RequestToken body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -19,7 +19,7 @@ class _PositionsClient implements PositionsClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<PositionsSuccess>>> positionsGet({
+  Future<HttpResponse<List<PositionsSuccess>>> getPositions({
     required String xapikey,
     required String product,
     required String symbol,

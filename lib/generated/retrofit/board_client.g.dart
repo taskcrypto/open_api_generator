@@ -19,7 +19,7 @@ class _BoardClient implements BoardClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<BoardSuccess>> boardGet({
+  Future<HttpResponse<BoardSuccess>> getBoardBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

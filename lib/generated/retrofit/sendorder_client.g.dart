@@ -19,7 +19,7 @@ class _SendorderClient implements SendorderClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<OrderSuccess>> sendorderPost({
+  Future<HttpResponse<OrderSuccess>> postSendorder({
     required String xapikey,
     required RequestSendOrder body,
   }) async {
@@ -52,7 +52,7 @@ class _SendorderClient implements SendorderClient {
   }
 
   @override
-  Future<HttpResponse<OrderSuccess>> sendoderFuturePost({
+  Future<HttpResponse<OrderSuccess>> postSendorderFuture({
     required String xapikey,
     required RequestSendOrderDerivFuture body,
   }) async {
@@ -85,7 +85,7 @@ class _SendorderClient implements SendorderClient {
   }
 
   @override
-  Future<HttpResponse<OrderSuccess>> sendorderOptionPost({
+  Future<HttpResponse<OrderSuccess>> postSendorderOption({
     required String xapikey,
     required RequestSendOrderDerivOption body,
   }) async {

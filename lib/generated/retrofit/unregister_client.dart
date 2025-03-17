@@ -9,8 +9,8 @@ part 'unregister_client.g.dart';
 abstract class UnregisterClient {
   factory UnregisterClient(Dio dio, {String? baseUrl}) = _UnregisterClient;
 
-  @PUT('/unregister') Future<HttpResponse<RegistSuccess>> unregisterPut({@Header('X-API-KEY') required String xapikey, @Body() required RequestUnregister body, });
+  @PUT('/unregister') Future<HttpResponse<RegistSuccess>> putUnregister({@Header('X-API-KEY') required String xapikey, @Body() required RequestUnregister body, });
 
-  @PUT('/unregister/all') Future<HttpResponse<UnregisterAllSuccess>> unregisterAllPut({@Header('X-API-KEY') required String xapikey});
+  @PUT('/unregister/all') Future<HttpResponse<UnregisterAllSuccess>> putUnregisterAll({@Header('X-API-KEY') required String xapikey});
 
 }

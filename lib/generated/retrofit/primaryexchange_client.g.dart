@@ -19,7 +19,7 @@ class _PrimaryexchangeClient implements PrimaryexchangeClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<PrimaryExchangeResponse>> primaryExchangeGet({
+  Future<HttpResponse<PrimaryExchangeResponse>> getPrimaryexchangeBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

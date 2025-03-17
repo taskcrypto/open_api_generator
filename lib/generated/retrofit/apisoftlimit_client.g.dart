@@ -19,7 +19,7 @@ class _ApisoftlimitClient implements ApisoftlimitClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<ApiSoftLimitResponse>> apisoftlimitGet(
+  Future<HttpResponse<ApiSoftLimitResponse>> getApisoftlimit(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -19,7 +19,7 @@ class _ExchangeClient implements ExchangeClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<ExchangeResponse>> exchangeGet({
+  Future<HttpResponse<ExchangeResponse>> getExchangeBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

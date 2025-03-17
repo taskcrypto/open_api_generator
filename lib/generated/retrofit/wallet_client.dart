@@ -9,20 +9,20 @@ part 'wallet_client.g.dart';
 abstract class WalletClient {
   factory WalletClient(Dio dio, {String? baseUrl}) = _WalletClient;
 
-  @GET('/wallet/cash') Future<HttpResponse<WalletCashSuccess>> walletCashGet({@Header('X-API-KEY') required String xapikey});
+  @GET('/wallet/cash') Future<HttpResponse<WalletCashSuccess>> getWalletCash({@Header('X-API-KEY') required String xapikey});
 
-  @GET('/wallet/cash/{symbol}') Future<HttpResponse<WalletCashSuccess>> defaultOperationId({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/wallet/cash/{symbol}') Future<HttpResponse<WalletCashSuccess>> getWalletCashBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
-  @GET('/wallet/margin') Future<HttpResponse<WalletMarginSuccess>> walletMarginGet({@Header('X-API-KEY') required String xapikey});
+  @GET('/wallet/margin') Future<HttpResponse<WalletMarginSuccess>> getWalletMargin({@Header('X-API-KEY') required String xapikey});
 
-  @GET('/wallet/margin/{symbol}') Future<HttpResponse<WalletMarginSuccess>> defaultOperationId({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/wallet/margin/{symbol}') Future<HttpResponse<WalletMarginSuccess>> getWalletMarginBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
-  @GET('/wallet/future') Future<HttpResponse<WalletFutureSuccess>> walletFutureGet({@Header('X-API-KEY') required String xapikey});
+  @GET('/wallet/future') Future<HttpResponse<WalletFutureSuccess>> getWalletFuture({@Header('X-API-KEY') required String xapikey});
 
-  @GET('/wallet/future/{symbol}') Future<HttpResponse<WalletFutureSuccess>> defaultOperationId({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/wallet/future/{symbol}') Future<HttpResponse<WalletFutureSuccess>> getWalletFutureBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
-  @GET('/wallet/option') Future<HttpResponse<WalletOptionSuccess>> walletOptionGet({@Header('X-API-KEY') required String xapikey});
+  @GET('/wallet/option') Future<HttpResponse<WalletOptionSuccess>> getWalletOption({@Header('X-API-KEY') required String xapikey});
 
-  @GET('/wallet/option/{symbol}') Future<HttpResponse<WalletOptionSuccess>> defaultOperationId({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
+  @GET('/wallet/option/{symbol}') Future<HttpResponse<WalletOptionSuccess>> getWalletOptionBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, });
 
 }

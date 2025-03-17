@@ -19,7 +19,7 @@ class _UnregisterClient implements UnregisterClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<RegistSuccess>> unregisterPut({
+  Future<HttpResponse<RegistSuccess>> putUnregister({
     required String xapikey,
     required RequestUnregister body,
   }) async {
@@ -52,7 +52,7 @@ class _UnregisterClient implements UnregisterClient {
   }
 
   @override
-  Future<HttpResponse<UnregisterAllSuccess>> unregisterAllPut(
+  Future<HttpResponse<UnregisterAllSuccess>> putUnregisterAll(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

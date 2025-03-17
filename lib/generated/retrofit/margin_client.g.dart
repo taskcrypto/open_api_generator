@@ -19,7 +19,7 @@ class _MarginClient implements MarginClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<MarginPremiumResponse>> marginpremiumGet({
+  Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

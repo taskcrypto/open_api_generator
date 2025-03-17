@@ -19,7 +19,7 @@ class _CancelorderClient implements CancelorderClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<OrderSuccess>> cancelorderPut({
+  Future<HttpResponse<OrderSuccess>> putCancelorder({
     required String xapikey,
     required RequestCancelOrder body,
   }) async {

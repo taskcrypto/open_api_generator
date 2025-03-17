@@ -19,7 +19,7 @@ class _WalletClient implements WalletClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<WalletCashSuccess>> walletCashGet(
+  Future<HttpResponse<WalletCashSuccess>> getWalletCash(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -49,7 +49,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletCashSuccess>> defaultOperationId({
+  Future<HttpResponse<WalletCashSuccess>> getWalletCashBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -81,7 +81,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletMarginSuccess>> walletMarginGet(
+  Future<HttpResponse<WalletMarginSuccess>> getWalletMargin(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -111,7 +111,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletMarginSuccess>> defaultOperationId({
+  Future<HttpResponse<WalletMarginSuccess>> getWalletMarginBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -143,7 +143,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletFutureSuccess>> walletFutureGet(
+  Future<HttpResponse<WalletFutureSuccess>> getWalletFuture(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -173,7 +173,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletFutureSuccess>> defaultOperationId({
+  Future<HttpResponse<WalletFutureSuccess>> getWalletFutureBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -205,7 +205,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletOptionSuccess>> walletOptionGet(
+  Future<HttpResponse<WalletOptionSuccess>> getWalletOption(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -235,7 +235,7 @@ class _WalletClient implements WalletClient {
   }
 
   @override
-  Future<HttpResponse<WalletOptionSuccess>> defaultOperationId({
+  Future<HttpResponse<WalletOptionSuccess>> getWalletOptionBySymbol({
     required String xapikey,
     required String symbol,
   }) async {

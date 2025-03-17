@@ -9,6 +9,6 @@ part 'symbol_client.g.dart';
 abstract class SymbolClient {
   factory SymbolClient(Dio dio, {String? baseUrl}) = _SymbolClient;
 
-  @GET('/symbol/{symbol}') Future<HttpResponse<SymbolSuccess>> symbolGet({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, @Query('addinfo') required String addinfo, });
+  @GET('/symbol/{symbol}') Future<HttpResponse<SymbolSuccess>> getSymbolBySymbol({@Header('X-API-KEY') required String xapikey, @Path('symbol') required String symbol, @Query('addinfo') required String addinfo, });
 
 }

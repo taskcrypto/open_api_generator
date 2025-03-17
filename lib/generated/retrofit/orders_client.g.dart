@@ -19,7 +19,7 @@ class _OrdersClient implements OrdersClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<OrdersSuccess>>> ordersGet({
+  Future<HttpResponse<List<OrdersSuccess>>> getOrders({
     required String xapikey,
     required String product,
     required String id,

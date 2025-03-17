@@ -19,7 +19,7 @@ class _SymbolnameClient implements SymbolnameClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<SymbolNameSuccess>> symbolnameFutureGet({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameFuture({
     required String xapikey,
     required String FutureCode,
     required String DerivMonth,
@@ -55,7 +55,7 @@ class _SymbolnameClient implements SymbolnameClient {
   }
 
   @override
-  Future<HttpResponse<SymbolNameSuccess>> symbolnameOptionGet({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameOption({
     required String xapikey,
     required String OptionCode,
     required String DerivMonth,
@@ -95,7 +95,7 @@ class _SymbolnameClient implements SymbolnameClient {
   }
 
   @override
-  Future<HttpResponse<SymbolNameSuccess>> symbolnameOptionMiniGet({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameMinioptionweekly({
     required String xapikey,
     required String DerivMonth,
     required String DerivWeekly,

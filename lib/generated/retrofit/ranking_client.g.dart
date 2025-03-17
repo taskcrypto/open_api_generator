@@ -19,7 +19,7 @@ class _RankingClient implements RankingClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<void>> rankingGet({
+  Future<HttpResponse<void>> getRanking({
     required String xapikey,
     required String Type,
     required String ExchangeDivision,

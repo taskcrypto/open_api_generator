@@ -113,7 +113,7 @@ class RetrofitGenerator {
   String _generateMethodString(
       Operation operation, String path, String httpMethod) {
     final buffer = StringBuffer();
-    final methodName = _getMethodName(operation, path);
+    final methodName = _getMethodName(operation, path, httpMethod);
     final returnType = _getReturnType(operation);
 
     buffer.write('@$httpMethod(\'$path\') ');
@@ -171,11 +171,29 @@ class RetrofitGenerator {
     return camelCase[0].toLowerCase() + camelCase.substring(1);
   }
 
-  String _getMethodName(Operation operation, String path) {
-    final pathSegments = path.split('/')
-      ..removeWhere((s) => s.isEmpty || s.startsWith('{') || s.endsWith('}'));
+  String _getMethodName(Operation operation, String path, String httpMethod) {
+    final pathSegments = path.split('/')..removeWhere((s) => s.isEmpty);
 
-    return operation.operationId ?? pathSegments.join('_').toLowerCase();
+    final pathParams = pathSegments
+        .where((s) => s.startsWith('{') && s.endsWith('}'))
+        .map((s) => s.substring(1, s.length - 1))
+        .toList();
+    final cleanSegments = pathSegments
+        .where((s) => !s.startsWith('{') && !s.endsWith('}'))
+        .toList();
+
+    // キャメルケースに変換
+    final segments = cleanSegments.map((segment) {
+      if (segment.isEmpty) return '';
+      return segment[0].toUpperCase() + segment.substring(1).toLowerCase();
+    }).join('');
+
+    // パスパラメータがある場合は、"By + パラメータ名"を追加
+    final suffix = pathParams.isNotEmpty
+        ? 'By${pathParams.map((p) => p[0].toUpperCase() + p.substring(1).toLowerCase()).join('And')}'
+        : '';
+
+    return '${httpMethod.toLowerCase()}$segments$suffix';
   }
 
   String _getReturnType(Operation operation) {
@@ -195,7 +213,7 @@ class RetrofitGenerator {
 
   code_builder.Method _generateMethod(
       Operation operation, String path, String httpMethod) {
-    final methodName = _getMethodName(operation, path);
+    final methodName = _getMethodName(operation, path, httpMethod);
     final returnType = _getReturnType(operation);
     final parameters = <code_builder.Parameter>[];
 
