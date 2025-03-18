@@ -31,18 +31,25 @@ class RetrofitGenerator {
     final modelGenerator = ModelGenerator(spec, outputPath);
     await modelGenerator.generate();
 
-    final methodsByCategory = _generateMethods();
+    final methodsByTag = _generateMethods();
     final retrofitDir = Directory('$outputPath/retrofit');
     if (!await retrofitDir.exists()) {
       await retrofitDir.create(recursive: true);
     }
 
-    // クライアントファイルを生成
-    for (final entry in methodsByCategory.entries) {
-      final category = entry.key;
+    // タグごとのクライアントファイルを生成
+    for (final entry in methodsByTag.entries) {
+      final tag = entry.key;
       final methods = entry.value;
-      final fileName = '${category.toLowerCase()}_client.dart';
-      final filePath = '$outputPath/retrofit/$fileName';
+
+      // タグ用のディレクトリを作成
+      final tagDir = Directory('$outputPath/retrofit/$tag');
+      if (!await tagDir.exists()) {
+        await tagDir.create();
+      }
+
+      final fileName = '${tag.toLowerCase()}_client.dart';
+      final filePath = '$outputPath/retrofit/$tag/$fileName';
       final file = File(filePath);
 
       final buffer = StringBuffer();
@@ -51,16 +58,16 @@ class RetrofitGenerator {
       // インポートを追加
       buffer.writeln("import 'package:dio/dio.dart';");
       buffer.writeln("import 'package:retrofit/retrofit.dart';");
-      buffer.writeln("import '../models_index.dart';\n");
+      buffer.writeln("import '../../models_index.dart';\n");
 
       // partディレクティブを追加
-      buffer.writeln("part '${category.toLowerCase()}_client.g.dart';\n");
+      buffer.writeln("part '${tag.toLowerCase()}_client.g.dart';\n");
 
       // クラス定義を追加
       buffer.writeln('@RestApi()');
-      buffer.writeln('abstract class ${category}Client {');
+      buffer.writeln('abstract class ${_capitalizeFirst(tag)}Client {');
       buffer.writeln(
-          '  factory ${category}Client(Dio dio, {String? baseUrl}) = _${category}Client;\n');
+          '  factory ${_capitalizeFirst(tag)}Client(Dio dio, {String? baseUrl}) = _${_capitalizeFirst(tag)}Client;\n');
 
       // メソッドを追加
       for (final method in methods) {
@@ -75,17 +82,21 @@ class RetrofitGenerator {
     // index.dartを生成
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-    for (final category in methodsByCategory.keys) {
+    for (final tag in methodsByTag.keys) {
       indexBuffer
-          .writeln("export 'retrofit/${category.toLowerCase()}_client.dart';");
+          .writeln("export 'retrofit/$tag/${tag.toLowerCase()}_client.dart';");
     }
 
     final indexFile = File('$outputPath/retrofit_index.dart');
     await indexFile.writeAsString(indexBuffer.toString());
+
+    // ApiManagerを生成
+    // final managerGenerator = ManagerGenerator(spec, outputPath);
+    // await managerGenerator.generate(methodsByTag.keys.toList());
   }
 
   Map<String, List<String>> _generateMethods() {
-    final methodsByCategory = <String, List<String>>{};
+    final methodsByTag = <String, List<String>>{};
 
     spec.paths.forEach((path, pathItem) {
       final operations = {
@@ -100,24 +111,25 @@ class RetrofitGenerator {
         final operation = httpMethod.value;
         if (operation == null) continue;
 
-        final category = _extractCategoryFromPath(path);
-        methodsByCategory.putIfAbsent(category, () => []);
+        // タグを取得（タグがない場合はパスから推測）
+        final tag = operation.tags?.firstOrNull ?? _extractTagFromPath(path);
+        methodsByTag.putIfAbsent(tag, () => []);
         final method = _generateMethod(operation, path, httpMethod.key);
-        methodsByCategory[category]!.add(method);
+        methodsByTag[tag]!.add(method);
       }
     });
 
-    return methodsByCategory;
+    return methodsByTag;
   }
 
-  String _extractCategoryFromPath(String path) {
+  String _extractTagFromPath(String path) {
     final segments = path.split('/');
     if (segments.length > 1) {
-      final category = segments[1].split('_').map((s) {
+      final tag = segments[1].split('_').map((s) {
         if (s.isEmpty) return '';
         return s[0].toUpperCase() + s.substring(1).toLowerCase();
       }).join('');
-      return category;
+      return tag;
     }
     return 'Default';
   }
@@ -197,5 +209,10 @@ class RetrofitGenerator {
       }
     }
     return 'void';
+  }
+
+  String _capitalizeFirst(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
   }
 }

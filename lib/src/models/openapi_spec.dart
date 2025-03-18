@@ -9,12 +9,14 @@ class OpenApiSpec {
   final Map<String, PathItem> paths;
   @JsonKey(name: 'components')
   final Components? components;
+  final List<Tag>? tags;
 
   OpenApiSpec({
     required this.openapi,
     required this.info,
     required this.paths,
     this.components,
+    this.tags,
   });
 
   factory OpenApiSpec.fromJson(Map<String, dynamic> json) =>
@@ -242,4 +244,21 @@ class Schema {
   }
 
   Map<String, dynamic> toJson() => _$SchemaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Tag {
+  final String name;
+  final String? description;
+  @JsonKey(name: 'x-displayName')
+  final String? displayName;
+
+  Tag({
+    required this.name,
+    this.description,
+    this.displayName,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }

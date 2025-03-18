@@ -15,6 +15,9 @@ OpenApiSpec _$OpenApiSpecFromJson(Map<String, dynamic> json) => OpenApiSpec(
       components: json['components'] == null
           ? null
           : Components.fromJson(json['components'] as Map<String, dynamic>),
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$OpenApiSpecToJson(OpenApiSpec instance) =>
@@ -23,6 +26,7 @@ Map<String, dynamic> _$OpenApiSpecToJson(OpenApiSpec instance) =>
       'info': instance.info.toJson(),
       'paths': instance.paths.map((k, e) => MapEntry(k, e.toJson())),
       'components': instance.components?.toJson(),
+      'tags': instance.tags?.map((e) => e.toJson()).toList(),
     };
 
 Components _$ComponentsFromJson(Map<String, dynamic> json) => Components(
@@ -190,4 +194,16 @@ Map<String, dynamic> _$SchemaToJson(Schema instance) => <String, dynamic>{
       'example': instance.example,
       'default_': instance.default_,
       'nullable': instance.nullable,
+    };
+
+Tag _$TagFromJson(Map<String, dynamic> json) => Tag(
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      displayName: json['x-displayName'] as String?,
+    );
+
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'x-displayName': instance.displayName,
     };

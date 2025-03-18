@@ -3,7 +3,39 @@ import 'package:code_builder/code_builder.dart' as code_builder;
 import '../models/openapi_spec.dart';
 import 'utils/name_utils.dart';
 
+/// OpenAPI仕様の列挙型（enum）からDartの列挙型クラスを生成するクラス
+///
+/// このクラスは以下の機能を提供します：
+/// - OpenAPIのenum定義からDartの列挙型クラスを生成
+/// - freezedとJsonEnumを使用した型安全な列挙型の生成
+/// - JSONシリアライズ/デシリアライズのサポート
+/// - 列挙値の正規化（命名規則に従った変換）
+///
+/// 生成される列挙型クラスの例：
+/// ```dart
+/// @freezed
+/// @JsonEnum()
+/// class OrderStatus with _$OrderStatus {
+///   const OrderStatus._();
+///   const factory OrderStatus(String value) = _OrderStatus;
+///
+///   static const OrderStatus pending = OrderStatus('pending');
+///   static const OrderStatus completed = OrderStatus('completed');
+///   static const OrderStatus cancelled = OrderStatus('cancelled');
+///
+///   factory OrderStatus.fromJson(String json) => OrderStatus(json);
+///
+///   static List<OrderStatus> get values => [pending, completed, cancelled];
+/// }
+/// ```
 class EnumGenerator {
+  /// 列挙型クラスを生成
+  ///
+  /// [name] 列挙型の名前
+  /// [schema] OpenAPIのスキーマ定義（enum値を含む）
+  ///
+  /// 戻り値：
+  /// - 生成された列挙型クラスのコードビルダー
   static code_builder.Class generateEnumClass(String name, Schema schema) {
     final normalizedName = NameUtils.normalizeClassName(name);
 
