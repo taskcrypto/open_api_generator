@@ -117,12 +117,8 @@ class OpenApiBuilder extends Builder {
         final clientConfigContent =
             await buildStep.readAsString(clientConfigAsset);
         print('OpenApiBuilder._loadConfig: クライアントの設定内容 - $clientConfigContent');
-        final clientConfig =
-            loadYaml(clientConfigContent) as Map<String, dynamic>;
-        final clientOptions = clientConfig['targets']?['\$default']?['builders']
-                    ?['openapi_generator_flutter']?['options']
-                as Map<String, dynamic>? ??
-            {};
+        final clientConfig = loadYaml(clientConfigContent);
+        final clientOptions = _getOptionsFromConfig(clientConfig);
         print('OpenApiBuilder._loadConfig: クライアントの設定 - $clientOptions');
         return clientOptions;
       } catch (e) {
@@ -139,12 +135,8 @@ class OpenApiBuilder extends Builder {
         final libraryConfigContent =
             await buildStep.readAsString(libraryConfigAsset);
         print('OpenApiBuilder._loadConfig: ライブラリの設定内容 - $libraryConfigContent');
-        final libraryConfig =
-            loadYaml(libraryConfigContent) as Map<String, dynamic>;
-        final libraryOptions = libraryConfig['targets']?['\$default']
-                    ?['builders']?['openapi_generator_flutter']?['options']
-                as Map<String, dynamic>? ??
-            {};
+        final libraryConfig = loadYaml(libraryConfigContent);
+        final libraryOptions = _getOptionsFromConfig(libraryConfig);
         print('OpenApiBuilder._loadConfig: ライブラリの設定 - $libraryOptions');
         return libraryOptions;
       } catch (e) {
@@ -157,5 +149,27 @@ class OpenApiBuilder extends Builder {
       print('OpenApiBuilder._loadConfig: スタックトレース - $stackTrace');
       return {};
     }
+  }
+
+  /// 設定からオプションを取得
+  Map<String, dynamic> _getOptionsFromConfig(dynamic config) {
+    if (config is! YamlMap) return {};
+
+    final targets = config['targets'];
+    if (targets is! YamlMap) return {};
+
+    final defaultTarget = targets['\$default'];
+    if (defaultTarget is! YamlMap) return {};
+
+    final builders = defaultTarget['builders'];
+    if (builders is! YamlMap) return {};
+
+    final builder = builders['openapi_generator_flutter'];
+    if (builder is! YamlMap) return {};
+
+    final options = builder['options'];
+    if (options is! YamlMap) return {};
+
+    return Map<String, dynamic>.from(options);
   }
 }
