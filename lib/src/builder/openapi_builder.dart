@@ -107,22 +107,45 @@ class OpenApiBuilder extends Builder {
       print(
           'OpenApiBuilder._loadConfig: buildStep.inputId = ${buildStep.inputId}');
 
-      final configAsset = AssetId(buildStep.inputId.package, 'build.yaml');
-      print('OpenApiBuilder._loadConfig: configAsset = $configAsset');
+      // クライアント側のbuild.yamlを読み込む
+      final clientConfigAsset =
+          AssetId(buildStep.inputId.package, 'build.yaml');
+      print(
+          'OpenApiBuilder._loadConfig: クライアントの設定ファイル読み込み - $clientConfigAsset');
 
-      print('OpenApiBuilder._loadConfig: 設定ファイルの読み込み');
-      final configContent = await buildStep.readAsString(configAsset);
-      print('OpenApiBuilder._loadConfig: 設定内容 - $configContent');
+      try {
+        final clientConfigContent =
+            await buildStep.readAsString(clientConfigAsset);
+        print('OpenApiBuilder._loadConfig: クライアントの設定内容 - $clientConfigContent');
+        final clientConfig =
+            loadYaml(clientConfigContent) as Map<String, dynamic>;
+        final clientOptions = clientConfig['targets']?['\$default']?['builders']
+                    ?['openapi_generator_flutter']?['options']
+                as Map<String, dynamic>? ??
+            {};
+        print('OpenApiBuilder._loadConfig: クライアントの設定 - $clientOptions');
+        return clientOptions;
+      } catch (e) {
+        print('OpenApiBuilder._loadConfig: クライアントの設定読み込みに失敗 - $e');
+      }
 
-      print('OpenApiBuilder._loadConfig: YAMLの解析');
-      final config = loadYaml(configContent) as Map<String, dynamic>;
-      print('OpenApiBuilder._loadConfig: 設定の取得');
-      final options = config['targets']?['\$default']?['builders']
+      // ライブラリ側のbuild.yamlを読み込む
+      final libraryConfigAsset =
+          AssetId('openapi_generator_flutter', 'build.yaml');
+      print(
+          'OpenApiBuilder._loadConfig: ライブラリの設定ファイル読み込み - $libraryConfigAsset');
+
+      final libraryConfigContent =
+          await buildStep.readAsString(libraryConfigAsset);
+      print('OpenApiBuilder._loadConfig: ライブラリの設定内容 - $libraryConfigContent');
+      final libraryConfig =
+          loadYaml(libraryConfigContent) as Map<String, dynamic>;
+      final libraryOptions = libraryConfig['targets']?['\$default']?['builders']
                   ?['openapi_generator_flutter']?['options']
               as Map<String, dynamic>? ??
           {};
-      print('OpenApiBuilder._loadConfig: 結果 - $options');
-      return options;
+      print('OpenApiBuilder._loadConfig: ライブラリの設定 - $libraryOptions');
+      return libraryOptions;
     } catch (e, stackTrace) {
       print('OpenApiBuilder._loadConfig: エラー発生 - $e');
       print('OpenApiBuilder._loadConfig: スタックトレース - $stackTrace');
