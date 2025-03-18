@@ -35,7 +35,7 @@ class OpenApiBuilder extends Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     final config = await _loadConfig(buildStep);
-    if (!config['run_generator'] ?? false) {
+    if (config['run_generator'] != true) {
       return;
     }
 
