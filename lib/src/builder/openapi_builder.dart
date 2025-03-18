@@ -26,11 +26,11 @@ import '../models/openapi_spec.dart';
 ///           input_urls:
 ///             - url: "https://example.com/openapi.yaml"
 /// ```
-class OpenApiBuilder implements Builder {
+class OpenApiBuilder extends Builder {
   @override
-  final buildExtensions = const {
-    r'$lib$': ['generated/openapi.g.dart']
-  };
+  Map<String, List<String>> get buildExtensions => {
+        r'$lib$': ['generated/api_manager.dart'],
+      };
 
   @override
   Future<void> build(BuildStep buildStep) async {
@@ -61,7 +61,6 @@ class OpenApiBuilder implements Builder {
         OpenApiSpec.fromJson(loadYaml(content)),
         outputFolder,
       );
-
       await generator.generate();
     }
   }
@@ -72,8 +71,9 @@ class OpenApiBuilder implements Builder {
       final configAsset = AssetId(buildStep.inputId.package, 'build.yaml');
       final configContent = await buildStep.readAsString(configAsset);
       final config = loadYaml(configContent) as Map<String, dynamic>;
-      return config['targets']?['\$default']?['builders']?['openapi_generator']
-              ?['options'] as Map<String, dynamic>? ??
+      return config['targets']?['\$default']?['builders']
+                  ?['openapi_generator_flutter']?['options']
+              as Map<String, dynamic>? ??
           {};
     } catch (e) {
       return {};
