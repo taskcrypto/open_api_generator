@@ -49,9 +49,6 @@ class OpenApiBuilder extends Builder {
     print('buildStep.inputId.package = ${buildStep.inputId.package}');
     print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
     print('buildStep.options.config = ${options.config.toString()}');
-    print('buildStep.options.isRoot = ${options.isRoot}');
-    print('buildStep.options.toExternalReference = ${options.toExternalReference}');
-    print('buildStep.options.toJSBox = ${options.toJSBox}');
     print('========= LOAD CONFIG START ========');
     final config = await _loadConfig(buildStep);
     print('========= LOAD CONFIG END ========');
