@@ -34,17 +34,23 @@ class OpenApiBuilder extends Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
+    print('========= OPENAPI BUILDER START ========');
     print('OpenApiBuilder.build: 開始');
-    print('OpenApiBuilder.build: buildStep.inputId = ${buildStep}');
-
+    print('buildStep = ${buildStep}');
+    print('buildStep.inputId = ${buildStep.inputId}');
+    print('buildStep.inputId.path = ${buildStep.inputId.path}');
+    print('buildStep.inputId.package = ${buildStep.inputId.package}');
+    print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
+    print('========= LOAD CONFIG START ========');
     final config = await _loadConfig(buildStep);
+    print('========= LOAD CONFIG END ========');
     print('OpenApiBuilder.build: 設定読み込み完了 - $config');
     print('OpenApiBuilder.build: 設定の詳細:');
     print('  - run_generator: ${config['run_generator']}');
     print('  - input_folder: ${config['input_folder']}');
     print('  - output_folder: ${config['output_folder']}');
     print('  - input_urls: ${config['input_urls']}');
-
+    print('========= OPENAPI BUILDER Base Values END ========');
     if (config['run_generator'] != true) {
       print('OpenApiBuilder.build: run_generatorがfalseのため終了');
       return;
@@ -119,8 +125,9 @@ class OpenApiBuilder extends Builder {
 
       if (buildStep.inputId.path.endsWith('.yaml')) {
         final t = loadYaml(contents) as YamlMap;
-        //contentMap = t.toMap(); 
-        contentMap = t.nodes.map((key, value) => MapEntry(key.toString(), value.value));
+        //contentMap = t.toMap();
+        contentMap =
+            t.nodes.map((key, value) => MapEntry(key.toString(), value.value));
       } else {
         contentMap = jsonDecode(contents) as Map<String, dynamic>;
       }
