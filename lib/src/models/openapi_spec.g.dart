@@ -165,12 +165,11 @@ Schema _$SchemaFromJson(Map<String, dynamic> json) => Schema(
       type: json['type'] as String?,
       format: json['format'] as String?,
       description: json['description'] as String?,
-      enum_:
-          (json['enum_'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      enum_: (json['enum'] as List<dynamic>?)?.map((e) => e as String).toList(),
       items: json['items'] == null
           ? null
           : Schema.fromJson(json['items'] as Map<String, dynamic>),
-      ref: json['ref'] as String?,
+      ref: json[r'$ref'] as String?,
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, Schema.fromJson(e as Map<String, dynamic>)),
       ),
@@ -178,7 +177,7 @@ Schema _$SchemaFromJson(Map<String, dynamic> json) => Schema(
           ?.map((e) => e as String)
           .toList(),
       example: json['example'],
-      default_: json['default_'],
+      default_: json['default'],
       nullable: json['nullable'] as bool?,
     );
 
@@ -186,13 +185,13 @@ Map<String, dynamic> _$SchemaToJson(Schema instance) => <String, dynamic>{
       'type': instance.type,
       'format': instance.format,
       'description': instance.description,
-      'enum_': instance.enum_,
+      'enum': instance.enum_,
       'items': instance.items?.toJson(),
-      'ref': instance.ref,
+      r'$ref': instance.ref,
       'properties': instance.properties?.map((k, e) => MapEntry(k, e.toJson())),
       'required': instance.required,
       'example': instance.example,
-      'default_': instance.default_,
+      'default': instance.default_,
       'nullable': instance.nullable,
     };
 

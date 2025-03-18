@@ -36,6 +36,30 @@ class OpenApiBuilder extends Builder {
         r'$lib$': ['generated/api_manager.dart'],
       };
 
+  dynamic _convertYamlToMap(dynamic yaml) {
+    if (yaml is YamlMap) {
+      return yaml.map(
+          (key, value) => MapEntry(key.toString(), _convertYamlToMap(value)));
+    }
+    if (yaml is YamlList) {
+      return yaml.map((item) => _convertYamlToMap(item)).toList();
+    }
+    return yaml;
+  }
+
+  Future<String> _readFile(String path) async {
+    try {
+      final file = File(path);
+      if (!await file.exists()) {
+        throw Exception('File not found: $path');
+      }
+      return await file.readAsString();
+    } catch (e) {
+      print('OpenApiBuilder.build: ファイル読み込みエラー - $e');
+      rethrow;
+    }
+  }
+
   @override
   Future<void> build(BuildStep buildStep) async {
     print('========= OPENAPI BUILDER START ========');
@@ -62,45 +86,47 @@ class OpenApiBuilder extends Builder {
     final inputFolder = config['input_folder'] as String? ?? 'open_api_files';
     final outputFolder = config['output_folder'] as String? ?? 'lib/generated';
     final inputUrls = (config['input_urls'] as List?)?.map((url) {
-          if (url is YamlMap) {
-            return Map<String, dynamic>.from(url);
+          if (url is String) {
+            return {'url': url};
           }
-          return url as Map<String, dynamic>;
+          return _convertYamlToMap(url) as Map<String, dynamic>;
         }).toList() ??
         [];
 
     print(
         'OpenApiBuilder.build: 設定値 - inputFolder: $inputFolder, outputFolder: $outputFolder, inputUrls: $inputUrls');
 
-    // URLからOpenAPI仕様をダウンロード
+    // OpenAPI仕様ファイルを処理
     for (final urlConfig in inputUrls) {
       print('OpenApiBuilder.build: URL設定の処理開始 - $urlConfig');
       final url = urlConfig['url'] as String;
-      final fileName = url.split('/').last;
-      final outputPath = '$inputFolder/$fileName';
+      final filePath =
+          url.startsWith('http') ? '$inputFolder/${url.split('/').last}' : url;
 
-      print(
-          'OpenApiBuilder.build: ダウンロード開始 - url: $url, outputPath: $outputPath');
+      print('OpenApiBuilder.build: ファイル読み込み開始 - path: $filePath');
 
       try {
-        print('OpenApiBuilder.build: HttpClientの作成');
-        final client = HttpClient();
-        print('OpenApiBuilder.build: URLのパース - $url');
-        final uri = Uri.parse(url);
-        print('OpenApiBuilder.build: リクエストの送信');
-        final response = await client.getUrl(uri);
-        print('OpenApiBuilder.build: レスポンスの取得');
-        final responseData = await response.close();
-        print('OpenApiBuilder.build: レスポンスの読み込み');
-        final content = await responseData.transform(utf8.decoder).join();
-        print('OpenApiBuilder.build: ファイルの書き込み - $outputPath');
-        await File(outputPath).writeAsString(content);
-        print('OpenApiBuilder.build: ダウンロード完了 - $outputPath');
+        String content;
+        if (url.startsWith('http')) {
+          print('OpenApiBuilder.build: HTTPリクエストの送信');
+          final client = HttpClient();
+          final uri = Uri.parse(url);
+          final response = await client.getUrl(uri);
+          final responseData = await response.close();
+          content = await responseData.transform(utf8.decoder).join();
+          print('OpenApiBuilder.build: ファイルの書き込み - $filePath');
+          await File(filePath).writeAsString(content);
+        } else {
+          print('OpenApiBuilder.build: ローカルファイルの読み込み');
+          content = await _readFile(filePath);
+        }
 
         print('OpenApiBuilder.build: YAMLの解析開始');
         final yaml = loadYaml(content);
+        print('OpenApiBuilder.build: YAMLのMap変換');
+        final jsonMap = _convertYamlToMap(yaml) as Map<String, dynamic>;
         print('OpenApiBuilder.build: OpenApiSpecの作成');
-        final spec = OpenApiSpec.fromJson(yaml);
+        final spec = OpenApiSpec.fromJson(jsonMap);
         print('OpenApiBuilder.build: ApiGeneratorの作成');
         final generator = ApiGenerator(spec, outputFolder);
         print('OpenApiBuilder.build: ジェネレーターの実行');

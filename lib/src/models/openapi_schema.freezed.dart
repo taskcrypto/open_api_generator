@@ -27,12 +27,8 @@ mixin _$OpenApiSchema {
   OpenApiSchema? get items => throw _privateConstructorUsedError;
   List<String>? get required => throw _privateConstructorUsedError;
 
-  /// Serializes this OpenApiSchema to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $OpenApiSchemaCopyWith<OpenApiSchema> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,8 +59,6 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,8 +92,6 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
     ) as $Val);
   }
 
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OpenApiSchemaCopyWith<$Res>? get items {
@@ -140,8 +132,6 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
       _$OpenApiSchemaImpl _value, $Res Function(_$OpenApiSchemaImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -235,7 +225,7 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
             const DeepCollectionEquality().equals(other._required, _required));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -245,9 +235,7 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
       items,
       const DeepCollectionEquality().hash(_required));
 
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$OpenApiSchemaImplCopyWith<_$OpenApiSchemaImpl> get copyWith =>
@@ -282,11 +270,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
   OpenApiSchema? get items;
   @override
   List<String>? get required;
-
-  /// Create a copy of OpenApiSchema
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$OpenApiSchemaImplCopyWith<_$OpenApiSchemaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -5,10 +5,11 @@ import 'package:retrofit_generator/retrofit_generator.dart' as _i2;
 import 'package:freezed/builder.dart' as _i3;
 import 'package:json_serializable/builder.dart' as _i4;
 import 'package:source_gen/builder.dart' as _i5;
-import 'package:build_resolvers/builder.dart' as _i6;
-import 'dart:isolate' as _i7;
-import 'package:build_runner/build_runner.dart' as _i8;
-import 'dart:io' as _i9;
+import 'package:openapi_generator_flutter/builder.dart' as _i6;
+import 'package:build_resolvers/builder.dart' as _i7;
+import 'dart:isolate' as _i8;
+import 'package:build_runner/build_runner.dart' as _i9;
+import 'dart:io' as _i10;
 
 final _builders = <_i1.BuilderApplication>[
   _i1.apply(
@@ -39,8 +40,14 @@ final _builders = <_i1.BuilderApplication>[
     appliesBuilders: const [r'source_gen:part_cleanup'],
   ),
   _i1.apply(
+    r'openapi_generator_flutter:openapi_generator_flutter',
+    [_i6.openapiBuilder],
+    _i1.toDependentsOf(r'openapi_generator_flutter'),
+    hideOutput: false,
+  ),
+  _i1.apply(
     r'build_resolvers:transitive_digests',
-    [_i6.transitiveDigestsBuilder],
+    [_i7.transitiveDigestsBuilder],
     _i1.toAllPackages(),
     isOptional: true,
     hideOutput: true,
@@ -48,7 +55,7 @@ final _builders = <_i1.BuilderApplication>[
   ),
   _i1.applyPostProcess(
     r'build_resolvers:transitive_digest_cleanup',
-    _i6.transitiveDigestCleanup,
+    _i7.transitiveDigestCleanup,
   ),
   _i1.applyPostProcess(
     r'source_gen:part_cleanup',
@@ -57,12 +64,12 @@ final _builders = <_i1.BuilderApplication>[
 ];
 void main(
   List<String> args, [
-  _i7.SendPort? sendPort,
+  _i8.SendPort? sendPort,
 ]) async {
-  var result = await _i8.run(
+  var result = await _i9.run(
     args,
     _builders,
   );
   sendPort?.send(result);
-  _i9.exitCode = result;
+  _i10.exitCode = result;
 }

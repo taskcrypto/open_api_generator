@@ -198,12 +198,15 @@ class Schema {
   final String? type;
   final String? format;
   final String? description;
+  @JsonKey(name: 'enum')
   final List<String>? enum_;
   final Schema? items;
+  @JsonKey(name: '\$ref')
   final String? ref;
   final Map<String, Schema>? properties;
   final List<String>? required;
   final dynamic example;
+  @JsonKey(name: 'default')
   final dynamic default_;
   final bool? nullable;
 
@@ -223,25 +226,7 @@ class Schema {
     this.nullable,
   });
 
-  factory Schema.fromJson(Map<String, dynamic> json) {
-    return Schema(
-      type: json['type'] as String?,
-      format: json['format'] as String?,
-      description: json['description'] as String?,
-      enum_: (json['enum'] as List<dynamic>?)?.cast<String>(),
-      items: json['items'] == null
-          ? null
-          : Schema.fromJson(json['items'] as Map<String, dynamic>),
-      ref: json['\$ref'] as String?,
-      properties: (json['properties'] as Map<String, dynamic>?)?.map(
-        (k, v) => MapEntry(k, Schema.fromJson(v as Map<String, dynamic>)),
-      ),
-      required: (json['required'] as List<dynamic>?)?.cast<String>(),
-      example: json['example'],
-      default_: json['default'],
-      nullable: json['nullable'] as bool?,
-    );
-  }
+  factory Schema.fromJson(Map<String, dynamic> json) => _$SchemaFromJson(json);
 
   Map<String, dynamic> toJson() => _$SchemaToJson(this);
 }

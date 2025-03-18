@@ -3,6 +3,11 @@ targets:
     builders:
       openapi_generator_flutter:
         enabled: true
+        options:
+          run_generator: true
+          input_folder: "openapi"
+          output_folder: "lib/generated"
+          input_urls: ["openapi/openapi.yaml"]
 builders:
   openapi_generator_flutter:
     import: "package:openapi_generator_flutter/builder.dart"

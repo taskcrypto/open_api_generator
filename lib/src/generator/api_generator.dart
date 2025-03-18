@@ -62,10 +62,10 @@ class ApiGenerator {
   /// 2. Retrofitクライアントの生成
   /// 3. APIクライアント管理クラスの生成
   Future<void> generate() async {
-    // 既存のgeneratorディレクトリを削除
-    final generatorDir = Directory('$outputPath/generator');
-    if (await generatorDir.exists()) {
-      await generatorDir.delete(recursive: true);
+    // 出力ディレクトリを作成
+    final outputDir = Directory(outputPath);
+    if (!await outputDir.exists()) {
+      await outputDir.create(recursive: true);
     }
 
     // モデルを生成
