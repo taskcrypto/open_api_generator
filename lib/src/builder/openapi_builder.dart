@@ -52,8 +52,13 @@ class OpenApiBuilder extends Builder {
 
     final inputFolder = config['input_folder'] as String? ?? 'open_api_files';
     final outputFolder = config['output_folder'] as String? ?? 'lib/generated';
-    final inputUrls =
-        (config['input_urls'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+    final inputUrls = (config['input_urls'] as List?)?.map((url) {
+          if (url is YamlMap) {
+            return Map<String, dynamic>.from(url);
+          }
+          return url as Map<String, dynamic>;
+        }).toList() ??
+        [];
 
     print(
         'OpenApiBuilder.build: 設定値 - inputFolder: $inputFolder, outputFolder: $outputFolder, inputUrls: $inputUrls');
