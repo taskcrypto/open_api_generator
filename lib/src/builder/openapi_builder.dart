@@ -35,7 +35,7 @@ class OpenApiBuilder extends Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     print('OpenApiBuilder.build: 開始');
-    print('OpenApiBuilder.build: buildStep.inputId = ${buildStep.inputId}');
+    print('OpenApiBuilder.build: buildStep.inputId = ${buildStep}');
 
     final config = await _loadConfig(buildStep);
     print('OpenApiBuilder.build: 設定読み込み完了 - $config');
@@ -111,6 +111,19 @@ class OpenApiBuilder extends Builder {
       print('OpenApiBuilder._loadConfig: 開始');
       print(
           'OpenApiBuilder._loadConfig: buildStep.inputId = ${buildStep.inputId}');
+
+      final file = File(buildStep.inputId.path);
+      var contents = await file.readAsString();
+
+      Map<String, dynamic> contentMap;
+
+      if (buildStep.inputId.path.endsWith('.yaml')) {
+        final t = loadYaml(contents) as YamlMap;
+        //contentMap = t.toMap(); 
+        contentMap = t.nodes.map((key, value) => MapEntry(key.toString(), value.value));
+      } else {
+        contentMap = jsonDecode(contents) as Map<String, dynamic>;
+      }
 
       // クライアント側のbuild.yamlを読み込む
       final clientConfigAsset =
