@@ -27,6 +27,12 @@ import '../models/openapi_spec.dart';
 ///             - url: "https://example.com/openapi.yaml"
 /// ```
 class OpenApiBuilder extends Builder {
+  OpenApiBuilder(BuilderOptions builderOptions) {
+    options = builderOptions;
+  }
+ 
+  late BuilderOptions options;
+
   @override
   Map<String, List<String>> get buildExtensions => {
         r'$lib$': ['generated/api_manager.dart'],
@@ -41,6 +47,7 @@ class OpenApiBuilder extends Builder {
     print('buildStep.inputId.path = ${buildStep.inputId.path}');
     print('buildStep.inputId.package = ${buildStep.inputId.package}');
     print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
+    print('buildStep.options.toString() = ${options.toString()}');
     print('========= LOAD CONFIG START ========');
     final config = await _loadConfig(buildStep);
     print('========= LOAD CONFIG END ========');
@@ -114,9 +121,9 @@ class OpenApiBuilder extends Builder {
   /// 設定ファイルを読み込む
   Future<Map<String, dynamic>> _loadConfig(BuildStep buildStep) async {
     try {
-      print('OpenApiBuilder._loadConfig: 開始');
-      print(
-          'OpenApiBuilder._loadConfig: buildStep.inputId = ${buildStep.inputId}');
+      print('========= LOAD CONFIG START ========');
+      final inputId = buildStep.inputId;
+      print('_loadConfig: buildStep.inputId = $inputId');
 
       final file = File(buildStep.inputId.path);
       var contents = await file.readAsString();
@@ -131,12 +138,11 @@ class OpenApiBuilder extends Builder {
       } else {
         contentMap = jsonDecode(contents) as Map<String, dynamic>;
       }
-
+      print('._loadConfig: contentMap - $contentMap');
       // クライアント側のbuild.yamlを読み込む
       final clientConfigAsset =
           AssetId(buildStep.inputId.package, 'build.yaml');
-      print(
-          'OpenApiBuilder._loadConfig: クライアントの設定ファイル読み込み - $clientConfigAsset');
+      print('._loadConfig: クライアントの設定ファイル読み込み - $clientConfigAsset');
 
       try {
         final clientConfigContent =
@@ -197,6 +203,6 @@ class OpenApiBuilder extends Builder {
 
     return Map<String, dynamic>.from(options);
   }
-
- 
 }
+
+///Root library entry
