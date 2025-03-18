@@ -19,7 +19,7 @@ class _BoardClient implements BoardClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getBoardBySymbol({
+  Future<HttpResponse<BoardSuccess>> getBoardBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -29,7 +29,7 @@ class _BoardClient implements BoardClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<BoardSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _BoardClient implements BoardClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = BoardSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

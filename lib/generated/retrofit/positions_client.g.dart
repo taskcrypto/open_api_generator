@@ -19,7 +19,7 @@ class _PositionsClient implements PositionsClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<InvalidType>>> getPositions({
+  Future<HttpResponse<List<PositionsSuccess>>> getPositions({
     required String xapikey,
     required String product,
     required String symbol,
@@ -37,7 +37,7 @@ class _PositionsClient implements PositionsClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<InvalidType>>>(Options(
+        _setStreamType<HttpResponse<List<PositionsSuccess>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -54,7 +54,8 @@ class _PositionsClient implements PositionsClient {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => InvalidType.fromJson(i as Map<String, dynamic>))
+        .map(
+            (dynamic i) => PositionsSuccess.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

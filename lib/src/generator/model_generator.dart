@@ -29,6 +29,7 @@ class ModelGenerator {
     }
 
     // モデルファイルを生成
+    final generatedFiles = <String, String>{};
     for (final entry in schemas.entries) {
       final modelName = _getModelName(entry.key);
       final snakeCaseName = _toSnakeCase(modelName);
@@ -68,25 +69,31 @@ class ModelGenerator {
       buffer.writeln('}');
 
       await modelFile.writeAsString(buffer.toString());
+      generatedFiles[entry.key] = snakeCaseName;
     }
 
-    // index.dartを生成
+    // models_index.dartを生成
     final indexFile = File('$outputPath/models_index.dart');
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
 
-    // モデルのエクスポート
+    // モデルのエクスポート（スキーマの順序を維持）
     for (final entry in schemas.entries) {
+      print('Schema key: ${entry.key}');
       final modelName = _getModelName(entry.key);
+      print('Model name: $modelName');
       final snakeCaseName = _toSnakeCase(modelName);
-      indexBuffer.writeln("export 'models/$snakeCaseName.dart';");
+      print('Snake case name: $snakeCaseName');
+      final exportPath = snakeCaseName.toLowerCase();
+      indexBuffer.writeln("export 'models/$exportPath.dart';");
     }
 
     await indexFile.writeAsString(indexBuffer.toString());
   }
 
   String _getModelName(String schemaName) {
-    return schemaName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
+    // キャメルケースを維持
+    return schemaName;
   }
 
   String _getDartType(OpenApiSchema schema) {
@@ -123,13 +130,12 @@ class ModelGenerator {
   String _toSnakeCase(String input) {
     if (input.isEmpty) return input;
 
-    // 大文字の前で分割し、アンダースコアを追加
+    // 大文字の前にアンダースコアを追加し、すべて小文字に変換
     final result = input.replaceAllMapped(
       RegExp(r'[A-Z]'),
-      (match) => '_${match.group(0)!.toLowerCase()}',
+      (match) => (match.start == 0 ? '' : '_') + match.group(0)!.toLowerCase(),
     );
 
-    // 先頭のアンダースコアを削除
-    return result.startsWith('_') ? result.substring(1) : result;
+    return result.toLowerCase();
   }
 }

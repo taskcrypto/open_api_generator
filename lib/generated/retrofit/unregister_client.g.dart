@@ -19,9 +19,9 @@ class _UnregisterClient implements UnregisterClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> putUnregister({
+  Future<HttpResponse<RegistSuccess>> putUnregister({
     required String xapikey,
-    required InvalidType body,
+    required RequestUnregister body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _UnregisterClient implements UnregisterClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<RegistSuccess>>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -45,13 +45,13 @@ class _UnregisterClient implements UnregisterClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = RegistSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> putUnregisterAll(
+  Future<HttpResponse<UnregisterAllSuccess>> putUnregisterAll(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -59,7 +59,7 @@ class _UnregisterClient implements UnregisterClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<UnregisterAllSuccess>>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -75,7 +75,7 @@ class _UnregisterClient implements UnregisterClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = UnregisterAllSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

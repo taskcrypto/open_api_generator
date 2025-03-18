@@ -19,9 +19,9 @@ class _RegisterClient implements RegisterClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> putRegister({
+  Future<HttpResponse<RegistSuccess>> putRegister({
     required String xapikey,
-    required InvalidType body,
+    required RequestRegister body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _RegisterClient implements RegisterClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<RegistSuccess>>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _RegisterClient implements RegisterClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = RegistSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

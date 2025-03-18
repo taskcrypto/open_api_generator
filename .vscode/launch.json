@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Generate API Client",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/generate.dart",
+            "args": [
+                "--input",
+                "kabu_STATION_API.yaml",
+                "--output",
+                "lib/generated",
+                "--base-url",
+                "https://api.kabu.com.net/kabusapi"
+            ]
+        }
+    ]
+} 

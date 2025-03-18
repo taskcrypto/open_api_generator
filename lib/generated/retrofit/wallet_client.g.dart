@@ -19,7 +19,7 @@ class _WalletClient implements WalletClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletCash(
+  Future<HttpResponse<WalletCashSuccess>> getWalletCash(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -27,7 +27,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletCashSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -43,13 +43,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletCashSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletCashBySymbol({
+  Future<HttpResponse<WalletCashSuccess>> getWalletCashBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -59,7 +59,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletCashSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -75,13 +75,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletCashSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletMargin(
+  Future<HttpResponse<WalletMarginSuccess>> getWalletMargin(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -89,7 +89,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletMarginSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -105,13 +105,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletMarginSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletMarginBySymbol({
+  Future<HttpResponse<WalletMarginSuccess>> getWalletMarginBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -121,7 +121,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletMarginSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -137,13 +137,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletMarginSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletFuture(
+  Future<HttpResponse<WalletFutureSuccess>> getWalletFuture(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -151,7 +151,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletFutureSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -167,13 +167,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletFutureSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletFutureBySymbol({
+  Future<HttpResponse<WalletFutureSuccess>> getWalletFutureBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -183,7 +183,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletFutureSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -199,13 +199,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletFutureSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletOption(
+  Future<HttpResponse<WalletOptionSuccess>> getWalletOption(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -213,7 +213,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletOptionSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -229,13 +229,13 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletOptionSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getWalletOptionBySymbol({
+  Future<HttpResponse<WalletOptionSuccess>> getWalletOptionBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -245,7 +245,7 @@ class _WalletClient implements WalletClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<WalletOptionSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -261,7 +261,7 @@ class _WalletClient implements WalletClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = WalletOptionSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

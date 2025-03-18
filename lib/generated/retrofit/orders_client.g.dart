@@ -19,7 +19,7 @@ class _OrdersClient implements OrdersClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<List<InvalidType>>> getOrders({
+  Future<HttpResponse<List<OrdersSuccess>>> getOrders({
     required String xapikey,
     required String product,
     required String id,
@@ -45,7 +45,7 @@ class _OrdersClient implements OrdersClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<InvalidType>>>(Options(
+        _setStreamType<HttpResponse<List<OrdersSuccess>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -62,7 +62,7 @@ class _OrdersClient implements OrdersClient {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => InvalidType.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => OrdersSuccess.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

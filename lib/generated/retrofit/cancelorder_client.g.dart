@@ -19,9 +19,9 @@ class _CancelorderClient implements CancelorderClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> putCancelorder({
+  Future<HttpResponse<OrderSuccess>> putCancelorder({
     required String xapikey,
-    required InvalidType body,
+    required RequestCancelOrder body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _CancelorderClient implements CancelorderClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<OrderSuccess>>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _CancelorderClient implements CancelorderClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = OrderSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

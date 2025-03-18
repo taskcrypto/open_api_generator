@@ -19,7 +19,7 @@ class _PrimaryexchangeClient implements PrimaryexchangeClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getPrimaryexchangeBySymbol({
+  Future<HttpResponse<PrimaryExchangeResponse>> getPrimaryexchangeBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -29,7 +29,7 @@ class _PrimaryexchangeClient implements PrimaryexchangeClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<PrimaryExchangeResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _PrimaryexchangeClient implements PrimaryexchangeClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = PrimaryExchangeResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

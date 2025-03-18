@@ -19,9 +19,9 @@ class _SendorderClient implements SendorderClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> postSendorder({
+  Future<HttpResponse<OrderSuccess>> postSendorder({
     required String xapikey,
-    required InvalidType body,
+    required RequestSendOrder body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _SendorderClient implements SendorderClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<OrderSuccess>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -45,15 +45,15 @@ class _SendorderClient implements SendorderClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = OrderSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> postSendorderFuture({
+  Future<HttpResponse<OrderSuccess>> postSendorderFuture({
     required String xapikey,
-    required InvalidType body,
+    required RequestSendOrderDerivFuture body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -61,7 +61,7 @@ class _SendorderClient implements SendorderClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<OrderSuccess>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -77,15 +77,15 @@ class _SendorderClient implements SendorderClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = OrderSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> postSendorderOption({
+  Future<HttpResponse<OrderSuccess>> postSendorderOption({
     required String xapikey,
-    required InvalidType body,
+    required RequestSendOrderDerivOption body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -93,7 +93,7 @@ class _SendorderClient implements SendorderClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<OrderSuccess>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -109,7 +109,7 @@ class _SendorderClient implements SendorderClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = OrderSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

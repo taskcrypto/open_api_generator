@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:code_builder/code_builder.dart' as code_builder;
-
 import '../models/openapi_schema.dart';
 import '../models/openapi_spec.dart';
 import 'model_generator.dart';
@@ -52,7 +50,7 @@ class RetrofitGenerator {
       // インポートを追加
       buffer.writeln("import 'package:dio/dio.dart';");
       buffer.writeln("import 'package:retrofit/retrofit.dart';");
-      buffer.writeln("import '../models/index.dart';");
+      buffer.writeln("import '../models_index.dart';\n");
 
       // partディレクティブを追加
       buffer.writeln("part '${category.toLowerCase()}_client.g.dart';\n");
@@ -65,7 +63,7 @@ class RetrofitGenerator {
 
       // メソッドを追加
       for (final method in methods) {
-        buffer.writeln('  ${method.accept(code_builder.DartEmitter())}\n');
+        buffer.write(method);
       }
 
       buffer.writeln('}');
@@ -77,25 +75,15 @@ class RetrofitGenerator {
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
     for (final category in methodsByCategory.keys) {
-      indexBuffer.writeln("export '${category.toLowerCase()}_client.dart';");
+      indexBuffer.writeln("export 'retrofit/${category.toLowerCase()}_client.dart';");
     }
 
-    final indexFile = File('$outputPath/retrofit/index.dart');
+    final indexFile = File('$outputPath/retrofit_index.dart');
     await indexFile.writeAsString(indexBuffer.toString());
-
-    // モデルインデックスファイルを生成
-    final modelIndexFile = File('$outputPath/models_index.dart');
-    final modelIndexBuffer = StringBuffer();
-    modelIndexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-    for (final entry in _schemas.entries) {
-      modelIndexBuffer
-          .writeln('export \'models/${_toSnakeCase(entry.key)}.dart\';');
-    }
-    await modelIndexFile.writeAsString(modelIndexBuffer.toString());
   }
 
-  Map<String, List<code_builder.Method>> _generateMethods() {
-    final methodsByCategory = <String, List<code_builder.Method>>{};
+  Map<String, List<String>> _generateMethods() {
+    final methodsByCategory = <String, List<String>>{};
 
     spec.paths.forEach((path, pathItem) {
       final operations = {
@@ -122,26 +110,69 @@ class RetrofitGenerator {
 
   String _extractCategoryFromPath(String path) {
     final segments = path.split('/');
-    print('Path: $path, Segments: $segments'); // デバッグ用
     if (segments.length > 1) {
       final category = segments[1].split('_').map((s) {
         if (s.isEmpty) return '';
         return s[0].toUpperCase() + s.substring(1).toLowerCase();
       }).join('');
-      print('Category: $category'); // デバッグ用
       return category;
     }
     return 'Default';
   }
 
-  String _toCamelCase(String input) {
-    if (input.isEmpty) return input;
-    final words = input.split(RegExp(r'[_\- ]'));
-    final camelCase = words.map((word) {
-      if (word.isEmpty) return '';
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join('');
-    return camelCase[0].toLowerCase() + camelCase.substring(1);
+  String _generateMethod(Operation operation, String path, String httpMethod) {
+    final methodName = _getMethodName(operation, path, httpMethod);
+    final returnType = _getReturnType(operation);
+    final buffer = StringBuffer();
+
+    // アノテーション
+    buffer.writeln('  @$httpMethod(\'$path\')');
+    buffer.write('  Future<HttpResponse<$returnType>> $methodName({');
+
+    // パラメータの生成
+    final params = <String>[];
+
+    // ヘッダーパラメータ
+    final headerParams =
+        operation.parameters?.where((p) => p.in_ == 'header') ?? [];
+    for (final param in headerParams) {
+      final paramName = _toCamelCase(param.name.replaceAll('-', ''));
+      params.add('@Header(\'${param.name}\') required String $paramName');
+    }
+
+    // パスパラメータ
+    final pathParams =
+        operation.parameters?.where((p) => p.in_ == 'path') ?? [];
+    for (final param in pathParams) {
+      params.add('@Path(\'${param.name}\') required String ${param.name}');
+    }
+
+    // クエリパラメータ
+    final queryParams =
+        operation.parameters?.where((p) => p.in_ == 'query') ?? [];
+    for (final param in queryParams) {
+      params.add('@Query(\'${param.name}\') required String ${param.name}');
+    }
+
+    // リクエストボディ
+    if (operation.requestBody?.content != null) {
+      final schema = operation.requestBody!.content['application/json']?.schema;
+      if (schema != null) {
+        final schemaName =
+            schema.ref != null ? TypeUtils.getRefName(schema.ref!) : 'dynamic';
+        params.add('@Body() required $schemaName body');
+      }
+    }
+
+    // パラメータを追加（改行とインデントを適切に設定）
+    if (params.isNotEmpty) {
+      buffer.writeln();
+      buffer.writeln('    ${params.join(',\n    ')}');
+      buffer.write('  ');
+    }
+    buffer.writeln('});\n');
+
+    return buffer.toString();
   }
 
   String _getMethodName(Operation operation, String path, String httpMethod) {
@@ -184,175 +215,13 @@ class RetrofitGenerator {
     return 'void';
   }
 
-  code_builder.Method _generateMethod(
-      Operation operation, String path, String httpMethod) {
-    final methodName = _getMethodName(operation, path, httpMethod);
-    final returnType = _getReturnType(operation);
-    final parameters = <code_builder.Parameter>[];
-
-    // Add header parameters
-    final headerParams =
-        operation.parameters?.where((p) => p.in_ == 'header') ?? [];
-    for (final param in headerParams) {
-      final paramName = _toCamelCase(param.name.replaceAll('-', ''));
-      parameters.add(code_builder.Parameter((p) => p
-        ..name = paramName
-        ..type = code_builder.refer('String')
-        ..named = true
-        ..required = true
-        ..annotations.add(code_builder
-            .refer('Header', 'package:retrofit/retrofit.dart')
-            .call([code_builder.literalString(param.name)]))));
-    }
-
-    // Add path parameters
-    final pathParams =
-        operation.parameters?.where((p) => p.in_ == 'path') ?? [];
-    for (final param in pathParams) {
-      parameters.add(code_builder.Parameter((p) => p
-        ..name = param.name
-        ..type = code_builder.refer('String')
-        ..named = true
-        ..required = true
-        ..annotations.add(code_builder
-            .refer('Path', 'package:retrofit/retrofit.dart')
-            .call([code_builder.literalString(param.name)]))));
-    }
-
-    // Add query parameters
-    final queryParams =
-        operation.parameters?.where((p) => p.in_ == 'query') ?? [];
-    for (final param in queryParams) {
-      parameters.add(code_builder.Parameter((p) => p
-        ..name = param.name
-        ..type = code_builder.refer('String')
-        ..named = true
-        ..required = true
-        ..annotations.add(code_builder
-            .refer('Query', 'package:retrofit/retrofit.dart')
-            .call([code_builder.literalString(param.name)]))));
-    }
-
-    // Add request body
-    if (operation.requestBody?.content != null) {
-      final schema = operation.requestBody!.content['application/json']?.schema;
-      if (schema != null) {
-        final schemaName =
-            schema.ref != null ? TypeUtils.getRefName(schema.ref!) : 'dynamic';
-        parameters.add(code_builder.Parameter((p) => p
-          ..name = 'body'
-          ..type = code_builder.refer(schemaName)
-          ..named = true
-          ..required = true
-          ..annotations.add(code_builder
-              .refer('Body', 'package:retrofit/retrofit.dart')
-              .call([]))));
-      }
-    }
-
-    return code_builder.Method((m) => m
-      ..name = methodName
-      ..returns = code_builder.refer('Future<HttpResponse<$returnType>>')
-      ..annotations.add(code_builder
-          .refer(httpMethod, 'package:retrofit/retrofit.dart')
-          .call([code_builder.literalString(path)]))
-      ..optionalParameters.addAll(parameters)
-      ..lambda = false);
-  }
-
-  String _getModelName(String schemaName) {
-    return schemaName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
-  }
-
-  String _getDartType(OpenApiSchema schema) {
-    if (schema.type == 'string') {
-      return 'String';
-    } else if (schema.type == 'integer') {
-      return 'int';
-    } else if (schema.type == 'number') {
-      return 'double';
-    } else if (schema.type == 'boolean') {
-      return 'bool';
-    } else if (schema.type == 'array') {
-      final itemType = _getDartType(schema.items!);
-      return 'List<$itemType>';
-    } else if (schema.type == 'object') {
-      if (schema.title != null) {
-        return _getModelName(schema.title!);
-      }
-      return 'Map<String, dynamic>';
-    }
-    return 'dynamic';
-  }
-
-  void _generateModels(String outputDir) {
-    final modelsDir = Directory('$outputDir/models');
-    if (!modelsDir.existsSync()) {
-      modelsDir.createSync(recursive: true);
-    }
-
-    // モデルファイルを生成
-    for (final schema in _schemas.entries) {
-      final modelName = _getModelName(schema.key);
-      final modelFile =
-          File('${modelsDir.path}/${modelName.toLowerCase()}.dart');
-      final buffer = StringBuffer();
-
-      // ヘッダーコメント
-      buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-
-      // インポート
-      buffer.writeln(
-          "import 'package:freezed_annotation/freezed_annotation.dart';\n");
-
-      // partディレクティブ
-      buffer.writeln("part '${modelName.toLowerCase()}.freezed.dart';");
-      buffer.writeln("part '${modelName.toLowerCase()}.g.dart';\n");
-
-      // クラス定義
-      buffer.writeln('@freezed');
-      buffer.writeln('class $modelName with _\$$modelName {');
-      buffer.writeln('  const factory $modelName({');
-
-      // プロパティ
-      schema.value.properties?.forEach((propName, propSchema) {
-        final propType = _getDartType(propSchema);
-        buffer.writeln('    @JsonKey(name: \'$propName\')');
-        buffer.writeln('    required $propType $propName,');
-      });
-
-      buffer.writeln('  }) = _$modelName;\n');
-
-      // fromJsonファクトリ
-      buffer.writeln(
-          '  factory $modelName.fromJson(Map<String, dynamic> json) =>');
-      buffer.writeln('      _\$${modelName}FromJson(json);');
-      buffer.writeln('}');
-
-      modelFile.writeAsString(buffer.toString());
-    }
-
-    // index.dartを生成
-    final indexFile = File('$outputDir/models/index.dart');
-    final indexBuffer = StringBuffer();
-    indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-
-    // モデルのエクスポート
-    for (final schema in _schemas.entries) {
-      final modelName = _getModelName(schema.key);
-      indexBuffer.writeln("export '${modelName.toLowerCase()}.dart';");
-    }
-
-    indexFile.writeAsString(indexBuffer.toString());
-  }
-
-  String _toSnakeCase(String input) {
+  String _toCamelCase(String input) {
     if (input.isEmpty) return input;
     final words = input.split(RegExp(r'[_\- ]'));
-    final snakeCase = words.map((word) {
+    final camelCase = words.map((word) {
       if (word.isEmpty) return '';
-      return word.toLowerCase();
-    }).join('_');
-    return snakeCase;
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join('');
+    return camelCase[0].toLowerCase() + camelCase.substring(1);
   }
 }

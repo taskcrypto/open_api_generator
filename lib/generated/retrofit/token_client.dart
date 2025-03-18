@@ -2,13 +2,17 @@
 
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import '../models/index.dart';
+import '../models_index.dart';
+
 part 'token_client.g.dart';
 
 @RestApi()
 abstract class TokenClient {
   factory TokenClient(Dio dio, {String? baseUrl}) = _TokenClient;
 
-  @POST('/token') Future<HttpResponse<TokenSuccess>> postToken({@Body() required RequestToken body});
+  @POST('/token')
+  Future<HttpResponse<TokenSuccess>> postToken({
+    @Body() required RequestToken body
+  });
 
 }

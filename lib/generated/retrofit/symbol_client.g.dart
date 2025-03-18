@@ -19,7 +19,7 @@ class _SymbolClient implements SymbolClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getSymbolBySymbol({
+  Future<HttpResponse<SymbolSuccess>> getSymbolBySymbol({
     required String xapikey,
     required String symbol,
     required String addinfo,
@@ -30,7 +30,7 @@ class _SymbolClient implements SymbolClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<SymbolSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -46,7 +46,7 @@ class _SymbolClient implements SymbolClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = SymbolSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

@@ -19,7 +19,7 @@ class _ExchangeClient implements ExchangeClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getExchangeBySymbol({
+  Future<HttpResponse<ExchangeResponse>> getExchangeBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -29,7 +29,7 @@ class _ExchangeClient implements ExchangeClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<ExchangeResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _ExchangeClient implements ExchangeClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = ExchangeResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

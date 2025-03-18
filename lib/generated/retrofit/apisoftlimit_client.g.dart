@@ -19,7 +19,7 @@ class _ApisoftlimitClient implements ApisoftlimitClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getApisoftlimit(
+  Future<HttpResponse<ApiSoftLimitResponse>> getApisoftlimit(
       {required String xapikey}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -27,7 +27,7 @@ class _ApisoftlimitClient implements ApisoftlimitClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<ApiSoftLimitResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -43,7 +43,7 @@ class _ApisoftlimitClient implements ApisoftlimitClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = ApiSoftLimitResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

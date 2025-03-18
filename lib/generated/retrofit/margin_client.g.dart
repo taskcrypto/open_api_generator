@@ -19,7 +19,7 @@ class _MarginClient implements MarginClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getMarginMarginpremiumBySymbol({
+  Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -29,7 +29,7 @@ class _MarginClient implements MarginClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<MarginPremiumResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _MarginClient implements MarginClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = MarginPremiumResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

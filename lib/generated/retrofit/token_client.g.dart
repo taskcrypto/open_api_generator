@@ -19,14 +19,14 @@ class _TokenClient implements TokenClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> postToken(
-      {required InvalidType body}) async {
+  Future<HttpResponse<TokenSuccess>> postToken(
+      {required RequestToken body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<TokenSuccess>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -42,7 +42,7 @@ class _TokenClient implements TokenClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = TokenSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

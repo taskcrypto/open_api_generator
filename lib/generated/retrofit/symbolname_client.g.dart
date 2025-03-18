@@ -19,7 +19,7 @@ class _SymbolnameClient implements SymbolnameClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getSymbolnameFuture({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameFuture({
     required String xapikey,
     required String FutureCode,
     required String DerivMonth,
@@ -33,7 +33,7 @@ class _SymbolnameClient implements SymbolnameClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<SymbolNameSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -49,13 +49,13 @@ class _SymbolnameClient implements SymbolnameClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = SymbolNameSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getSymbolnameOption({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameOption({
     required String xapikey,
     required String OptionCode,
     required String DerivMonth,
@@ -73,7 +73,7 @@ class _SymbolnameClient implements SymbolnameClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<SymbolNameSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -89,13 +89,13 @@ class _SymbolnameClient implements SymbolnameClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = SymbolNameSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<InvalidType>> getSymbolnameMinioptionweekly({
+  Future<HttpResponse<SymbolNameSuccess>> getSymbolnameMinioptionweekly({
     required String xapikey,
     required String DerivMonth,
     required String DerivWeekly,
@@ -113,7 +113,7 @@ class _SymbolnameClient implements SymbolnameClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<SymbolNameSuccess>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -129,7 +129,7 @@ class _SymbolnameClient implements SymbolnameClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = SymbolNameSuccess.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

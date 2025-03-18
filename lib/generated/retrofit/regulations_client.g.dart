@@ -19,7 +19,7 @@ class _RegulationsClient implements RegulationsClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<InvalidType>> getRegulationsBySymbol({
+  Future<HttpResponse<RegulationsResponse>> getRegulationsBySymbol({
     required String xapikey,
     required String symbol,
   }) async {
@@ -29,7 +29,7 @@ class _RegulationsClient implements RegulationsClient {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<InvalidType>>(Options(
+        _setStreamType<HttpResponse<RegulationsResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,7 @@ class _RegulationsClient implements RegulationsClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InvalidType.fromJson(_result.data!);
+    final value = RegulationsResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
