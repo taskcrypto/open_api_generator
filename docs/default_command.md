@@ -1,4 +1,3 @@
-
 # build runner commands
 
 flutter pub run build_runner watch
