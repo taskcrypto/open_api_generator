@@ -1,11 +1,17 @@
 targets:
-  $default:
+  openapi_generator_flutter:openapi_generator_flutter:
     builders:
-      openapi_generator:
+      openapi_generator_flutter:
         enabled: true
         options:
           run_generator: true
-          input_folder: "open_api_files"
+          input_folder: "openapi"
           output_folder: "lib/generated"
-          input_urls:
-            - url: "https://kabucom.github.io/kabusapi/reference/kabu_STATION_API.yaml" 
+          input_urls: ["openapi/openapi.yaml"]
+builders:
+  openapi_generator_flutter:
+    import: "package:openapi_generator_flutter/builder.dart"
+    builder_factories: ["openapiBuilder"]
+    build_extensions: {".dart": [".g.dart"]}
+    auto_apply: dependents
+    build_to: source 

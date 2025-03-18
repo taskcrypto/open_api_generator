@@ -1,27 +1,63 @@
-# OpenAPI Generator Flutter サンプルプロジェクト
+# OpenAPI Generator Flutter Example
 
-このプロジェクトは、OpenAPI Generator Flutterの使用例を示すサンプルプロジェクトです。
+OpenAPI Generator Flutterのサンプルプロジェクトです。
 
 ## セットアップ
 
 1. 依存関係をインストールします：
 
 ```bash
-dart pub get
+flutter pub get
 ```
 
-2. コードを生成します：
+2. OpenAPI仕様ファイルを`openapi`ディレクトリに配置します。
+
+3. コードを生成します：
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ## 使用方法
 
-1. `lib/main.dart`を実行して、生成されたコードの使用例を確認します：
+1. 生成されたコードは`lib/generated`ディレクトリに出力されます。
 
-```bash
-dart run lib/main.dart
+2. 生成されたコードを使用してAPIクライアントを作成します：
+
+```dart
+import 'package:dio/dio.dart';
+import 'package:openapi_generator_example/generated/retrofit/auth/auth_client.dart';
+import 'package:openapi_generator_example/generated/models/auth/request_token.dart';
+
+void main() async {
+  final dio = Dio();
+  final client = AuthClient(dio, baseUrl: 'https://api.example.com');
+
+  try {
+    final response = await client.postToken(
+      body: RequestToken(aPIPassword: 'your-api-password'),
+    );
+    print(response.data);
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+```
+
+## 生成されるファイル構造
+
+```
+lib/generated/
+  ├── models/           # モデルクラス
+  │   ├── auth/        # 認証関連のモデル
+  │   ├── order/       # 注文関連のモデル
+  │   └── ...
+  ├── retrofit/        # Retrofitクライアント
+  │   ├── auth/        # 認証関連のクライアント
+  │   ├── order/       # 注文関連のクライアント
+  │   └── ...
+  ├── models_index.dart
+  └── retrofit_index.dart
 ```
 
 ## プロジェクト構造
