@@ -1,28 +1,30 @@
 name: openapi_generator_flutter
-description: A new Flutter project.
-publish_to: 'none'
-version: 1.0.0+1
+description: OpenAPI仕様からDartのAPIクライアントとモデルを生成するツール
+version: 1.1.1
+publish_to: none
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.2
+  build: ^2.4.1
+  build_config: ^1.1.1
+  build_resolvers: ^2.4.1
+  code_builder: ^4.8.0
+  collection: ^1.18.0
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
-  retrofit: ^4.0.3
-  dio: ^5.4.0
+  path: ^1.8.3
+  retrofit: ^4.1.0
+  yaml: ^3.1.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
   build_runner: ^2.4.7
   freezed: ^2.4.6
   json_serializable: ^6.7.1
-  retrofit_generator: ^7.0.8
+  lints: ^5.0.0
+  retrofit_generator: ^8.1.0
+  test: ^1.24.9
 
 flutter:
   uses-material-design: true

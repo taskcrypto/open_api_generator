@@ -1,0 +1,15 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+      - $package$
+      - open_api_files/**
+    builders:
+      open_api_generator:
+        options:
+          run_generator: true # ジェネレータを実行するかどうか
+          input_folder: "open_api_files" # 入力ファイルのパス
+          output_folder: "lib/swagger_generated" # 出力ファイルのパス
+          input_urls:
+            - url: "https://kabucom.github.io/kabusapi/reference/kabu_STATION_API.yaml" # 入力URL
+          

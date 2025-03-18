@@ -1,0 +1,22 @@
+name: openapi_generator_example
+description: OpenAPI Generator Flutterのサンプルプロジェクト
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  openapi_generator_flutter: ^1.1.1
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  retrofit: ^4.1.0
+  dio: ^5.4.0
+
+dev_dependencies:
+  build_runner: ^2.4.7
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1
+  lints: ^5.0.0
+  retrofit_generator: ^8.1.0
+  test: ^1.24.9 

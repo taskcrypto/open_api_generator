@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      openapi_generator:
+        enabled: true
+        options:
+          run_generator: true
+          input_folder: "open_api_files"
+          output_folder: "lib/generated"
+          input_urls:
+            - url: "https://kabucom.github.io/kabusapi/reference/kabu_STATION_API.yaml" 

@@ -63,6 +63,8 @@ class ModelGenerator {
         // ヘッダーコメント
         buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
 
+        buffer.writeln('// ignore_for_file: invalid_annotation_target');
+
         // インポート
         buffer.writeln(
             "import 'package:freezed_annotation/freezed_annotation.dart';\n");
