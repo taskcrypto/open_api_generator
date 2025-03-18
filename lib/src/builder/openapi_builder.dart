@@ -28,11 +28,9 @@ import '../models/openapi_spec.dart';
 ///             - url: "https://example.com/openapi.yaml"
 /// ```
 class OpenApiBuilder extends Builder {
-  OpenApiBuilder(BuilderOptions builderOptions) {
-    options = builderOptions;
-  }
- 
-  late BuilderOptions options;
+  OpenApiBuilder(BuilderOptions builderOptions) : options = builderOptions;
+
+  final BuilderOptions options;
 
   @override
   Map<String, List<String>> get buildExtensions => {
