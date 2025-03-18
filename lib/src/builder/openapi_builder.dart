@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:js_interop';
 
 import 'package:build/build.dart';
 import 'package:yaml/yaml.dart';
@@ -47,7 +48,10 @@ class OpenApiBuilder extends Builder {
     print('buildStep.inputId.path = ${buildStep.inputId.path}');
     print('buildStep.inputId.package = ${buildStep.inputId.package}');
     print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
-    print('buildStep.options.toString() = ${options.toString()}');
+    print('buildStep.options.config = ${options.config.toString()}');
+    print('buildStep.options.isRoot = ${options.isRoot}');
+    print('buildStep.options.toExternalReference = ${options.toExternalReference}');
+    print('buildStep.options.toJSBox = ${options.toJSBox}');
     print('========= LOAD CONFIG START ========');
     final config = await _loadConfig(buildStep);
     print('========= LOAD CONFIG END ========');
