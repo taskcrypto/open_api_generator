@@ -46,9 +46,7 @@ class OpenApiBuilder extends Builder {
     print('buildStep.inputId.package = ${buildStep.inputId.package}');
     print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
     print('buildStep.options.config = ${options.config.toString()}');
-    print('========= LOAD CONFIG START ========');
-    final config = await _loadConfig(buildStep);
-    print('========= LOAD CONFIG END ========');
+    final config = options.config;
     print('OpenApiBuilder.build: 設定読み込み完了 - $config');
     print('OpenApiBuilder.build: 設定の詳細:');
     print('  - run_generator: ${config['run_generator']}');
@@ -114,92 +112,6 @@ class OpenApiBuilder extends Builder {
         rethrow;
       }
     }
-  }
-
-  /// 設定ファイルを読み込む
-  Future<Map<String, dynamic>> _loadConfig(BuildStep buildStep) async {
-    try {
-      print('========= LOAD CONFIG START ========');
-      final inputId = buildStep.inputId;
-      print('_loadConfig: buildStep.inputId = $inputId');
-
-      final file = File(buildStep.inputId.path);
-      var contents = await file.readAsString();
-
-      Map<String, dynamic> contentMap;
-
-      if (buildStep.inputId.path.endsWith('.yaml')) {
-        final t = loadYaml(contents) as YamlMap;
-        //contentMap = t.toMap();
-        contentMap =
-            t.nodes.map((key, value) => MapEntry(key.toString(), value.value));
-      } else {
-        contentMap = jsonDecode(contents) as Map<String, dynamic>;
-      }
-      print('._loadConfig: contentMap - $contentMap');
-      // クライアント側のbuild.yamlを読み込む
-      final clientConfigAsset =
-          AssetId(buildStep.inputId.package, 'build.yaml');
-      print('._loadConfig: クライアントの設定ファイル読み込み - $clientConfigAsset');
-
-      try {
-        final clientConfigContent =
-            await buildStep.readAsString(clientConfigAsset);
-        print('OpenApiBuilder._loadConfig: クライアントの設定内容 - $clientConfigContent');
-        final clientConfig = loadYaml(clientConfigContent);
-        final clientOptions = _getOptionsFromConfig(clientConfig);
-        print('OpenApiBuilder._loadConfig: クライアントの設定 - $clientOptions');
-        return clientOptions;
-      } catch (e) {
-        print('OpenApiBuilder._loadConfig: クライアントの設定読み込みに失敗 - $e');
-      }
-
-      // ライブラリ側のbuild.yamlを読み込む
-      final libraryConfigAsset =
-          AssetId('openapi_generator_flutter', 'lib/build.yaml');
-      print(
-          'OpenApiBuilder._loadConfig: ライブラリの設定ファイル読み込み - $libraryConfigAsset');
-
-      try {
-        final libraryConfigContent =
-            await buildStep.readAsString(libraryConfigAsset);
-        print('OpenApiBuilder._loadConfig: ライブラリの設定内容 - $libraryConfigContent');
-        final libraryConfig = loadYaml(libraryConfigContent);
-        final libraryOptions = _getOptionsFromConfig(libraryConfig);
-        print('OpenApiBuilder._loadConfig: ライブラリの設定 - $libraryOptions');
-        return libraryOptions;
-      } catch (e) {
-        print('OpenApiBuilder._loadConfig: ライブラリの設定読み込みに失敗 - $e');
-      }
-
-      return {};
-    } catch (e, stackTrace) {
-      print('OpenApiBuilder._loadConfig: エラー発生 - $e');
-      print('OpenApiBuilder._loadConfig: スタックトレース - $stackTrace');
-      return {};
-    }
-  }
-
-  /// 設定からオプションを取得
-  Map<String, dynamic> _getOptionsFromConfig(dynamic config) {
-    if (config is! YamlMap) return {};
-
-    final targets = config['targets'];
-    if (targets is! YamlMap) return {};
-
-    final defaultTarget = targets['\$default'];
-    if (defaultTarget is! YamlMap) return {};
-
-    final builders = defaultTarget['builders'];
-    if (builders is! YamlMap) return {};
-
-    final builder = builders['openapi_generator_flutter'];
-    if (builder is! YamlMap) return {};
-
-    final options = builder['options'];
-    if (options is! YamlMap) return {};
-
-    return Map<String, dynamic>.from(options);
   }
 }
 
