@@ -12,7 +12,7 @@ abstract class OrdersClient {
 
   @GET('/orders')
   Future<HttpResponse<List<OrdersSuccess>>> getOrders({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Query('product') required String product,
     @Query('id') required String id,
     @Query('updtime') required String updtime,

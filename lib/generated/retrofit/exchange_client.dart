@@ -12,7 +12,7 @@ abstract class ExchangeClient {
 
   @GET('/exchange/{symbol}')
   Future<HttpResponse<ExchangeResponse>> getExchangeBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 

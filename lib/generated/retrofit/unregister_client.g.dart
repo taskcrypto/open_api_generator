@@ -20,12 +20,12 @@ class _UnregisterClient implements UnregisterClient {
 
   @override
   Future<HttpResponse<RegistSuccess>> putUnregister({
-    required String xapikey,
+    required String xaPIkEY,
     required RequestUnregister body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -52,10 +52,10 @@ class _UnregisterClient implements UnregisterClient {
 
   @override
   Future<HttpResponse<UnregisterAllSuccess>> putUnregisterAll(
-      {required String xapikey}) async {
+      {required String xaPIkEY}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

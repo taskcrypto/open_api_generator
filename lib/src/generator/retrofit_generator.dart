@@ -3,6 +3,7 @@ import 'dart:io';
 import '../models/openapi_schema.dart';
 import '../models/openapi_spec.dart';
 import 'model_generator.dart';
+import 'utils/name_utils.dart';
 import 'utils/type_utils.dart';
 
 class RetrofitGenerator {
@@ -75,7 +76,8 @@ class RetrofitGenerator {
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
     for (final category in methodsByCategory.keys) {
-      indexBuffer.writeln("export 'retrofit/${category.toLowerCase()}_client.dart';");
+      indexBuffer
+          .writeln("export 'retrofit/${category.toLowerCase()}_client.dart';");
     }
 
     final indexFile = File('$outputPath/retrofit_index.dart');
@@ -121,7 +123,14 @@ class RetrofitGenerator {
   }
 
   String _generateMethod(Operation operation, String path, String httpMethod) {
-    final methodName = _getMethodName(operation, path, httpMethod);
+    final methodName = NameUtils.generateMethodName(
+      path,
+      httpMethod,
+      options: const MethodNameOptions(
+        reverseSegments: false,
+        includePathParams: true,
+      ),
+    );
     final returnType = _getReturnType(operation);
     final buffer = StringBuffer();
 
@@ -136,7 +145,7 @@ class RetrofitGenerator {
     final headerParams =
         operation.parameters?.where((p) => p.in_ == 'header') ?? [];
     for (final param in headerParams) {
-      final paramName = _toCamelCase(param.name.replaceAll('-', ''));
+      final paramName = NameUtils.toCamelCase(param.name);
       params.add('@Header(\'${param.name}\') required String $paramName');
     }
 
@@ -175,31 +184,6 @@ class RetrofitGenerator {
     return buffer.toString();
   }
 
-  String _getMethodName(Operation operation, String path, String httpMethod) {
-    final pathSegments = path.split('/')..removeWhere((s) => s.isEmpty);
-
-    final pathParams = pathSegments
-        .where((s) => s.startsWith('{') && s.endsWith('}'))
-        .map((s) => s.substring(1, s.length - 1))
-        .toList();
-    final cleanSegments = pathSegments
-        .where((s) => !s.startsWith('{') && !s.endsWith('}'))
-        .toList();
-
-    // キャメルケースに変換
-    final segments = cleanSegments.map((segment) {
-      if (segment.isEmpty) return '';
-      return segment[0].toUpperCase() + segment.substring(1).toLowerCase();
-    }).join('');
-
-    // パスパラメータがある場合は、"By + パラメータ名"を追加
-    final suffix = pathParams.isNotEmpty
-        ? 'By${pathParams.map((p) => p[0].toUpperCase() + p.substring(1).toLowerCase()).join('And')}'
-        : '';
-
-    return '${httpMethod.toLowerCase()}$segments$suffix';
-  }
-
   String _getReturnType(Operation operation) {
     final successResponse =
         operation.responses['200'] ?? operation.responses['201'];
@@ -213,15 +197,5 @@ class RetrofitGenerator {
       }
     }
     return 'void';
-  }
-
-  String _toCamelCase(String input) {
-    if (input.isEmpty) return input;
-    final words = input.split(RegExp(r'[_\- ]'));
-    final camelCase = words.map((word) {
-      if (word.isEmpty) return '';
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join('');
-    return camelCase[0].toLowerCase() + camelCase.substring(1);
   }
 }

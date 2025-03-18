@@ -20,12 +20,12 @@ class _MarginClient implements MarginClient {
 
   @override
   Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({
-    required String xapikey,
+    required String xaPIkEY,
     required String symbol,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

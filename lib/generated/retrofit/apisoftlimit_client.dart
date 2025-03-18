@@ -12,7 +12,7 @@ abstract class ApisoftlimitClient {
 
   @GET('/apisoftlimit')
   Future<HttpResponse<ApiSoftLimitResponse>> getApisoftlimit({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
 }

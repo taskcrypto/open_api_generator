@@ -12,7 +12,7 @@ abstract class BoardClient {
 
   @GET('/board/{symbol}')
   Future<HttpResponse<BoardSuccess>> getBoardBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 

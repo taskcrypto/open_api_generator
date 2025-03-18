@@ -176,4 +176,162 @@ class NameUtils {
 
     return result;
   }
+
+  /// 文字列をキャメルケースに変換します。
+  ///
+  /// 変換ルール：
+  /// - 1文字目は小文字
+  /// - 2文字目以降は大文字を維持
+  /// - 区切り文字（_、-、空白）の後の文字は大文字
+  ///
+  /// 例：
+  /// - "user_name" -> "userName"
+  /// - "API_KEY" -> "apiKey"
+  /// - "first-name" -> "firstName"
+  /// - "user ID" -> "userId"
+  static String toCamelCase(String input) {
+    if (input.isEmpty) return input;
+
+    // 区切り文字で分割
+    final words = input.split(RegExp(r'[_\- ]'));
+
+    // 各単語を処理
+    final camelCase = words.map((word) {
+      if (word.isEmpty) return '';
+
+      // 1文字目は小文字、2文字目以降は大文字を維持
+      final firstChar = word[0].toLowerCase();
+      final rest = word.substring(1);
+      return firstChar + rest;
+    }).join('');
+
+    return camelCase;
+  }
+
+  /// 文字列をスネークケースに変換します
+  ///
+  /// [input] 変換する文字列
+  ///
+  /// 以下の変換を行います：
+  /// - ドットをアンダースコアに置換
+  /// - 無効な文字を除去
+  /// - キャメルケースをスネークケースに変換
+  /// - 全て小文字に変換
+  ///
+  /// 例：
+  /// ```dart
+  /// toSnakeCase('UserName') // returns 'user_name'
+  /// toSnakeCase('API.Response') // returns 'api_response'
+  /// toSnakeCase('OAuth2Token') // returns 'o_auth2_token'
+  /// ```
+  static String toSnakeCase(String input) {
+    if (input.isEmpty) return input;
+
+    // ドットをアンダースコアに置換
+    var result = input.replaceAll('.', '_');
+
+    // その他の無効な文字を除去
+    result = result.replaceAll(RegExp(r'[^a-zA-Z0-9_]'), '');
+
+    // キャメルケースをスネークケースに変換
+    result = result.replaceAllMapped(
+      RegExp(r'[A-Z]'),
+      (match) => (match.start == 0 ? '' : '_') + match.group(0)!.toLowerCase(),
+    );
+
+    // 小文字に変換
+    return result.toLowerCase();
+  }
+
+  /// HTTPパスとメソッドからDartのメソッド名を生成します。
+  ///
+  /// 例：
+  /// - パス: "/users/{id}/posts"
+  /// - メソッド: "GET"
+  /// - 結果: "getUserByIdPosts"
+  ///
+  /// [path] APIエンドポイントのパス
+  /// [httpMethod] HTTPメソッド（GET, POST, PUT, DELETE等）
+  /// [options] 生成オプション（デフォルト値を使用する場合はnull）
+  static String generateMethodName(
+    String path,
+    String httpMethod, {
+    MethodNameOptions? options,
+  }) {
+    final defaultOptions = MethodNameOptions();
+    options ??= defaultOptions;
+
+    final pathSegments = path.split('/')..removeWhere((s) => s.isEmpty);
+    if (pathSegments.isEmpty) {
+      return httpMethod.toLowerCase();
+    }
+
+    // パスパラメータとクリーンなセグメントを分離
+    final pathParams = pathSegments
+        .where((s) => s.startsWith('{') && s.endsWith('}'))
+        .map((s) => s.substring(1, s.length - 1))
+        .toList();
+
+    final cleanSegments = pathSegments
+        .where((s) => !s.startsWith('{') && !s.endsWith('}'))
+        .toList();
+
+    // クリーンなセグメントをキャメルケースに変換
+    String methodName = '';
+    if (options.reverseSegments) {
+      // 逆順に処理（MethodGeneratorスタイル）
+      for (var i = cleanSegments.length - 1; i >= 0; i--) {
+        final segment = toCamelCase(cleanSegments[i]);
+        if (methodName.isEmpty) {
+          methodName = segment;
+        } else {
+          methodName = segment + capitalize(methodName);
+        }
+      }
+    } else {
+      // 順方向に処理（RetrofitGeneratorスタイル）
+      methodName = cleanSegments
+          .map((segment) => capitalize(toCamelCase(segment)))
+          .join('');
+    }
+
+    // パスパラメータの処理
+    if (pathParams.isNotEmpty && options.includePathParams) {
+      final paramsSuffix = pathParams
+          .map((p) => capitalize(toCamelCase(p)))
+          .join(options.pathParamJoiner);
+      methodName += '${options.pathParamPrefix}$paramsSuffix';
+    }
+
+    // HTTPメソッドを追加
+    return '${httpMethod.toLowerCase()}$methodName';
+  }
+
+  /// 文字列の最初の文字を大文字にします
+  static String capitalize(String s) {
+    if (s.isEmpty) return s;
+    return s[0].toUpperCase() + s.substring(1);
+  }
+}
+
+/// メソッド名生成のオプション
+class MethodNameOptions {
+  /// パスセグメントを逆順に処理するかどうか
+  final bool reverseSegments;
+
+  /// パスパラメータを含めるかどうか
+  final bool includePathParams;
+
+  /// パスパラメータのプレフィックス（デフォルト: "By"）
+  final String pathParamPrefix;
+
+  /// パスパラメータの結合文字（デフォルト: "And"）
+  final String pathParamJoiner;
+
+  const MethodNameOptions({
+    this.reverseSegments = false,
+    this.includePathParams = true,
+    this.pathParamPrefix = 'By',
+    this.pathParamJoiner = 'And',
+  });
 }

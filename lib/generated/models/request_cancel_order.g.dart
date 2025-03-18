@@ -9,7 +9,7 @@ part of 'request_cancel_order.dart';
 _$RequestCancelOrderImpl _$$RequestCancelOrderImplFromJson(
         Map<String, dynamic> json) =>
     _$RequestCancelOrderImpl(
-      orderId: json['OrderId'] as String?,
+      orderId: json['OrderId'] as String,
     );
 
 Map<String, dynamic> _$$RequestCancelOrderImplToJson(

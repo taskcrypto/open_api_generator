@@ -20,7 +20,7 @@ class _OrdersClient implements OrdersClient {
 
   @override
   Future<HttpResponse<List<OrdersSuccess>>> getOrders({
-    required String xapikey,
+    required String xaPIkEY,
     required String product,
     required String id,
     required String updtime,
@@ -41,7 +41,7 @@ class _OrdersClient implements OrdersClient {
       r'side': side,
       r'cashmargin': cashmargin,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(

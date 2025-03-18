@@ -17,6 +17,9 @@ _$OpenApiSchemaImpl _$$OpenApiSchemaImplFromJson(Map<String, dynamic> json) =>
       items: json['items'] == null
           ? null
           : OpenApiSchema.fromJson(json['items'] as Map<String, dynamic>),
+      required: (json['required'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
@@ -25,4 +28,5 @@ Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
       'title': instance.title,
       'properties': instance.properties,
       'items': instance.items,
+      'required': instance.required,
     };

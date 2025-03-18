@@ -21,7 +21,7 @@ RequestToken _$RequestTokenFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RequestToken {
   @JsonKey(name: 'APIPassword')
-  String? get aPIPassword => throw _privateConstructorUsedError;
+  String get aPIPassword => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $RequestTokenCopyWith<$Res> {
           RequestToken value, $Res Function(RequestToken) then) =
       _$RequestTokenCopyWithImpl<$Res, RequestToken>;
   @useResult
-  $Res call({@JsonKey(name: 'APIPassword') String? aPIPassword});
+  $Res call({@JsonKey(name: 'APIPassword') String aPIPassword});
 }
 
 /// @nodoc
@@ -51,13 +51,13 @@ class _$RequestTokenCopyWithImpl<$Res, $Val extends RequestToken>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? aPIPassword = freezed,
+    Object? aPIPassword = null,
   }) {
     return _then(_value.copyWith(
-      aPIPassword: freezed == aPIPassword
+      aPIPassword: null == aPIPassword
           ? _value.aPIPassword
           : aPIPassword // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$RequestTokenImplCopyWith<$Res>
       __$$RequestTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'APIPassword') String? aPIPassword});
+  $Res call({@JsonKey(name: 'APIPassword') String aPIPassword});
 }
 
 /// @nodoc
@@ -84,13 +84,13 @@ class __$$RequestTokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? aPIPassword = freezed,
+    Object? aPIPassword = null,
   }) {
     return _then(_$RequestTokenImpl(
-      aPIPassword: freezed == aPIPassword
+      aPIPassword: null == aPIPassword
           ? _value.aPIPassword
           : aPIPassword // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -98,14 +98,15 @@ class __$$RequestTokenImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RequestTokenImpl implements _RequestToken {
-  const _$RequestTokenImpl({@JsonKey(name: 'APIPassword') this.aPIPassword});
+  const _$RequestTokenImpl(
+      {@JsonKey(name: 'APIPassword') required this.aPIPassword});
 
   factory _$RequestTokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestTokenImplFromJson(json);
 
   @override
   @JsonKey(name: 'APIPassword')
-  final String? aPIPassword;
+  final String aPIPassword;
 
   @override
   String toString() {
@@ -141,7 +142,7 @@ class _$RequestTokenImpl implements _RequestToken {
 
 abstract class _RequestToken implements RequestToken {
   const factory _RequestToken(
-          {@JsonKey(name: 'APIPassword') final String? aPIPassword}) =
+          {@JsonKey(name: 'APIPassword') required final String aPIPassword}) =
       _$RequestTokenImpl;
 
   factory _RequestToken.fromJson(Map<String, dynamic> json) =
@@ -149,7 +150,7 @@ abstract class _RequestToken implements RequestToken {
 
   @override
   @JsonKey(name: 'APIPassword')
-  String? get aPIPassword;
+  String get aPIPassword;
   @override
   @JsonKey(ignore: true)
   _$$RequestTokenImplCopyWith<_$RequestTokenImpl> get copyWith =>

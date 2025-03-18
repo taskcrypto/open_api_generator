@@ -12,7 +12,7 @@ abstract class RankingClient {
 
   @GET('/ranking')
   Future<HttpResponse<void>> getRanking({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Query('Type') required String Type,
     @Query('ExchangeDivision') required String ExchangeDivision
   });

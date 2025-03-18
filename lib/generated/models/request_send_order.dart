@@ -9,37 +9,37 @@ part 'request_send_order.g.dart';
 class RequestSendOrder with _$RequestSendOrder {
   const factory RequestSendOrder({
     @JsonKey(name: 'Symbol')
-    String? symbol,
+    required String symbol,
     @JsonKey(name: 'Exchange')
-    int? exchange,
+    required int exchange,
     @JsonKey(name: 'SecurityType')
-    int? securityType,
+    required int securityType,
     @JsonKey(name: 'Side')
-    String? side,
+    required String side,
     @JsonKey(name: 'CashMargin')
-    int? cashMargin,
+    required int cashMargin,
     @JsonKey(name: 'MarginTradeType')
     int? marginTradeType,
     @JsonKey(name: 'MarginPremiumUnit')
     double? marginPremiumUnit,
     @JsonKey(name: 'DelivType')
-    int? delivType,
+    required int delivType,
     @JsonKey(name: 'FundType')
     String? fundType,
     @JsonKey(name: 'AccountType')
-    int? accountType,
+    required int accountType,
     @JsonKey(name: 'Qty')
-    int? qty,
+    required int qty,
     @JsonKey(name: 'ClosePositionOrder')
     int? closePositionOrder,
     @JsonKey(name: 'ClosePositions')
-    List<dynamic>? closePositions,
+    List<String>? closePositions,
     @JsonKey(name: 'FrontOrderType')
-    int? frontOrderType,
+    required int frontOrderType,
     @JsonKey(name: 'Price')
-    double? price,
+    required double price,
     @JsonKey(name: 'ExpireDay')
-    int? expireDay,
+    required int expireDay,
     @JsonKey(name: 'ReverseLimitOrder')
     Map<String, dynamic>? reverseLimitOrder,
   }) = _RequestSendOrder;

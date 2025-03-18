@@ -9,7 +9,7 @@ part 'request_token.g.dart';
 class RequestToken with _$RequestToken {
   const factory RequestToken({
     @JsonKey(name: 'APIPassword')
-    String? aPIPassword,
+    required String aPIPassword,
   }) = _RequestToken;
 
   factory RequestToken.fromJson(Map<String, dynamic> json) =>

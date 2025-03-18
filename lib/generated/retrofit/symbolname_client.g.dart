@@ -20,7 +20,7 @@ class _SymbolnameClient implements SymbolnameClient {
 
   @override
   Future<HttpResponse<SymbolNameSuccess>> getSymbolnameFuture({
-    required String xapikey,
+    required String xaPIkEY,
     required String FutureCode,
     required String DerivMonth,
   }) async {
@@ -29,7 +29,7 @@ class _SymbolnameClient implements SymbolnameClient {
       r'FutureCode': FutureCode,
       r'DerivMonth': DerivMonth,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -56,7 +56,7 @@ class _SymbolnameClient implements SymbolnameClient {
 
   @override
   Future<HttpResponse<SymbolNameSuccess>> getSymbolnameOption({
-    required String xapikey,
+    required String xaPIkEY,
     required String OptionCode,
     required String DerivMonth,
     required String PutOrCall,
@@ -69,7 +69,7 @@ class _SymbolnameClient implements SymbolnameClient {
       r'PutOrCall': PutOrCall,
       r'StrikePrice': StrikePrice,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -96,7 +96,7 @@ class _SymbolnameClient implements SymbolnameClient {
 
   @override
   Future<HttpResponse<SymbolNameSuccess>> getSymbolnameMinioptionweekly({
-    required String xapikey,
+    required String xaPIkEY,
     required String DerivMonth,
     required String DerivWeekly,
     required String PutOrCall,
@@ -109,7 +109,7 @@ class _SymbolnameClient implements SymbolnameClient {
       r'PutOrCall': PutOrCall,
       r'StrikePrice': StrikePrice,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

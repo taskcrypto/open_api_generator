@@ -1,6 +1,7 @@
 import 'package:code_builder/code_builder.dart' as code_builder;
 
 import '../models/openapi_spec.dart';
+import 'utils/name_utils.dart';
 import 'utils/type_utils.dart';
 
 class MethodGenerator {
@@ -63,7 +64,7 @@ class MethodGenerator {
     // Add query parameters
     final queryParams = operation.parameters
             ?.where((p) => p.in_ == 'query')
-            .map((p) => _toCamelCase(p.name))
+            .map((p) => NameUtils.toCamelCase(p.name))
             .toList() ??
         [];
 
@@ -72,7 +73,7 @@ class MethodGenerator {
 final queryParams = <String, dynamic>{
   ${queryParams.map((p) {
         final param = operation.parameters!
-            .firstWhere((op) => _toCamelCase(op.name) == p);
+            .firstWhere((op) => NameUtils.toCamelCase(op.name) == p);
         return param.required ? '\'$p\': $p,' : 'if ($p != null) \'$p\': $p,';
       }).join('\n  ')}
 };
@@ -82,7 +83,7 @@ final queryParams = <String, dynamic>{
     // Add headers
     final headerParams = operation.parameters
             ?.where((p) => p.in_ == 'header')
-            .map((p) => _toCamelCase(p.name))
+            .map((p) => NameUtils.toCamelCase(p.name))
             .toList() ??
         [];
 
@@ -91,7 +92,7 @@ final queryParams = <String, dynamic>{
 final headers = <String, dynamic>{
   ${headerParams.map((p) {
         final param = operation.parameters!
-            .firstWhere((op) => _toCamelCase(op.name) == p);
+            .firstWhere((op) => NameUtils.toCamelCase(op.name) == p);
         return param.required
             ? '\'${_toHeaderCase(p)}\': $p,'
             : 'if ($p != null) \'${_toHeaderCase(p)}\': $p,';
@@ -128,49 +129,14 @@ final response = await _dio.$httpMethod('\${baseUrl}$path'$dioOptionsStr);
   }
 
   static String _generateMethodName(String method, String path) {
-    final segments = path.split('/')..removeWhere((s) => s.isEmpty);
-
-    if (segments.isEmpty) {
-      return method.toLowerCase();
-    }
-
-    // パスセグメントを処理（パラメータも含める）
-    final parts = segments.map((s) {
-      if (s.startsWith('{') && s.endsWith('}')) {
-        // パスパラメータの場合は{}を除去して最初の文字を大文字に
-        final paramName = s.substring(1, s.length - 1);
-        return _capitalize(paramName);
-      }
-      return _toCamelCase(s);
-    }).toList();
-
-    String methodName = '';
-
-    // 最後のセグメントから順に追加
-    for (var i = parts.length - 1; i >= 0; i--) {
-      if (methodName.isEmpty) {
-        methodName = parts[i];
-      } else {
-        methodName = parts[i] + _capitalize(methodName);
-      }
-    }
-
-    // HTTPメソッドを先頭に追加（小文字）
-    return method.toLowerCase() + _capitalize(methodName);
-  }
-
-  static String _capitalize(String s) {
-    if (s.isEmpty) return s;
-    return s[0].toUpperCase() + s.substring(1);
-  }
-
-  static String _toCamelCase(String input) {
-    final words = input.split(RegExp(r'[_-]|(?=[A-Z])'));
-    if (words.isEmpty) return '';
-
-    final first = words[0].toLowerCase();
-    final rest = words.sublist(1).map(_capitalize).join('');
-    return first + rest;
+    return NameUtils.generateMethodName(
+      path,
+      method,
+      options: const MethodNameOptions(
+        reverseSegments: true,
+        includePathParams: false,
+      ),
+    );
   }
 
   static List<code_builder.Parameter> _generateParameters(
@@ -190,7 +156,7 @@ final response = await _dio.$httpMethod('\${baseUrl}$path'$dioOptionsStr);
         dartType = '$dartType?';
       }
 
-      final camelCaseName = _toCamelCase(param.name);
+      final camelCaseName = NameUtils.toCamelCase(param.name);
 
       params.add(code_builder.Parameter((p) => p
         ..name = camelCaseName
@@ -200,37 +166,6 @@ final response = await _dio.$httpMethod('\${baseUrl}$path'$dioOptionsStr);
     }
 
     return params;
-  }
-
-  static code_builder.Code _generateQueryParameters(
-      List<Parameter> parameters) {
-    final queryParams = parameters.where((p) => p.in_ == 'query').map((p) {
-      final name = _toCamelCase(p.name);
-      final isArray = p.schema.type == 'array';
-      if (isArray) {
-        return "if ($name != null) '${p.name}': $name.join(','),";
-      }
-      return "if ($name != null) '${p.name}': $name.toString(),";
-    }).join('\n');
-
-    return code_builder.Code('''
-final queryParams = <String, dynamic>{
-  $queryParams
-};
-''');
-  }
-
-  static code_builder.Code _generateUrlBuilder(String path) {
-    final pathParams = RegExp(r'\{([^}]+)\}').allMatches(path);
-    var urlPath = path;
-    for (final match in pathParams) {
-      final paramName = match.group(1)!;
-      final camelCaseName = _toCamelCase(paramName);
-      urlPath = urlPath.replaceFirst('{$paramName}', '\$$camelCaseName');
-    }
-    return code_builder.Code('''
-final uri = Uri.parse('\${baseUrl}$urlPath').replace(queryParameters: queryParams);
-''');
   }
 
   static String _getResponseType(Map<String, Response> responses) {
@@ -245,41 +180,6 @@ final uri = Uri.parse('\${baseUrl}$urlPath').replace(queryParameters: queryParam
       }
     }
     return 'void';
-  }
-
-  static Map<int, String> _getErrorResponses(Map<String, Response> responses) {
-    final errorResponses = <int, String>{};
-    for (final entry in responses.entries) {
-      final statusCode = int.tryParse(entry.key);
-      if (statusCode != null && statusCode >= 400) {
-        final response = entry.value;
-        if (response.content?['application/json']?.schema.ref != null) {
-          final ref = response.content!['application/json']!.schema.ref!;
-          errorResponses[statusCode] = TypeUtils.getRefName(ref);
-        }
-      }
-    }
-    return errorResponses;
-  }
-
-  static String _generateErrorHandling(Map<int, String> errorResponses) {
-    final buffer = StringBuffer();
-
-    for (final entry in errorResponses.entries) {
-      buffer.writeln('''
-if (response.statusCode == ${entry.key}) {
-  final json = jsonDecode(response.body) as Map<String, dynamic>;
-  throw ${entry.value}.fromJson(json);
-}''');
-    }
-
-    buffer.writeln('''
-throw ApiException(
-  response.statusCode,
-  'Unexpected error occurred: \${response.body}',
-);''');
-
-    return buffer.toString();
   }
 
   static code_builder.Code _generateResponseHandling(String responseType) {
@@ -318,8 +218,6 @@ return $responseType.fromJson(data);
   static String _toHeaderCase(String input) {
     if (input == 'xAPIKEY') return 'X-API-KEY';
     final words = input.split(RegExp(r'(?=[A-Z])'));
-    return words
-        .map((word) => word[0].toUpperCase() + word.substring(1))
-        .join('-');
+    return words.map((word) => NameUtils.capitalize(word)).join('-');
   }
 }

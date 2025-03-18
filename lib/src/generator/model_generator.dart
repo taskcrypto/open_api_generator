@@ -2,6 +2,8 @@ import 'dart:io';
 
 import '../models/openapi_schema.dart';
 import '../models/openapi_spec.dart';
+import 'utils/name_utils.dart';
+import 'utils/type_utils.dart';
 
 class ModelGenerator {
   final OpenApiSpec spec;
@@ -20,6 +22,7 @@ class ModelGenerator {
                   items: value.items != null
                       ? OpenApiSchema.fromJson(value.items!.toJson())
                       : null,
+                  required: value.required,
                 ))) ??
             {});
 
@@ -31,8 +34,8 @@ class ModelGenerator {
     // モデルファイルを生成
     final generatedFiles = <String, String>{};
     for (final entry in schemas.entries) {
-      final modelName = _getModelName(entry.key);
-      final snakeCaseName = _toSnakeCase(modelName);
+      final modelName = entry.key;
+      final snakeCaseName = NameUtils.toSnakeCase(modelName);
       final modelFile = File('${modelsDir.path}/$snakeCaseName.dart');
       final buffer = StringBuffer();
 
@@ -54,10 +57,15 @@ class ModelGenerator {
 
       // プロパティ
       entry.value.properties?.forEach((propName, propSchema) {
-        final propType = _getDartType(propSchema);
-        final camelCasePropName = _toCamelCase(propName);
+        final isRequired = entry.value.required?.contains(propName) ?? false;
+        final propType = TypeUtils.getTypeFromSchema(
+          propSchema,
+          required: isRequired,
+        );
+        final camelCasePropName = NameUtils.toCamelCase(propName);
         buffer.writeln('    @JsonKey(name: \'$propName\')');
-        buffer.writeln('    $propType? $camelCasePropName,');
+        buffer.writeln(
+            '    ${isRequired ? 'required ' : ''}$propType $camelCasePropName,');
       });
 
       buffer.writeln('  }) = _$modelName;\n');
@@ -72,6 +80,7 @@ class ModelGenerator {
       generatedFiles[entry.key] = snakeCaseName;
     }
 
+    // ------------------------------------------------------------ 
     // models_index.dartを生成
     final indexFile = File('$outputPath/models_index.dart');
     final indexBuffer = StringBuffer();
@@ -79,63 +88,11 @@ class ModelGenerator {
 
     // モデルのエクスポート（スキーマの順序を維持）
     for (final entry in schemas.entries) {
-      print('Schema key: ${entry.key}');
-      final modelName = _getModelName(entry.key);
-      print('Model name: $modelName');
-      final snakeCaseName = _toSnakeCase(modelName);
-      print('Snake case name: $snakeCaseName');
+      final snakeCaseName = NameUtils.toSnakeCase(entry.key);
       final exportPath = snakeCaseName.toLowerCase();
       indexBuffer.writeln("export 'models/$exportPath.dart';");
     }
 
     await indexFile.writeAsString(indexBuffer.toString());
-  }
-
-  String _getModelName(String schemaName) {
-    // キャメルケースを維持
-    return schemaName;
-  }
-
-  String _getDartType(OpenApiSchema schema) {
-    if (schema.type == 'string') {
-      return 'String';
-    } else if (schema.type == 'integer') {
-      return 'int';
-    } else if (schema.type == 'number') {
-      return 'double';
-    } else if (schema.type == 'boolean') {
-      return 'bool';
-    } else if (schema.type == 'array') {
-      final itemType = _getDartType(schema.items!);
-      return 'List<$itemType>';
-    } else if (schema.type == 'object') {
-      if (schema.title != null) {
-        return _getModelName(schema.title!);
-      }
-      return 'Map<String, dynamic>';
-    }
-    return 'dynamic';
-  }
-
-  String _toCamelCase(String input) {
-    if (input.isEmpty) return input;
-
-    // 区切り文字を削除して単語を結合
-    final cleanInput = input.replaceAll(RegExp(r'[_\-\s]'), '');
-
-    // 最初の文字のみを小文字に変換
-    return cleanInput[0].toLowerCase() + cleanInput.substring(1);
-  }
-
-  String _toSnakeCase(String input) {
-    if (input.isEmpty) return input;
-
-    // 大文字の前にアンダースコアを追加し、すべて小文字に変換
-    final result = input.replaceAllMapped(
-      RegExp(r'[A-Z]'),
-      (match) => (match.start == 0 ? '' : '_') + match.group(0)!.toLowerCase(),
-    );
-
-    return result.toLowerCase();
   }
 }

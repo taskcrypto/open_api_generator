@@ -9,27 +9,27 @@ part 'request_send_order_deriv_option.g.dart';
 class RequestSendOrderDerivOption with _$RequestSendOrderDerivOption {
   const factory RequestSendOrderDerivOption({
     @JsonKey(name: 'Symbol')
-    String? symbol,
+    required String symbol,
     @JsonKey(name: 'Exchange')
-    int? exchange,
+    required int exchange,
     @JsonKey(name: 'TradeType')
-    int? tradeType,
+    required int tradeType,
     @JsonKey(name: 'TimeInForce')
-    int? timeInForce,
+    required int timeInForce,
     @JsonKey(name: 'Side')
-    String? side,
+    required String side,
     @JsonKey(name: 'Qty')
-    int? qty,
+    required int qty,
     @JsonKey(name: 'ClosePositionOrder')
     int? closePositionOrder,
     @JsonKey(name: 'ClosePositions')
-    List<dynamic>? closePositions,
+    List<String>? closePositions,
     @JsonKey(name: 'FrontOrderType')
-    int? frontOrderType,
+    required int frontOrderType,
     @JsonKey(name: 'Price')
-    double? price,
+    required double price,
     @JsonKey(name: 'ExpireDay')
-    int? expireDay,
+    required int expireDay,
     @JsonKey(name: 'ReverseLimitOrder')
     Map<String, dynamic>? reverseLimitOrder,
   }) = _RequestSendOrderDerivOption;

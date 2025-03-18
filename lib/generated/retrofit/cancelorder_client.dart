@@ -12,7 +12,7 @@ abstract class CancelorderClient {
 
   @PUT('/cancelorder')
   Future<HttpResponse<OrderSuccess>> putCancelorder({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestCancelOrder body
   });
 

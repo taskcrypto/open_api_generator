@@ -21,37 +21,37 @@ RequestSendOrder _$RequestSendOrderFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RequestSendOrder {
   @JsonKey(name: 'Symbol')
-  String? get symbol => throw _privateConstructorUsedError;
+  String get symbol => throw _privateConstructorUsedError;
   @JsonKey(name: 'Exchange')
-  int? get exchange => throw _privateConstructorUsedError;
+  int get exchange => throw _privateConstructorUsedError;
   @JsonKey(name: 'SecurityType')
-  int? get securityType => throw _privateConstructorUsedError;
+  int get securityType => throw _privateConstructorUsedError;
   @JsonKey(name: 'Side')
-  String? get side => throw _privateConstructorUsedError;
+  String get side => throw _privateConstructorUsedError;
   @JsonKey(name: 'CashMargin')
-  int? get cashMargin => throw _privateConstructorUsedError;
+  int get cashMargin => throw _privateConstructorUsedError;
   @JsonKey(name: 'MarginTradeType')
   int? get marginTradeType => throw _privateConstructorUsedError;
   @JsonKey(name: 'MarginPremiumUnit')
   double? get marginPremiumUnit => throw _privateConstructorUsedError;
   @JsonKey(name: 'DelivType')
-  int? get delivType => throw _privateConstructorUsedError;
+  int get delivType => throw _privateConstructorUsedError;
   @JsonKey(name: 'FundType')
   String? get fundType => throw _privateConstructorUsedError;
   @JsonKey(name: 'AccountType')
-  int? get accountType => throw _privateConstructorUsedError;
+  int get accountType => throw _privateConstructorUsedError;
   @JsonKey(name: 'Qty')
-  int? get qty => throw _privateConstructorUsedError;
+  int get qty => throw _privateConstructorUsedError;
   @JsonKey(name: 'ClosePositionOrder')
   int? get closePositionOrder => throw _privateConstructorUsedError;
   @JsonKey(name: 'ClosePositions')
-  List<dynamic>? get closePositions => throw _privateConstructorUsedError;
+  List<String>? get closePositions => throw _privateConstructorUsedError;
   @JsonKey(name: 'FrontOrderType')
-  int? get frontOrderType => throw _privateConstructorUsedError;
+  int get frontOrderType => throw _privateConstructorUsedError;
   @JsonKey(name: 'Price')
-  double? get price => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
   @JsonKey(name: 'ExpireDay')
-  int? get expireDay => throw _privateConstructorUsedError;
+  int get expireDay => throw _privateConstructorUsedError;
   @JsonKey(name: 'ReverseLimitOrder')
   Map<String, dynamic>? get reverseLimitOrder =>
       throw _privateConstructorUsedError;
@@ -69,22 +69,22 @@ abstract class $RequestSendOrderCopyWith<$Res> {
       _$RequestSendOrderCopyWithImpl<$Res, RequestSendOrder>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'Symbol') String? symbol,
-      @JsonKey(name: 'Exchange') int? exchange,
-      @JsonKey(name: 'SecurityType') int? securityType,
-      @JsonKey(name: 'Side') String? side,
-      @JsonKey(name: 'CashMargin') int? cashMargin,
+      {@JsonKey(name: 'Symbol') String symbol,
+      @JsonKey(name: 'Exchange') int exchange,
+      @JsonKey(name: 'SecurityType') int securityType,
+      @JsonKey(name: 'Side') String side,
+      @JsonKey(name: 'CashMargin') int cashMargin,
       @JsonKey(name: 'MarginTradeType') int? marginTradeType,
       @JsonKey(name: 'MarginPremiumUnit') double? marginPremiumUnit,
-      @JsonKey(name: 'DelivType') int? delivType,
+      @JsonKey(name: 'DelivType') int delivType,
       @JsonKey(name: 'FundType') String? fundType,
-      @JsonKey(name: 'AccountType') int? accountType,
-      @JsonKey(name: 'Qty') int? qty,
+      @JsonKey(name: 'AccountType') int accountType,
+      @JsonKey(name: 'Qty') int qty,
       @JsonKey(name: 'ClosePositionOrder') int? closePositionOrder,
-      @JsonKey(name: 'ClosePositions') List<dynamic>? closePositions,
-      @JsonKey(name: 'FrontOrderType') int? frontOrderType,
-      @JsonKey(name: 'Price') double? price,
-      @JsonKey(name: 'ExpireDay') int? expireDay,
+      @JsonKey(name: 'ClosePositions') List<String>? closePositions,
+      @JsonKey(name: 'FrontOrderType') int frontOrderType,
+      @JsonKey(name: 'Price') double price,
+      @JsonKey(name: 'ExpireDay') int expireDay,
       @JsonKey(name: 'ReverseLimitOrder')
       Map<String, dynamic>? reverseLimitOrder});
 }
@@ -102,45 +102,45 @@ class _$RequestSendOrderCopyWithImpl<$Res, $Val extends RequestSendOrder>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? symbol = freezed,
-    Object? exchange = freezed,
-    Object? securityType = freezed,
-    Object? side = freezed,
-    Object? cashMargin = freezed,
+    Object? symbol = null,
+    Object? exchange = null,
+    Object? securityType = null,
+    Object? side = null,
+    Object? cashMargin = null,
     Object? marginTradeType = freezed,
     Object? marginPremiumUnit = freezed,
-    Object? delivType = freezed,
+    Object? delivType = null,
     Object? fundType = freezed,
-    Object? accountType = freezed,
-    Object? qty = freezed,
+    Object? accountType = null,
+    Object? qty = null,
     Object? closePositionOrder = freezed,
     Object? closePositions = freezed,
-    Object? frontOrderType = freezed,
-    Object? price = freezed,
-    Object? expireDay = freezed,
+    Object? frontOrderType = null,
+    Object? price = null,
+    Object? expireDay = null,
     Object? reverseLimitOrder = freezed,
   }) {
     return _then(_value.copyWith(
-      symbol: freezed == symbol
+      symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-      exchange: freezed == exchange
+              as String,
+      exchange: null == exchange
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
-              as int?,
-      securityType: freezed == securityType
+              as int,
+      securityType: null == securityType
           ? _value.securityType
           : securityType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      side: freezed == side
+              as int,
+      side: null == side
           ? _value.side
           : side // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cashMargin: freezed == cashMargin
+              as String,
+      cashMargin: null == cashMargin
           ? _value.cashMargin
           : cashMargin // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       marginTradeType: freezed == marginTradeType
           ? _value.marginTradeType
           : marginTradeType // ignore: cast_nullable_to_non_nullable
@@ -149,22 +149,22 @@ class _$RequestSendOrderCopyWithImpl<$Res, $Val extends RequestSendOrder>
           ? _value.marginPremiumUnit
           : marginPremiumUnit // ignore: cast_nullable_to_non_nullable
               as double?,
-      delivType: freezed == delivType
+      delivType: null == delivType
           ? _value.delivType
           : delivType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       fundType: freezed == fundType
           ? _value.fundType
           : fundType // ignore: cast_nullable_to_non_nullable
               as String?,
-      accountType: freezed == accountType
+      accountType: null == accountType
           ? _value.accountType
           : accountType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      qty: freezed == qty
+              as int,
+      qty: null == qty
           ? _value.qty
           : qty // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       closePositionOrder: freezed == closePositionOrder
           ? _value.closePositionOrder
           : closePositionOrder // ignore: cast_nullable_to_non_nullable
@@ -172,19 +172,19 @@ class _$RequestSendOrderCopyWithImpl<$Res, $Val extends RequestSendOrder>
       closePositions: freezed == closePositions
           ? _value.closePositions
           : closePositions // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
-      frontOrderType: freezed == frontOrderType
+              as List<String>?,
+      frontOrderType: null == frontOrderType
           ? _value.frontOrderType
           : frontOrderType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      price: freezed == price
+              as int,
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
-      expireDay: freezed == expireDay
+              as double,
+      expireDay: null == expireDay
           ? _value.expireDay
           : expireDay // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       reverseLimitOrder: freezed == reverseLimitOrder
           ? _value.reverseLimitOrder
           : reverseLimitOrder // ignore: cast_nullable_to_non_nullable
@@ -202,22 +202,22 @@ abstract class _$$RequestSendOrderImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'Symbol') String? symbol,
-      @JsonKey(name: 'Exchange') int? exchange,
-      @JsonKey(name: 'SecurityType') int? securityType,
-      @JsonKey(name: 'Side') String? side,
-      @JsonKey(name: 'CashMargin') int? cashMargin,
+      {@JsonKey(name: 'Symbol') String symbol,
+      @JsonKey(name: 'Exchange') int exchange,
+      @JsonKey(name: 'SecurityType') int securityType,
+      @JsonKey(name: 'Side') String side,
+      @JsonKey(name: 'CashMargin') int cashMargin,
       @JsonKey(name: 'MarginTradeType') int? marginTradeType,
       @JsonKey(name: 'MarginPremiumUnit') double? marginPremiumUnit,
-      @JsonKey(name: 'DelivType') int? delivType,
+      @JsonKey(name: 'DelivType') int delivType,
       @JsonKey(name: 'FundType') String? fundType,
-      @JsonKey(name: 'AccountType') int? accountType,
-      @JsonKey(name: 'Qty') int? qty,
+      @JsonKey(name: 'AccountType') int accountType,
+      @JsonKey(name: 'Qty') int qty,
       @JsonKey(name: 'ClosePositionOrder') int? closePositionOrder,
-      @JsonKey(name: 'ClosePositions') List<dynamic>? closePositions,
-      @JsonKey(name: 'FrontOrderType') int? frontOrderType,
-      @JsonKey(name: 'Price') double? price,
-      @JsonKey(name: 'ExpireDay') int? expireDay,
+      @JsonKey(name: 'ClosePositions') List<String>? closePositions,
+      @JsonKey(name: 'FrontOrderType') int frontOrderType,
+      @JsonKey(name: 'Price') double price,
+      @JsonKey(name: 'ExpireDay') int expireDay,
       @JsonKey(name: 'ReverseLimitOrder')
       Map<String, dynamic>? reverseLimitOrder});
 }
@@ -233,45 +233,45 @@ class __$$RequestSendOrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? symbol = freezed,
-    Object? exchange = freezed,
-    Object? securityType = freezed,
-    Object? side = freezed,
-    Object? cashMargin = freezed,
+    Object? symbol = null,
+    Object? exchange = null,
+    Object? securityType = null,
+    Object? side = null,
+    Object? cashMargin = null,
     Object? marginTradeType = freezed,
     Object? marginPremiumUnit = freezed,
-    Object? delivType = freezed,
+    Object? delivType = null,
     Object? fundType = freezed,
-    Object? accountType = freezed,
-    Object? qty = freezed,
+    Object? accountType = null,
+    Object? qty = null,
     Object? closePositionOrder = freezed,
     Object? closePositions = freezed,
-    Object? frontOrderType = freezed,
-    Object? price = freezed,
-    Object? expireDay = freezed,
+    Object? frontOrderType = null,
+    Object? price = null,
+    Object? expireDay = null,
     Object? reverseLimitOrder = freezed,
   }) {
     return _then(_$RequestSendOrderImpl(
-      symbol: freezed == symbol
+      symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-      exchange: freezed == exchange
+              as String,
+      exchange: null == exchange
           ? _value.exchange
           : exchange // ignore: cast_nullable_to_non_nullable
-              as int?,
-      securityType: freezed == securityType
+              as int,
+      securityType: null == securityType
           ? _value.securityType
           : securityType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      side: freezed == side
+              as int,
+      side: null == side
           ? _value.side
           : side // ignore: cast_nullable_to_non_nullable
-              as String?,
-      cashMargin: freezed == cashMargin
+              as String,
+      cashMargin: null == cashMargin
           ? _value.cashMargin
           : cashMargin // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       marginTradeType: freezed == marginTradeType
           ? _value.marginTradeType
           : marginTradeType // ignore: cast_nullable_to_non_nullable
@@ -280,22 +280,22 @@ class __$$RequestSendOrderImplCopyWithImpl<$Res>
           ? _value.marginPremiumUnit
           : marginPremiumUnit // ignore: cast_nullable_to_non_nullable
               as double?,
-      delivType: freezed == delivType
+      delivType: null == delivType
           ? _value.delivType
           : delivType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       fundType: freezed == fundType
           ? _value.fundType
           : fundType // ignore: cast_nullable_to_non_nullable
               as String?,
-      accountType: freezed == accountType
+      accountType: null == accountType
           ? _value.accountType
           : accountType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      qty: freezed == qty
+              as int,
+      qty: null == qty
           ? _value.qty
           : qty // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       closePositionOrder: freezed == closePositionOrder
           ? _value.closePositionOrder
           : closePositionOrder // ignore: cast_nullable_to_non_nullable
@@ -303,19 +303,19 @@ class __$$RequestSendOrderImplCopyWithImpl<$Res>
       closePositions: freezed == closePositions
           ? _value._closePositions
           : closePositions // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
-      frontOrderType: freezed == frontOrderType
+              as List<String>?,
+      frontOrderType: null == frontOrderType
           ? _value.frontOrderType
           : frontOrderType // ignore: cast_nullable_to_non_nullable
-              as int?,
-      price: freezed == price
+              as int,
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
-      expireDay: freezed == expireDay
+              as double,
+      expireDay: null == expireDay
           ? _value.expireDay
           : expireDay // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       reverseLimitOrder: freezed == reverseLimitOrder
           ? _value._reverseLimitOrder
           : reverseLimitOrder // ignore: cast_nullable_to_non_nullable
@@ -328,22 +328,22 @@ class __$$RequestSendOrderImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RequestSendOrderImpl implements _RequestSendOrder {
   const _$RequestSendOrderImpl(
-      {@JsonKey(name: 'Symbol') this.symbol,
-      @JsonKey(name: 'Exchange') this.exchange,
-      @JsonKey(name: 'SecurityType') this.securityType,
-      @JsonKey(name: 'Side') this.side,
-      @JsonKey(name: 'CashMargin') this.cashMargin,
+      {@JsonKey(name: 'Symbol') required this.symbol,
+      @JsonKey(name: 'Exchange') required this.exchange,
+      @JsonKey(name: 'SecurityType') required this.securityType,
+      @JsonKey(name: 'Side') required this.side,
+      @JsonKey(name: 'CashMargin') required this.cashMargin,
       @JsonKey(name: 'MarginTradeType') this.marginTradeType,
       @JsonKey(name: 'MarginPremiumUnit') this.marginPremiumUnit,
-      @JsonKey(name: 'DelivType') this.delivType,
+      @JsonKey(name: 'DelivType') required this.delivType,
       @JsonKey(name: 'FundType') this.fundType,
-      @JsonKey(name: 'AccountType') this.accountType,
-      @JsonKey(name: 'Qty') this.qty,
+      @JsonKey(name: 'AccountType') required this.accountType,
+      @JsonKey(name: 'Qty') required this.qty,
       @JsonKey(name: 'ClosePositionOrder') this.closePositionOrder,
-      @JsonKey(name: 'ClosePositions') final List<dynamic>? closePositions,
-      @JsonKey(name: 'FrontOrderType') this.frontOrderType,
-      @JsonKey(name: 'Price') this.price,
-      @JsonKey(name: 'ExpireDay') this.expireDay,
+      @JsonKey(name: 'ClosePositions') final List<String>? closePositions,
+      @JsonKey(name: 'FrontOrderType') required this.frontOrderType,
+      @JsonKey(name: 'Price') required this.price,
+      @JsonKey(name: 'ExpireDay') required this.expireDay,
       @JsonKey(name: 'ReverseLimitOrder')
       final Map<String, dynamic>? reverseLimitOrder})
       : _closePositions = closePositions,
@@ -354,19 +354,19 @@ class _$RequestSendOrderImpl implements _RequestSendOrder {
 
   @override
   @JsonKey(name: 'Symbol')
-  final String? symbol;
+  final String symbol;
   @override
   @JsonKey(name: 'Exchange')
-  final int? exchange;
+  final int exchange;
   @override
   @JsonKey(name: 'SecurityType')
-  final int? securityType;
+  final int securityType;
   @override
   @JsonKey(name: 'Side')
-  final String? side;
+  final String side;
   @override
   @JsonKey(name: 'CashMargin')
-  final int? cashMargin;
+  final int cashMargin;
   @override
   @JsonKey(name: 'MarginTradeType')
   final int? marginTradeType;
@@ -375,23 +375,23 @@ class _$RequestSendOrderImpl implements _RequestSendOrder {
   final double? marginPremiumUnit;
   @override
   @JsonKey(name: 'DelivType')
-  final int? delivType;
+  final int delivType;
   @override
   @JsonKey(name: 'FundType')
   final String? fundType;
   @override
   @JsonKey(name: 'AccountType')
-  final int? accountType;
+  final int accountType;
   @override
   @JsonKey(name: 'Qty')
-  final int? qty;
+  final int qty;
   @override
   @JsonKey(name: 'ClosePositionOrder')
   final int? closePositionOrder;
-  final List<dynamic>? _closePositions;
+  final List<String>? _closePositions;
   @override
   @JsonKey(name: 'ClosePositions')
-  List<dynamic>? get closePositions {
+  List<String>? get closePositions {
     final value = _closePositions;
     if (value == null) return null;
     if (_closePositions is EqualUnmodifiableListView) return _closePositions;
@@ -401,13 +401,13 @@ class _$RequestSendOrderImpl implements _RequestSendOrder {
 
   @override
   @JsonKey(name: 'FrontOrderType')
-  final int? frontOrderType;
+  final int frontOrderType;
   @override
   @JsonKey(name: 'Price')
-  final double? price;
+  final double price;
   @override
   @JsonKey(name: 'ExpireDay')
-  final int? expireDay;
+  final int expireDay;
   final Map<String, dynamic>? _reverseLimitOrder;
   @override
   @JsonKey(name: 'ReverseLimitOrder')
@@ -501,22 +501,22 @@ class _$RequestSendOrderImpl implements _RequestSendOrder {
 
 abstract class _RequestSendOrder implements RequestSendOrder {
   const factory _RequestSendOrder(
-      {@JsonKey(name: 'Symbol') final String? symbol,
-      @JsonKey(name: 'Exchange') final int? exchange,
-      @JsonKey(name: 'SecurityType') final int? securityType,
-      @JsonKey(name: 'Side') final String? side,
-      @JsonKey(name: 'CashMargin') final int? cashMargin,
+      {@JsonKey(name: 'Symbol') required final String symbol,
+      @JsonKey(name: 'Exchange') required final int exchange,
+      @JsonKey(name: 'SecurityType') required final int securityType,
+      @JsonKey(name: 'Side') required final String side,
+      @JsonKey(name: 'CashMargin') required final int cashMargin,
       @JsonKey(name: 'MarginTradeType') final int? marginTradeType,
       @JsonKey(name: 'MarginPremiumUnit') final double? marginPremiumUnit,
-      @JsonKey(name: 'DelivType') final int? delivType,
+      @JsonKey(name: 'DelivType') required final int delivType,
       @JsonKey(name: 'FundType') final String? fundType,
-      @JsonKey(name: 'AccountType') final int? accountType,
-      @JsonKey(name: 'Qty') final int? qty,
+      @JsonKey(name: 'AccountType') required final int accountType,
+      @JsonKey(name: 'Qty') required final int qty,
       @JsonKey(name: 'ClosePositionOrder') final int? closePositionOrder,
-      @JsonKey(name: 'ClosePositions') final List<dynamic>? closePositions,
-      @JsonKey(name: 'FrontOrderType') final int? frontOrderType,
-      @JsonKey(name: 'Price') final double? price,
-      @JsonKey(name: 'ExpireDay') final int? expireDay,
+      @JsonKey(name: 'ClosePositions') final List<String>? closePositions,
+      @JsonKey(name: 'FrontOrderType') required final int frontOrderType,
+      @JsonKey(name: 'Price') required final double price,
+      @JsonKey(name: 'ExpireDay') required final int expireDay,
       @JsonKey(name: 'ReverseLimitOrder')
       final Map<String, dynamic>? reverseLimitOrder}) = _$RequestSendOrderImpl;
 
@@ -525,19 +525,19 @@ abstract class _RequestSendOrder implements RequestSendOrder {
 
   @override
   @JsonKey(name: 'Symbol')
-  String? get symbol;
+  String get symbol;
   @override
   @JsonKey(name: 'Exchange')
-  int? get exchange;
+  int get exchange;
   @override
   @JsonKey(name: 'SecurityType')
-  int? get securityType;
+  int get securityType;
   @override
   @JsonKey(name: 'Side')
-  String? get side;
+  String get side;
   @override
   @JsonKey(name: 'CashMargin')
-  int? get cashMargin;
+  int get cashMargin;
   @override
   @JsonKey(name: 'MarginTradeType')
   int? get marginTradeType;
@@ -546,31 +546,31 @@ abstract class _RequestSendOrder implements RequestSendOrder {
   double? get marginPremiumUnit;
   @override
   @JsonKey(name: 'DelivType')
-  int? get delivType;
+  int get delivType;
   @override
   @JsonKey(name: 'FundType')
   String? get fundType;
   @override
   @JsonKey(name: 'AccountType')
-  int? get accountType;
+  int get accountType;
   @override
   @JsonKey(name: 'Qty')
-  int? get qty;
+  int get qty;
   @override
   @JsonKey(name: 'ClosePositionOrder')
   int? get closePositionOrder;
   @override
   @JsonKey(name: 'ClosePositions')
-  List<dynamic>? get closePositions;
+  List<String>? get closePositions;
   @override
   @JsonKey(name: 'FrontOrderType')
-  int? get frontOrderType;
+  int get frontOrderType;
   @override
   @JsonKey(name: 'Price')
-  double? get price;
+  double get price;
   @override
   @JsonKey(name: 'ExpireDay')
-  int? get expireDay;
+  int get expireDay;
   @override
   @JsonKey(name: 'ReverseLimitOrder')
   Map<String, dynamic>? get reverseLimitOrder;

@@ -12,7 +12,7 @@ abstract class SymbolClient {
 
   @GET('/symbol/{symbol}')
   Future<HttpResponse<SymbolSuccess>> getSymbolBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol,
     @Query('addinfo') required String addinfo
   });

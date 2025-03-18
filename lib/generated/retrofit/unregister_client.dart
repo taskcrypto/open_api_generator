@@ -12,13 +12,13 @@ abstract class UnregisterClient {
 
   @PUT('/unregister')
   Future<HttpResponse<RegistSuccess>> putUnregister({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestUnregister body
   });
 
   @PUT('/unregister/all')
   Future<HttpResponse<UnregisterAllSuccess>> putUnregisterAll({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
 }

@@ -10,6 +10,7 @@ class OpenApiSchema with _$OpenApiSchema {
     String? title,
     Map<String, OpenApiSchema>? properties,
     OpenApiSchema? items,
+    List<String>? required,
   }) = _OpenApiSchema;
 
   factory OpenApiSchema.fromJson(Map<String, dynamic> json) =>

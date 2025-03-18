@@ -12,7 +12,7 @@ abstract class RegulationsClient {
 
   @GET('/regulations/{symbol}')
   Future<HttpResponse<RegulationsResponse>> getRegulationsBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 

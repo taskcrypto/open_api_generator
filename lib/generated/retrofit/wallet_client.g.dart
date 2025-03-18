@@ -20,10 +20,10 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletCashSuccess>> getWalletCash(
-      {required String xapikey}) async {
+      {required String xaPIkEY}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -50,12 +50,12 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletCashSuccess>> getWalletCashBySymbol({
-    required String xapikey,
+    required String xaPIkEY,
     required String symbol,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -82,10 +82,10 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletMarginSuccess>> getWalletMargin(
-      {required String xapikey}) async {
+      {required String xaPIkEY}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -112,12 +112,12 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletMarginSuccess>> getWalletMarginBySymbol({
-    required String xapikey,
+    required String xaPIkEY,
     required String symbol,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -144,10 +144,10 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletFutureSuccess>> getWalletFuture(
-      {required String xapikey}) async {
+      {required String xaPIkEY}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -174,12 +174,12 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletFutureSuccess>> getWalletFutureBySymbol({
-    required String xapikey,
+    required String xaPIkEY,
     required String symbol,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -206,10 +206,10 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletOptionSuccess>> getWalletOption(
-      {required String xapikey}) async {
+      {required String xaPIkEY}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -236,12 +236,12 @@ class _WalletClient implements WalletClient {
 
   @override
   Future<HttpResponse<WalletOptionSuccess>> getWalletOptionBySymbol({
-    required String xapikey,
+    required String xaPIkEY,
     required String symbol,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

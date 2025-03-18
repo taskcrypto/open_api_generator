@@ -12,7 +12,7 @@ abstract class RegisterClient {
 
   @PUT('/register')
   Future<HttpResponse<RegistSuccess>> putRegister({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestRegister body
   });
 

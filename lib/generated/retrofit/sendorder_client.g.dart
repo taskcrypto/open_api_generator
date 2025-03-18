@@ -20,12 +20,12 @@ class _SendorderClient implements SendorderClient {
 
   @override
   Future<HttpResponse<OrderSuccess>> postSendorder({
-    required String xapikey,
+    required String xaPIkEY,
     required RequestSendOrder body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -52,12 +52,12 @@ class _SendorderClient implements SendorderClient {
 
   @override
   Future<HttpResponse<OrderSuccess>> postSendorderFuture({
-    required String xapikey,
+    required String xaPIkEY,
     required RequestSendOrderDerivFuture body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -84,12 +84,12 @@ class _SendorderClient implements SendorderClient {
 
   @override
   Future<HttpResponse<OrderSuccess>> postSendorderOption({
-    required String xapikey,
+    required String xaPIkEY,
     required RequestSendOrderDerivOption body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(

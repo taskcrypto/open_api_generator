@@ -21,7 +21,7 @@ RequestCancelOrder _$RequestCancelOrderFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RequestCancelOrder {
   @JsonKey(name: 'OrderId')
-  String? get orderId => throw _privateConstructorUsedError;
+  String get orderId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $RequestCancelOrderCopyWith<$Res> {
           RequestCancelOrder value, $Res Function(RequestCancelOrder) then) =
       _$RequestCancelOrderCopyWithImpl<$Res, RequestCancelOrder>;
   @useResult
-  $Res call({@JsonKey(name: 'OrderId') String? orderId});
+  $Res call({@JsonKey(name: 'OrderId') String orderId});
 }
 
 /// @nodoc
@@ -51,13 +51,13 @@ class _$RequestCancelOrderCopyWithImpl<$Res, $Val extends RequestCancelOrder>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
+    Object? orderId = null,
   }) {
     return _then(_value.copyWith(
-      orderId: freezed == orderId
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$RequestCancelOrderImplCopyWith<$Res>
       __$$RequestCancelOrderImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'OrderId') String? orderId});
+  $Res call({@JsonKey(name: 'OrderId') String orderId});
 }
 
 /// @nodoc
@@ -84,13 +84,13 @@ class __$$RequestCancelOrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = freezed,
+    Object? orderId = null,
   }) {
     return _then(_$RequestCancelOrderImpl(
-      orderId: freezed == orderId
+      orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -98,14 +98,15 @@ class __$$RequestCancelOrderImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RequestCancelOrderImpl implements _RequestCancelOrder {
-  const _$RequestCancelOrderImpl({@JsonKey(name: 'OrderId') this.orderId});
+  const _$RequestCancelOrderImpl(
+      {@JsonKey(name: 'OrderId') required this.orderId});
 
   factory _$RequestCancelOrderImpl.fromJson(Map<String, dynamic> json) =>
       _$$RequestCancelOrderImplFromJson(json);
 
   @override
   @JsonKey(name: 'OrderId')
-  final String? orderId;
+  final String orderId;
 
   @override
   String toString() {
@@ -141,7 +142,7 @@ class _$RequestCancelOrderImpl implements _RequestCancelOrder {
 
 abstract class _RequestCancelOrder implements RequestCancelOrder {
   const factory _RequestCancelOrder(
-          {@JsonKey(name: 'OrderId') final String? orderId}) =
+          {@JsonKey(name: 'OrderId') required final String orderId}) =
       _$RequestCancelOrderImpl;
 
   factory _RequestCancelOrder.fromJson(Map<String, dynamic> json) =
@@ -149,7 +150,7 @@ abstract class _RequestCancelOrder implements RequestCancelOrder {
 
   @override
   @JsonKey(name: 'OrderId')
-  String? get orderId;
+  String get orderId;
   @override
   @JsonKey(ignore: true)
   _$$RequestCancelOrderImplCopyWith<_$RequestCancelOrderImpl> get copyWith =>

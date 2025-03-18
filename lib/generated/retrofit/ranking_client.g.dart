@@ -20,7 +20,7 @@ class _RankingClient implements RankingClient {
 
   @override
   Future<HttpResponse<void>> getRanking({
-    required String xapikey,
+    required String xaPIkEY,
     required String Type,
     required String ExchangeDivision,
   }) async {
@@ -29,7 +29,7 @@ class _RankingClient implements RankingClient {
       r'Type': Type,
       r'ExchangeDivision': ExchangeDivision,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result =

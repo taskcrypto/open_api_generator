@@ -20,12 +20,12 @@ class _RegisterClient implements RegisterClient {
 
   @override
   Future<HttpResponse<RegistSuccess>> putRegister({
-    required String xapikey,
+    required String xaPIkEY,
     required RequestRegister body,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final _data = body;
     final _result = await _dio.fetch<Map<String, dynamic>>(

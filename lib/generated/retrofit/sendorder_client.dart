@@ -12,19 +12,19 @@ abstract class SendorderClient {
 
   @POST('/sendorder')
   Future<HttpResponse<OrderSuccess>> postSendorder({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestSendOrder body
   });
 
   @POST('/sendorder/future')
   Future<HttpResponse<OrderSuccess>> postSendorderFuture({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestSendOrderDerivFuture body
   });
 
   @POST('/sendorder/option')
   Future<HttpResponse<OrderSuccess>> postSendorderOption({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Body() required RequestSendOrderDerivOption body
   });
 

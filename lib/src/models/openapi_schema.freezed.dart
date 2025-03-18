@@ -25,6 +25,7 @@ mixin _$OpenApiSchema {
   Map<String, OpenApiSchema>? get properties =>
       throw _privateConstructorUsedError;
   OpenApiSchema? get items => throw _privateConstructorUsedError;
+  List<String>? get required => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $OpenApiSchemaCopyWith<$Res> {
       {String? type,
       String? title,
       Map<String, OpenApiSchema>? properties,
-      OpenApiSchema? items});
+      OpenApiSchema? items,
+      List<String>? required});
 
   $OpenApiSchemaCopyWith<$Res>? get items;
 }
@@ -64,6 +66,7 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
     Object? title = freezed,
     Object? properties = freezed,
     Object? items = freezed,
+    Object? required = freezed,
   }) {
     return _then(_value.copyWith(
       type: freezed == type
@@ -82,6 +85,10 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as OpenApiSchema?,
+      required: freezed == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
@@ -110,7 +117,8 @@ abstract class _$$OpenApiSchemaImplCopyWith<$Res>
       {String? type,
       String? title,
       Map<String, OpenApiSchema>? properties,
-      OpenApiSchema? items});
+      OpenApiSchema? items,
+      List<String>? required});
 
   @override
   $OpenApiSchemaCopyWith<$Res>? get items;
@@ -131,6 +139,7 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? properties = freezed,
     Object? items = freezed,
+    Object? required = freezed,
   }) {
     return _then(_$OpenApiSchemaImpl(
       type: freezed == type
@@ -149,6 +158,10 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as OpenApiSchema?,
+      required: freezed == required
+          ? _value._required
+          : required // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -160,8 +173,10 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
       {this.type,
       this.title,
       final Map<String, OpenApiSchema>? properties,
-      this.items})
-      : _properties = properties;
+      this.items,
+      final List<String>? required})
+      : _properties = properties,
+        _required = required;
 
   factory _$OpenApiSchemaImpl.fromJson(Map<String, dynamic> json) =>
       _$$OpenApiSchemaImplFromJson(json);
@@ -182,10 +197,19 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
 
   @override
   final OpenApiSchema? items;
+  final List<String>? _required;
+  @override
+  List<String>? get required {
+    final value = _required;
+    if (value == null) return null;
+    if (_required is EqualUnmodifiableListView) return _required;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'OpenApiSchema(type: $type, title: $title, properties: $properties, items: $items)';
+    return 'OpenApiSchema(type: $type, title: $title, properties: $properties, items: $items, required: $required)';
   }
 
   @override
@@ -197,13 +221,19 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
-            (identical(other.items, items) || other.items == items));
+            (identical(other.items, items) || other.items == items) &&
+            const DeepCollectionEquality().equals(other._required, _required));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, title,
-      const DeepCollectionEquality().hash(_properties), items);
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      title,
+      const DeepCollectionEquality().hash(_properties),
+      items,
+      const DeepCollectionEquality().hash(_required));
 
   @JsonKey(ignore: true)
   @override
@@ -224,7 +254,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
       {final String? type,
       final String? title,
       final Map<String, OpenApiSchema>? properties,
-      final OpenApiSchema? items}) = _$OpenApiSchemaImpl;
+      final OpenApiSchema? items,
+      final List<String>? required}) = _$OpenApiSchemaImpl;
 
   factory _OpenApiSchema.fromJson(Map<String, dynamic> json) =
       _$OpenApiSchemaImpl.fromJson;
@@ -237,6 +268,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
   Map<String, OpenApiSchema>? get properties;
   @override
   OpenApiSchema? get items;
+  @override
+  List<String>? get required;
   @override
   @JsonKey(ignore: true)
   _$$OpenApiSchemaImplCopyWith<_$OpenApiSchemaImpl> get copyWith =>

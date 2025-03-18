@@ -8,7 +8,7 @@ part of 'request_token.dart';
 
 _$RequestTokenImpl _$$RequestTokenImplFromJson(Map<String, dynamic> json) =>
     _$RequestTokenImpl(
-      aPIPassword: json['APIPassword'] as String?,
+      aPIPassword: json['APIPassword'] as String,
     );
 
 Map<String, dynamic> _$$RequestTokenImplToJson(_$RequestTokenImpl instance) =>

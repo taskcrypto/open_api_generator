@@ -12,45 +12,45 @@ abstract class WalletClient {
 
   @GET('/wallet/cash')
   Future<HttpResponse<WalletCashSuccess>> getWalletCash({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
   @GET('/wallet/cash/{symbol}')
   Future<HttpResponse<WalletCashSuccess>> getWalletCashBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 
   @GET('/wallet/margin')
   Future<HttpResponse<WalletMarginSuccess>> getWalletMargin({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
   @GET('/wallet/margin/{symbol}')
   Future<HttpResponse<WalletMarginSuccess>> getWalletMarginBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 
   @GET('/wallet/future')
   Future<HttpResponse<WalletFutureSuccess>> getWalletFuture({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
   @GET('/wallet/future/{symbol}')
   Future<HttpResponse<WalletFutureSuccess>> getWalletFutureBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 
   @GET('/wallet/option')
   Future<HttpResponse<WalletOptionSuccess>> getWalletOption({
-    @Header('X-API-KEY') required String xapikey
+    @Header('X-API-KEY') required String xaPIkEY
   });
 
   @GET('/wallet/option/{symbol}')
   Future<HttpResponse<WalletOptionSuccess>> getWalletOptionBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 

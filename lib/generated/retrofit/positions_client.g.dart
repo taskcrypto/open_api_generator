@@ -20,7 +20,7 @@ class _PositionsClient implements PositionsClient {
 
   @override
   Future<HttpResponse<List<PositionsSuccess>>> getPositions({
-    required String xapikey,
+    required String xaPIkEY,
     required String product,
     required String symbol,
     required String side,
@@ -33,7 +33,7 @@ class _PositionsClient implements PositionsClient {
       r'side': side,
       r'addinfo': addinfo,
     };
-    final _headers = <String, dynamic>{r'X-API-KEY': xapikey};
+    final _headers = <String, dynamic>{r'X-API-KEY': xaPIkEY};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(

@@ -9,7 +9,7 @@ part 'request_cancel_order.g.dart';
 class RequestCancelOrder with _$RequestCancelOrder {
   const factory RequestCancelOrder({
     @JsonKey(name: 'OrderId')
-    String? orderId,
+    required String orderId,
   }) = _RequestCancelOrder;
 
   factory RequestCancelOrder.fromJson(Map<String, dynamic> json) =>

@@ -12,7 +12,7 @@ abstract class MarginClient {
 
   @GET('/margin/marginpremium/{symbol}')
   Future<HttpResponse<MarginPremiumResponse>> getMarginMarginpremiumBySymbol({
-    @Header('X-API-KEY') required String xapikey,
+    @Header('X-API-KEY') required String xaPIkEY,
     @Path('symbol') required String symbol
   });
 
