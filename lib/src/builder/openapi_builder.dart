@@ -34,8 +34,19 @@ class OpenApiBuilder extends Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
+    print('OpenApiBuilder.build: 開始');
+    print('OpenApiBuilder.build: buildStep.inputId = ${buildStep.inputId}');
+
     final config = await _loadConfig(buildStep);
+    print('OpenApiBuilder.build: 設定読み込み完了 - $config');
+    print('OpenApiBuilder.build: 設定の詳細:');
+    print('  - run_generator: ${config['run_generator']}');
+    print('  - input_folder: ${config['input_folder']}');
+    print('  - output_folder: ${config['output_folder']}');
+    print('  - input_urls: ${config['input_urls']}');
+
     if (config['run_generator'] != true) {
+      print('OpenApiBuilder.build: run_generatorがfalseのため終了');
       return;
     }
 
@@ -44,38 +55,77 @@ class OpenApiBuilder extends Builder {
     final inputUrls =
         (config['input_urls'] as List?)?.cast<Map<String, dynamic>>() ?? [];
 
+    print(
+        'OpenApiBuilder.build: 設定値 - inputFolder: $inputFolder, outputFolder: $outputFolder, inputUrls: $inputUrls');
+
     // URLからOpenAPI仕様をダウンロード
     for (final urlConfig in inputUrls) {
+      print('OpenApiBuilder.build: URL設定の処理開始 - $urlConfig');
       final url = urlConfig['url'] as String;
       final fileName = url.split('/').last;
       final outputPath = '$inputFolder/$fileName';
 
-      // URLからファイルをダウンロード
-      final response = await HttpClient().getUrl(Uri.parse(url));
-      final responseData = await response.close();
-      final content = await responseData.transform(utf8.decoder).join();
-      await File(outputPath).writeAsString(content);
+      print(
+          'OpenApiBuilder.build: ダウンロード開始 - url: $url, outputPath: $outputPath');
 
-      // ジェネレーターを実行
-      final generator = ApiGenerator(
-        OpenApiSpec.fromJson(loadYaml(content)),
-        outputFolder,
-      );
-      await generator.generate();
+      try {
+        print('OpenApiBuilder.build: HttpClientの作成');
+        final client = HttpClient();
+        print('OpenApiBuilder.build: URLのパース - $url');
+        final uri = Uri.parse(url);
+        print('OpenApiBuilder.build: リクエストの送信');
+        final response = await client.getUrl(uri);
+        print('OpenApiBuilder.build: レスポンスの取得');
+        final responseData = await response.close();
+        print('OpenApiBuilder.build: レスポンスの読み込み');
+        final content = await responseData.transform(utf8.decoder).join();
+        print('OpenApiBuilder.build: ファイルの書き込み - $outputPath');
+        await File(outputPath).writeAsString(content);
+        print('OpenApiBuilder.build: ダウンロード完了 - $outputPath');
+
+        print('OpenApiBuilder.build: YAMLの解析開始');
+        final yaml = loadYaml(content);
+        print('OpenApiBuilder.build: OpenApiSpecの作成');
+        final spec = OpenApiSpec.fromJson(yaml);
+        print('OpenApiBuilder.build: ApiGeneratorの作成');
+        final generator = ApiGenerator(spec, outputFolder);
+        print('OpenApiBuilder.build: ジェネレーターの実行');
+        await generator.generate();
+        print('OpenApiBuilder.build: ジェネレーター実行完了');
+      } catch (e, stackTrace) {
+        print('OpenApiBuilder.build: エラー発生 - $e');
+        print('OpenApiBuilder.build: スタックトレース - $stackTrace');
+        rethrow;
+      }
     }
   }
 
   /// 設定ファイルを読み込む
   Future<Map<String, dynamic>> _loadConfig(BuildStep buildStep) async {
     try {
+      print('OpenApiBuilder._loadConfig: 開始');
+      print(
+          'OpenApiBuilder._loadConfig: buildStep.inputId = ${buildStep.inputId}');
+
       final configAsset = AssetId(buildStep.inputId.package, 'build.yaml');
+      print('OpenApiBuilder._loadConfig: configAsset = $configAsset');
+
+      print('OpenApiBuilder._loadConfig: 設定ファイルの読み込み');
       final configContent = await buildStep.readAsString(configAsset);
+      print('OpenApiBuilder._loadConfig: 設定内容 - $configContent');
+
+      print('OpenApiBuilder._loadConfig: YAMLの解析');
       final config = loadYaml(configContent) as Map<String, dynamic>;
-      return config['targets']?['\$default']?['builders']
+      print('OpenApiBuilder._loadConfig: 設定の取得');
+      final options = config['targets']?['\$default']?['builders']
                   ?['openapi_generator_flutter']?['options']
               as Map<String, dynamic>? ??
           {};
-    } catch (e) {
+      print('OpenApiBuilder._loadConfig: 結果 - $options');
+      return options;
+    } catch (e, stackTrace) {
+      print('OpenApiBuilder._loadConfig: エラー発生 - $e');
+      print('OpenApiBuilder._loadConfig: スタックトレース - $stackTrace');
       return {};
     }
   }
