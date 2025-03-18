@@ -12,7 +12,7 @@ OpenAPI仕様からFlutter用のAPIクライアントとモデルを生成する
 
 ## バージョン
 
-現在のバージョン: 1.2.0
+現在のバージョン: 0.2.0
 
 ## インストール
 
@@ -20,7 +20,7 @@ OpenAPI仕様からFlutter用のAPIクライアントとモデルを生成する
 
 ```yaml
 dependencies:
-  openapi_generator_flutter: ^1.2.0
+  openapi_generator_flutter: ^0.2.0
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   retrofit: ^4.1.0

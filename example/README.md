@@ -106,4 +106,4 @@ abstract class OrderClient {
   @POST('/orders')
   Future<Order> createOrder(@Body() Order order);
 }
-``` 
+```
