@@ -1,0 +1,5 @@
+targets:
+  $default:
+    builders:
+      openapi_generator_flutter:
+        enabled: true 
