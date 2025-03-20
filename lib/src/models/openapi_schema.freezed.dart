@@ -26,6 +26,7 @@ mixin _$OpenApiSchema {
       throw _privateConstructorUsedError;
   OpenApiSchema? get items => throw _privateConstructorUsedError;
   List<String>? get required => throw _privateConstructorUsedError;
+  List<String>? get enum_ => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $OpenApiSchemaCopyWith<$Res> {
       String? title,
       Map<String, OpenApiSchema>? properties,
       OpenApiSchema? items,
-      List<String>? required});
+      List<String>? required,
+      List<String>? enum_});
 
   $OpenApiSchemaCopyWith<$Res>? get items;
 }
@@ -67,6 +69,7 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
     Object? properties = freezed,
     Object? items = freezed,
     Object? required = freezed,
+    Object? enum_ = freezed,
   }) {
     return _then(_value.copyWith(
       type: freezed == type
@@ -88,6 +91,10 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
       required: freezed == required
           ? _value.required
           : required // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      enum_: freezed == enum_
+          ? _value.enum_
+          : enum_ // ignore: cast_nullable_to_non_nullable
               as List<String>?,
     ) as $Val);
   }
@@ -118,7 +125,8 @@ abstract class _$$OpenApiSchemaImplCopyWith<$Res>
       String? title,
       Map<String, OpenApiSchema>? properties,
       OpenApiSchema? items,
-      List<String>? required});
+      List<String>? required,
+      List<String>? enum_});
 
   @override
   $OpenApiSchemaCopyWith<$Res>? get items;
@@ -140,6 +148,7 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
     Object? properties = freezed,
     Object? items = freezed,
     Object? required = freezed,
+    Object? enum_ = freezed,
   }) {
     return _then(_$OpenApiSchemaImpl(
       type: freezed == type
@@ -162,6 +171,10 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
           ? _value._required
           : required // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      enum_: freezed == enum_
+          ? _value._enum_
+          : enum_ // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -174,9 +187,11 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
       this.title,
       final Map<String, OpenApiSchema>? properties,
       this.items,
-      final List<String>? required})
+      final List<String>? required,
+      final List<String>? enum_})
       : _properties = properties,
-        _required = required;
+        _required = required,
+        _enum_ = enum_;
 
   factory _$OpenApiSchemaImpl.fromJson(Map<String, dynamic> json) =>
       _$$OpenApiSchemaImplFromJson(json);
@@ -207,9 +222,19 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _enum_;
+  @override
+  List<String>? get enum_ {
+    final value = _enum_;
+    if (value == null) return null;
+    if (_enum_ is EqualUnmodifiableListView) return _enum_;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'OpenApiSchema(type: $type, title: $title, properties: $properties, items: $items, required: $required)';
+    return 'OpenApiSchema(type: $type, title: $title, properties: $properties, items: $items, required: $required, enum_: $enum_)';
   }
 
   @override
@@ -222,7 +247,8 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
             (identical(other.items, items) || other.items == items) &&
-            const DeepCollectionEquality().equals(other._required, _required));
+            const DeepCollectionEquality().equals(other._required, _required) &&
+            const DeepCollectionEquality().equals(other._enum_, _enum_));
   }
 
   @JsonKey(ignore: true)
@@ -233,7 +259,8 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
       title,
       const DeepCollectionEquality().hash(_properties),
       items,
-      const DeepCollectionEquality().hash(_required));
+      const DeepCollectionEquality().hash(_required),
+      const DeepCollectionEquality().hash(_enum_));
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +282,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
       final String? title,
       final Map<String, OpenApiSchema>? properties,
       final OpenApiSchema? items,
-      final List<String>? required}) = _$OpenApiSchemaImpl;
+      final List<String>? required,
+      final List<String>? enum_}) = _$OpenApiSchemaImpl;
 
   factory _OpenApiSchema.fromJson(Map<String, dynamic> json) =
       _$OpenApiSchemaImpl.fromJson;
@@ -270,6 +298,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
   OpenApiSchema? get items;
   @override
   List<String>? get required;
+  @override
+  List<String>? get enum_;
   @override
   @JsonKey(ignore: true)
   _$$OpenApiSchemaImplCopyWith<_$OpenApiSchemaImpl> get copyWith =>

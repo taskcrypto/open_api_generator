@@ -2,7 +2,6 @@ import 'dart:io';
 
 import '../models/openapi_schema.dart';
 import '../models/openapi_spec.dart';
-import 'model_generator.dart';
 import 'utils/name_utils.dart';
 import 'utils/type_utils.dart';
 
@@ -28,9 +27,6 @@ class RetrofitGenerator {
 
   /// OpenAPI仕様からRetrofitクライアントを生成
   Future<void> generate({required String apiName}) async {
-    final modelGenerator = ModelGenerator(spec, outputPath);
-    await modelGenerator.generate(apiName: apiName);
-
     final methodsByTag = _generateMethods();
     final retrofitDir = Directory('$outputPath/retrofit');
     if (!await retrofitDir.exists()) {

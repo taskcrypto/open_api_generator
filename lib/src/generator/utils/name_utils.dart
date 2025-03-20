@@ -208,6 +208,41 @@ class NameUtils {
     return camelCase;
   }
 
+  /// 文字列をパスカルケースに変換します
+  ///
+  /// [input] 変換する文字列
+  ///
+  /// 以下の変換を行います：
+  /// - 1文字目は大文字
+  /// - 2文字目以降は小文字を維持
+  /// - 区切り文字（_、-、空白）の後の文字は大文字
+  ///
+  /// 例：
+  /// ```dart
+  /// toPascalCase('user_name') // returns 'UserName'
+  /// toPascalCase('API_KEY') // returns 'ApiKey'
+  /// toPascalCase('first-name') // returns 'FirstName'
+  /// toPascalCase('user ID') // returns 'UserId'
+  /// ```
+  static String toPascalCase(String input) {
+    if (input.isEmpty) return input;
+
+    // 区切り文字で分割
+    final words = input.split(RegExp(r'[_\- ]'));
+
+    // 各単語を処理
+    final pascalCase = words.map((word) {
+      if (word.isEmpty) return '';
+
+      // 1文字目は大文字、2文字目以降は小文字
+      final firstChar = word[0].toUpperCase();
+      final rest = word.substring(1).toLowerCase();
+      return firstChar + rest;
+    }).join('');
+
+    return pascalCase;
+  }
+
   /// 文字列をスネークケースに変換します
   ///
   /// [input] 変換する文字列

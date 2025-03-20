@@ -11,6 +11,7 @@ class OpenApiSchema with _$OpenApiSchema {
     Map<String, OpenApiSchema>? properties,
     OpenApiSchema? items,
     List<String>? required,
+    List<String>? enum_,
   }) = _OpenApiSchema;
 
   factory OpenApiSchema.fromJson(Map<String, dynamic> json) =>

@@ -20,6 +20,8 @@ _$OpenApiSchemaImpl _$$OpenApiSchemaImplFromJson(Map<String, dynamic> json) =>
       required: (json['required'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      enum_:
+          (json['enum_'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
@@ -29,4 +31,5 @@ Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
       'properties': instance.properties,
       'items': instance.items,
       'required': instance.required,
+      'enum_': instance.enum_,
     };
