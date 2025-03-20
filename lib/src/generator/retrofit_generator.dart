@@ -27,9 +27,9 @@ class RetrofitGenerator {
                 {});
 
   /// OpenAPI仕様からRetrofitクライアントを生成
-  Future<void> generate() async {
+  Future<void> generate({required String apiName}) async {
     final modelGenerator = ModelGenerator(spec, outputPath);
-    await modelGenerator.generate();
+    await modelGenerator.generate(apiName: apiName);
 
     final methodsByTag = _generateMethods();
     final retrofitDir = Directory('$outputPath/retrofit');
@@ -148,7 +148,7 @@ class RetrofitGenerator {
 
     // アノテーション
     buffer.writeln('  @$httpMethod(\'$path\')');
-    buffer.write('  Future<HttpResponse<$returnType>> $methodName({');
+    buffer.write('  Future<HttpResponse<$returnType>> $methodName(');
 
     // パラメータの生成
     final params = <String>[];
@@ -187,11 +187,9 @@ class RetrofitGenerator {
 
     // パラメータを追加（改行とインデントを適切に設定）
     if (params.isNotEmpty) {
-      buffer.writeln();
-      buffer.writeln('    ${params.join(',\n    ')}');
-      buffer.write('  ');
+      buffer.write('{\n    ${params.join(',\n    ')}\n  }');
     }
-    buffer.writeln('});\n');
+    buffer.writeln(');\n');
 
     return buffer.toString();
   }

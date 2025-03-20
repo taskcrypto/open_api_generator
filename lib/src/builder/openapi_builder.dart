@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 
 import '../generator/api_generator.dart';
 import '../models/openapi_spec.dart';
+import '../utils/name_utils.dart';
 
 /// OpenAPIジェネレーターのビルダー
 ///
@@ -33,7 +34,13 @@ class OpenApiBuilder extends Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        r'$lib$': ['generated/api_manager.dart'],
+        r'$lib$': [
+          'generated/api_manager.dart',
+          // 各APIごとのファイルを生成できるように拡張
+          'generated/*/api_client.dart',
+          'generated/*/models/*.dart',
+          'generated/*/apis/*.dart',
+        ],
       };
 
   dynamic _convertYamlToMap(dynamic yaml) {
@@ -63,21 +70,8 @@ class OpenApiBuilder extends Builder {
   @override
   Future<void> build(BuildStep buildStep) async {
     print('========= OPENAPI BUILDER START ========');
-    print('OpenApiBuilder.build: 開始');
-    print('buildStep = ${buildStep}');
-    print('buildStep.inputId = ${buildStep.inputId}');
-    print('buildStep.inputId.path = ${buildStep.inputId.path}');
-    print('buildStep.inputId.package = ${buildStep.inputId.package}');
-    print('buildStep.inputId.toString = ${buildStep.inputId.toString()}');
-    print('buildStep.options.config = ${options.config.toString()}');
     final config = options.config;
-    print('OpenApiBuilder.build: 設定読み込み完了 - $config');
-    print('OpenApiBuilder.build: 設定の詳細:');
-    print('  - run_generator: ${config['run_generator']}');
-    print('  - input_folder: ${config['input_folder']}');
-    print('  - output_folder: ${config['output_folder']}');
-    print('  - input_urls: ${config['input_urls']}');
-    print('========= OPENAPI BUILDER Base Values END ========');
+
     if (config['run_generator'] != true) {
       print('OpenApiBuilder.build: run_generatorがfalseのため終了');
       return;
@@ -85,59 +79,90 @@ class OpenApiBuilder extends Builder {
 
     final inputFolder = config['input_folder'] as String? ?? 'open_api_files';
     final outputFolder = config['output_folder'] as String? ?? 'lib/generated';
+    final inputUrls = _parseInputUrls(config);
+
+    for (final urlConfig in inputUrls) {
+      await _processApiSpec(urlConfig, inputFolder, outputFolder);
+    }
+  }
+
+  List<Map<String, dynamic>> _parseInputUrls(Map<String, dynamic> config) {
     final inputUrls = (config['input_urls'] as List?)?.map((url) {
           if (url is String) {
-            return {'url': url};
+            return {
+              'url': url,
+              'output_dir': null,
+            };
           }
-          return _convertYamlToMap(url) as Map<String, dynamic>;
+          final urlMap = _convertYamlToMap(url) as Map<String, dynamic>;
+          urlMap.remove('name');
+          return urlMap;
         }).toList() ??
         [];
 
-    print(
-        'OpenApiBuilder.build: 設定値 - inputFolder: $inputFolder, outputFolder: $outputFolder, inputUrls: $inputUrls');
+    return inputUrls;
+  }
 
-    // OpenAPI仕様ファイルを処理
-    for (final urlConfig in inputUrls) {
-      print('OpenApiBuilder.build: URL設定の処理開始 - $urlConfig');
-      final url = urlConfig['url'] as String;
-      final filePath =
-          url.startsWith('http') ? '$inputFolder/${url.split('/').last}' : url;
+  Future<void> _processApiSpec(
+    Map<String, dynamic> urlConfig,
+    String inputFolder,
+    String baseOutputFolder,
+  ) async {
+    print('OpenApiBuilder.build: URL設定の処理開始 - $urlConfig');
 
-      print('OpenApiBuilder.build: ファイル読み込み開始 - path: $filePath');
+    final url = urlConfig['url'] as String;
+    final apiName = NameUtils.generateApiNameFromUrl(url);
+    final customOutputDir = urlConfig['output_dir'] as String?;
 
-      try {
-        String content;
-        if (url.startsWith('http')) {
-          print('OpenApiBuilder.build: HTTPリクエストの送信');
-          final client = HttpClient();
-          final uri = Uri.parse(url);
-          final response = await client.getUrl(uri);
-          final responseData = await response.close();
-          content = await responseData.transform(utf8.decoder).join();
-          print('OpenApiBuilder.build: ファイルの書き込み - $filePath');
-          await File(filePath).writeAsString(content);
-        } else {
-          print('OpenApiBuilder.build: ローカルファイルの読み込み');
-          content = await _readFile(filePath);
-        }
+    final outputFolder = customOutputDir ?? '$baseOutputFolder/$apiName';
+    final filePath =
+        url.startsWith('http') ? '$inputFolder/${url.split('/').last}' : url;
 
-        print('OpenApiBuilder.build: YAMLの解析開始');
-        final yaml = loadYaml(content);
-        print('OpenApiBuilder.build: YAMLのMap変換');
-        final jsonMap = _convertYamlToMap(yaml) as Map<String, dynamic>;
-        print('OpenApiBuilder.build: OpenApiSpecの作成');
-        final spec = OpenApiSpec.fromJson(jsonMap);
-        print('OpenApiBuilder.build: ApiGeneratorの作成');
-        final generator = ApiGenerator(spec, outputFolder);
-        print('OpenApiBuilder.build: ジェネレーターの実行');
-        await generator.generate();
-        print('OpenApiBuilder.build: ジェネレーター実行完了');
-      } catch (e, stackTrace) {
-        print('OpenApiBuilder.build: エラー発生 - $e');
-        print('OpenApiBuilder.build: スタックトレース - $stackTrace');
-        rethrow;
-      }
+    try {
+      final content = await _fetchContent(url, filePath);
+      final spec = await _parseOpenApiSpec(content);
+
+      print('OpenApiBuilder.build: ApiGeneratorの作成 - $apiName');
+      final generator = ApiGenerator(
+        spec,
+        outputFolder,
+      );
+
+      print('OpenApiBuilder.build: ジェネレーターの実行');
+      await generator.generate(apiName: apiName);
+      print('OpenApiBuilder.build: ジェネレーター実行完了 - $apiName');
+    } catch (e, stackTrace) {
+      print('OpenApiBuilder.build: エラー発生 ($apiName) - $e');
+      print('OpenApiBuilder.build: スタックトレース - $stackTrace');
+      rethrow;
     }
+  }
+
+  Future<String> _fetchContent(String url, String filePath) async {
+    if (url.startsWith('http')) {
+      print('OpenApiBuilder.build: HTTPリクエストの送信 - $url');
+      final client = HttpClient();
+      final uri = Uri.parse(url);
+      final response = await client.getUrl(uri);
+      final responseData = await response.close();
+      final content = await responseData.transform(utf8.decoder).join();
+
+      print('OpenApiBuilder.build: ファイルの書き込み - $filePath');
+      await File(filePath).writeAsString(content);
+      return content;
+    } else {
+      print('OpenApiBuilder.build: ローカルファイルの読み込み - $filePath');
+      return await _readFile(filePath);
+    }
+  }
+
+  Future<OpenApiSpec> _parseOpenApiSpec(String content) async {
+    print('OpenApiBuilder.build: YAMLの解析開始');
+    final yaml = loadYaml(content);
+    print('OpenApiBuilder.build: YAMLのMap変換');
+    final jsonMap = _convertYamlToMap(yaml) as Map<String, dynamic>;
+    print('OpenApiBuilder.build: OpenApiSpecの作成');
+    return OpenApiSpec.fromJson(jsonMap);
   }
 }
 

@@ -152,15 +152,16 @@ class Parameter {
 @JsonSerializable(explicitToJson: true)
 class RequestBody {
   final String? description;
+  @JsonKey(defaultValue: {})
   final Map<String, MediaType> content;
   @JsonKey(defaultValue: false)
   final bool required;
 
   RequestBody({
     this.description,
-    required this.content,
-    required this.required,
-  });
+    Map<String, MediaType>? content,
+    this.required = false,
+  }) : content = content ?? {};
 
   factory RequestBody.fromJson(Map<String, dynamic> json) =>
       _$RequestBodyFromJson(json);

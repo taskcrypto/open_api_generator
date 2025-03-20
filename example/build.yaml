@@ -5,9 +5,9 @@ targets:
         enabled: true
         options:
           run_generator: true
-          input_folder: "openapi"
+          input_folder: "open_api_files"
           output_folder: "lib/generated"
-          input_urls: ["openapi/openapi.yaml"]
+          input_urls: ["open_api_files/petstore.yaml"]
 builders:
   openapi_generator_flutter:
     import: "package:openapi_generator_flutter/builder.dart"

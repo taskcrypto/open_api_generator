@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:openapi_generator_flutter/src/generator/api_generator.dart';
 import 'package:openapi_generator_flutter/src/models/openapi_spec.dart';
+import 'package:openapi_generator_flutter/src/utils/name_utils.dart';
 import 'package:yaml/yaml.dart';
 
 Future<void> cleanDirectory(String dirPath) async {
@@ -112,7 +113,22 @@ void main(List<String> args) async {
 
     final openApiSpec = OpenApiSpec.fromJson(spec);
     final generator = ApiGenerator(openApiSpec, outputDir, basePath: baseUrl);
-    await generator.generate();
+
+    final apiName = NameUtils.generateApiNameFromUrl(inputFile);
+    // 出力ディレクトリとサブディレクトリを作成
+    final apiOutputDir = '$outputDir/$apiName';
+    final modelsDir = '$apiOutputDir/models';
+    final retrofitDir = '$apiOutputDir/retrofit';
+
+    // 各ディレクトリを作成
+    for (final dir in [apiOutputDir, modelsDir, retrofitDir]) {
+      final directory = Directory(dir);
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+        print('Created directory: $dir');
+      }
+    }
+    await generator.generate(apiName: apiName);
 
     // Merge index.dart files
     await mergeIndexFiles(outputDir);

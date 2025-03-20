@@ -61,7 +61,7 @@ class ApiGenerator {
   /// 1. モデルクラスの生成
   /// 2. Retrofitクライアントの生成
   /// 3. APIクライアント管理クラスの生成
-  Future<void> generate() async {
+  Future<void> generate({required String apiName}) async {
     // 出力ディレクトリを作成
     final outputDir = Directory(outputPath);
     if (!await outputDir.exists()) {
@@ -70,11 +70,11 @@ class ApiGenerator {
 
     // モデルを生成
     final modelGenerator = ModelGenerator(spec, outputPath);
-    await modelGenerator.generate();
+    await modelGenerator.generate(apiName: apiName);
 
     // Retrofitのクライアントを生成
     final retrofitGenerator =
         RetrofitGenerator(spec, outputPath, basePath: basePath);
-    await retrofitGenerator.generate();
+    await retrofitGenerator.generate(apiName: apiName);
   }
 }

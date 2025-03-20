@@ -11,7 +11,7 @@ class ModelGenerator {
 
   ModelGenerator(this.spec, this.outputPath);
 
-  Future<void> generate() async {
+  Future<void> generate({required String apiName}) async {
     // 既存のgeneratorディレクトリを削除
     final generatorDir = Directory('$outputPath/generator');
     if (await generatorDir.exists()) {
