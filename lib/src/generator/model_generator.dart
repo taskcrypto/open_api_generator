@@ -11,7 +11,46 @@ class ModelGenerator {
 
   ModelGenerator(this.spec, this.outputPath);
 
+  /// OpenAPI仕様からDartのモデルコードを生成します。
+  ///
+  /// 以下の処理を順番に実行します：
+  /// 1. 出力ディレクトリの初期化
+  /// 2. enum型の生成
+  /// 3. スキーマの変換
+  /// 4. モデルの分類
+  /// 5. モデルファイルの生成
+  /// 6. インデックスファイルの生成
+  ///
+  /// [apiName] 生成するAPIの名前
   Future<void> generate({required String apiName}) async {
+    // ディレクトリの初期化
+    await _initializeDirectories();
+
+    // enumを生成
+    final enumsDir = Directory('$outputPath/models/enums');
+    await _generateEnums(enumsDir);
+
+    // スキーマの変換
+    final schemas = await _convertSchemas();
+
+    // モデルの分類
+    final modelsByCategory = _categorizeModels(schemas);
+
+    // モデルファイルの生成
+    await _generateModelFiles(modelsByCategory);
+
+    // インデックスファイルの生成
+    await _generateIndexFile(modelsByCategory, enumsDir);
+  }
+
+  /// 出力ディレクトリを初期化します。
+  ///
+  /// 以下の処理を実行します：
+  /// 1. 既存のgeneratorディレクトリの削除
+  /// 2. 既存のmodelsディレクトリの削除
+  /// 3. modelsディレクトリの作成
+  /// 4. enumsディレクトリの作成
+  Future<void> _initializeDirectories() async {
     // 既存のgeneratorディレクトリを削除
     final generatorDir = Directory('$outputPath/generator');
     if (await generatorDir.exists()) {
@@ -32,11 +71,19 @@ class ModelGenerator {
     if (!await enumsDir.exists()) {
       await enumsDir.create(recursive: true);
     }
+  }
 
-    // enumを生成
-    await _generateEnums(enumsDir);
-
-    final schemas = Map<String, OpenApiSchema>.from(
+  /// OpenAPIスキーマをDartの型に変換します。
+  ///
+  /// スキーマの各プロパティに対して以下の処理を実行します：
+  /// 1. プロパティの型情報の保持
+  /// 2. ネストされたプロパティの変換
+  /// 3. enum型の保持
+  /// 4. 必須フィールドの情報の保持
+  ///
+  /// 変換されたスキーマのマップを返します。
+  Future<Map<String, OpenApiSchema>> _convertSchemas() async {
+    return Map<String, OpenApiSchema>.from(
         spec.components?.schemas?.map((key, value) => MapEntry(
                 key, // プレフィックスを削除
                 OpenApiSchema(
@@ -60,8 +107,19 @@ class ModelGenerator {
                   required: value.required,
                 ))) ??
             {});
+  }
 
-    // モデルをカテゴリごとに分類
+  /// スキーマをカテゴリごとに分類します。
+  ///
+  /// 以下のルールで分類を行います：
+  /// 1. enum型のスキーマはスキップ
+  /// 2. モデル名からカテゴリを推測
+  /// 3. APIパスから使用されているエンドポイントを探してカテゴリを決定
+  ///
+  /// [schemas] 分類対象のスキーママップ
+  /// カテゴリごとに分類されたスキーママップを返します。
+  Map<String, Map<String, OpenApiSchema>> _categorizeModels(
+      Map<String, OpenApiSchema> schemas) {
     final modelsByCategory = <String, Map<String, OpenApiSchema>>{};
     for (final entry in schemas.entries) {
       final modelName = entry.key;
@@ -73,7 +131,18 @@ class ModelGenerator {
       modelsByCategory.putIfAbsent(category, () => {});
       modelsByCategory[category]![modelName] = entry.value;
     }
+    return modelsByCategory;
+  }
 
+  /// カテゴリごとのモデルファイルを生成します。
+  ///
+  /// 以下の処理を実行します：
+  /// 1. カテゴリごとのディレクトリ作成
+  /// 2. 各カテゴリ内のモデルファイル生成
+  ///
+  /// [modelsByCategory] カテゴリごとに分類されたモデルマップ
+  Future<void> _generateModelFiles(
+      Map<String, Map<String, OpenApiSchema>> modelsByCategory) async {
     // カテゴリごとのディレクトリを作成
     for (final category in modelsByCategory.keys) {
       final categoryDir = Directory('$outputPath/models/$category');
@@ -83,72 +152,100 @@ class ModelGenerator {
 
       // カテゴリ内のモデルファイルを生成
       for (final entry in modelsByCategory[category]!.entries) {
-        final modelName = entry.key;
-        final snakeCaseName = NameUtils.toSnakeCase(modelName);
-        final modelFile = File('${categoryDir.path}/$snakeCaseName.dart');
-        final buffer = StringBuffer();
-
-        // ヘッダーコメント
-        buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-
-        buffer.writeln('// ignore_for_file: invalid_annotation_target');
-
-        // インポート
-        buffer.writeln(
-            "import 'package:freezed_annotation/freezed_annotation.dart';\n");
-
-        // enumのインポートを追加
-        final enumImports = <String>{};
-        entry.value.properties?.forEach((propName, propSchema) {
-          if (propSchema.enum_?.isNotEmpty ?? false) {
-            final enumName =
-                '${NameUtils.toPascalCase(modelName)}${NameUtils.toPascalCase(propName)}Type';
-            final enumSnakeCaseName = NameUtils.toSnakeCase(enumName);
-            enumImports.add("import '../enums/$enumSnakeCaseName.dart';");
-          }
-        });
-        for (final enumImport in enumImports) {
-          buffer.writeln(enumImport);
-        }
-        buffer.writeln('');
-
-        // partディレクティブ
-        buffer.writeln("part '$snakeCaseName.freezed.dart';");
-        buffer.writeln("part '$snakeCaseName.g.dart';\n");
-
-        // クラス定義
-        buffer.writeln('@freezed');
-        buffer.writeln('class $modelName with _\$$modelName {');
-        buffer.writeln('  const factory $modelName({');
-
-        // プロパティ
-        entry.value.properties?.forEach((propName, propSchema) {
-          final isRequired = entry.value.required?.contains(propName) ?? false;
-          final propType = TypeUtils.getTypeFromSchema(
-            propSchema,
-            required: isRequired,
-            parentName: modelName,
-            propertyName: propName,
-          );
-          final camelCasePropName = NameUtils.toCamelCase(propName);
-          buffer.writeln('    @JsonKey(name: \'$propName\')');
-          buffer.writeln(
-              '    ${isRequired ? 'required ' : ''}$propType $camelCasePropName,');
-        });
-
-        buffer.writeln('  }) = _$modelName;\n');
-
-        // fromJsonファクトリ
-        buffer.writeln(
-            '  factory $modelName.fromJson(Map<String, dynamic> json) =>');
-        buffer.writeln('      _\$${modelName}FromJson(json);');
-        buffer.writeln('}');
-
-        await modelFile.writeAsString(buffer.toString());
+        await _generateModelFile(categoryDir, entry.key, entry.value);
       }
     }
+  }
 
-    // models_index.dartを生成
+  /// 個々のモデルファイルを生成します。
+  ///
+  /// 以下の処理を実行します：
+  /// 1. ヘッダーコメントの生成
+  /// 2. 必要なインポートの追加
+  /// 3. Freezedアノテーションの追加
+  /// 4. クラス定義の生成
+  /// 5. プロパティの生成
+  /// 6. JSONシリアライズ/デシリアライズメソッドの生成
+  ///
+  /// [categoryDir] カテゴリディレクトリ
+  /// [modelName] モデル名
+  /// [schema] モデルのスキーマ
+  Future<void> _generateModelFile(
+      Directory categoryDir, String modelName, OpenApiSchema schema) async {
+    final snakeCaseName = NameUtils.toSnakeCase(modelName);
+    final modelFile = File('${categoryDir.path}/$snakeCaseName.dart');
+    final buffer = StringBuffer();
+
+    // ヘッダーコメント
+    buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
+
+    buffer.writeln('// ignore_for_file: invalid_annotation_target');
+
+    // インポート
+    buffer.writeln(
+        "import 'package:freezed_annotation/freezed_annotation.dart';\n");
+
+    // enumのインポートを追加
+    final enumImports = <String>{};
+    schema.properties?.forEach((propName, propSchema) {
+      if (propSchema.enum_?.isNotEmpty ?? false) {
+        final enumName =
+            '${NameUtils.toPascalCase(modelName)}${NameUtils.toPascalCase(propName)}Type';
+        final enumSnakeCaseName = NameUtils.toSnakeCase(enumName);
+        enumImports.add("import '../enums/$enumSnakeCaseName.dart';");
+      }
+    });
+    for (final enumImport in enumImports) {
+      buffer.writeln(enumImport);
+    }
+    buffer.writeln('');
+
+    // partディレクティブ
+    buffer.writeln("part '$snakeCaseName.freezed.dart';");
+    buffer.writeln("part '$snakeCaseName.g.dart';\n");
+
+    // クラス定義
+    buffer.writeln('@freezed');
+    buffer.writeln('class $modelName with _\$$modelName {');
+    buffer.writeln('  const factory $modelName({');
+
+    // プロパティ
+    schema.properties?.forEach((propName, propSchema) {
+      final isRequired = schema.required?.contains(propName) ?? false;
+      final propType = TypeUtils.getTypeFromSchema(
+        propSchema,
+        required: isRequired,
+        parentName: modelName,
+        propertyName: propName,
+      );
+      final camelCasePropName = NameUtils.toCamelCase(propName);
+      buffer.writeln('    @JsonKey(name: \'$propName\')');
+      buffer.writeln(
+          '    ${isRequired ? 'required ' : ''}$propType $camelCasePropName,');
+    });
+
+    buffer.writeln('  }) = _$modelName;\n');
+
+    // fromJsonファクトリ
+    buffer
+        .writeln('  factory $modelName.fromJson(Map<String, dynamic> json) =>');
+    buffer.writeln('      _\$${modelName}FromJson(json);');
+    buffer.writeln('}');
+
+    await modelFile.writeAsString(buffer.toString());
+  }
+
+  /// インデックスファイルを生成します。
+  ///
+  /// 以下の処理を実行します：
+  /// 1. カテゴリごとのモデルエクスポート
+  /// 2. enum型のエクスポート
+  ///
+  /// [modelsByCategory] カテゴリごとに分類されたモデルマップ
+  /// [enumsDir] enumファイルが格納されているディレクトリ
+  Future<void> _generateIndexFile(
+      Map<String, Map<String, OpenApiSchema>> modelsByCategory,
+      Directory enumsDir) async {
     final indexFile = File('$outputPath/models_index.dart');
     final indexBuffer = StringBuffer();
     indexBuffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
@@ -174,6 +271,18 @@ class ModelGenerator {
     await indexFile.writeAsString(indexBuffer.toString());
   }
 
+  /// enum型のファイルを生成します。
+  ///
+  /// 以下の処理を実行します：
+  /// 1. スキーマからenumを収集
+  /// 2. プロパティからenumを収集
+  /// 3. enumファイルの生成
+  ///    - ヘッダーコメント
+  ///    - Freezedアノテーション
+  ///    - enum値の定義
+  ///    - JSONシリアライズ/デシリアライズメソッド
+  ///
+  /// [enumsDir] enumファイルを出力するディレクトリ
   Future<void> _generateEnums(Directory enumsDir) async {
     print('Generating enums...');
     // スキーマからenumを収集
@@ -261,6 +370,19 @@ class ModelGenerator {
     print('Enum generation completed');
   }
 
+  /// モデル名からカテゴリを抽出します。
+  ///
+  /// 以下のルールでカテゴリを決定します：
+  /// 1. APIパスから使用されているエンドポイントを探す
+  /// 2. エンドポイントのタグからカテゴリを決定
+  /// 3. モデル名からカテゴリを推測
+  ///    - "request"を含む場合 -> "request"
+  ///    - "response"を含む場合 -> "response"
+  ///    - "error"を含む場合 -> "common"
+  /// 4. 上記に該当しない場合 -> "common"
+  ///
+  /// [modelName] カテゴリを抽出するモデル名
+  /// 抽出されたカテゴリ名を返します。
   String _extractCategoryFromRef(String modelName) {
     // スキーマの参照パスからカテゴリを抽出
     // 例: "RequestToken" -> "auth" (トークン関連のスキーマはauthタグに属する)
@@ -301,48 +423,5 @@ class ModelGenerator {
 
     // 上記のいずれにも該当しない場合
     return 'common';
-  }
-
-  String _generateProperty(
-      String propertyName, OpenApiSchema schema, List<String> required) {
-    final isRequired = required.contains(propertyName);
-    final isNullable = !isRequired;
-    final type = _getPropertyType(schema);
-    final jsonKey = '@JsonKey(name: \'$propertyName\')';
-    final requiredKeyword = isRequired ? 'required ' : '';
-    final nullableSymbol = isNullable ? '?' : '';
-
-    return '''
-    $jsonKey
-    ${requiredKeyword}$type$nullableSymbol $propertyName,''';
-  }
-
-  String _getPropertyType(OpenApiSchema schema) {
-    // enum型の場合は、対応するenum型を返す
-    if (schema.enum_?.isNotEmpty ?? false) {
-      final enumName = '${NameUtils.toPascalCase(schema.type ?? '')}Type';
-      return enumName;
-    }
-
-    if (schema.type == 'array') {
-      final itemType =
-          schema.items != null ? _getPropertyType(schema.items!) : 'dynamic';
-      return 'List<$itemType>';
-    }
-
-    switch (schema.type) {
-      case 'integer':
-        return 'int';
-      case 'number':
-        return 'double';
-      case 'boolean':
-        return 'bool';
-      case 'string':
-        return 'String';
-      case 'object':
-        return 'Map<String, dynamic>';
-      default:
-        return 'dynamic';
-    }
   }
 }
