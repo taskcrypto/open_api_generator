@@ -5,6 +5,79 @@ import '../models/openapi_spec.dart';
 import 'utils/name_utils.dart';
 import 'utils/type_utils.dart';
 
+class KabuEnumDescription {
+  final String type;
+  final String enumDescription;
+  final String kiKey;
+  final String kiValue;
+  final Map<String, String> mapEnumValues;
+
+  const KabuEnumDescription({
+    required this.type,
+    required this.enumDescription,
+    required this.kiKey,
+    required this.kiValue,
+    required this.mapEnumValues,
+  });
+
+  factory KabuEnumDescription.fromDescription(String description, String type) {
+    print('Raw description: $description');
+
+    final tableIndex = description.indexOf('<table>');
+    final enumDescription = tableIndex != -1
+        ? description.substring(0, tableIndex).trim().replaceAll('<br>', '')
+        : description.trim().replaceAll('<br>', '\n');
+    print('Enum description: $enumDescription');
+
+    final tableRegex = RegExp(r'<table>.*?<tbody>(.*?)</tbody>', dotAll: true);
+    final theadRegex = RegExp(r'<thead>(.*?)</thead>', dotAll: true);
+    final rowRegex =
+        RegExp(r'<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*</tr>', dotAll: true);
+
+    final thead = theadRegex.firstMatch(description)?.group(1) ?? '';
+    print('Found thead: $thead');
+
+    final thRegex = RegExp(r'<th>(.*?)</th>', dotAll: true);
+    final thMatches = thRegex.allMatches(thead);
+    final kiKey = thMatches.elementAt(0).group(1)?.trim() ?? '';
+    final kiValue = thMatches.elementAt(1).group(1)?.trim() ?? '';
+    print('Found kiKey: "$kiKey", kiValue: "$kiValue"');
+
+    final mapEnumValues = <String, String>{};
+    final tableMatch = tableRegex.firstMatch(description);
+
+    if (tableMatch != null) {
+      final tbody = tableMatch.group(1)!;
+      print('Found tbody: $tbody');
+
+      final rows = rowRegex.allMatches(tbody);
+      print('Found ${rows.length} rows');
+
+      for (final row in rows) {
+        final key = row.group(1)?.trim() ?? '';
+        final value = row.group(2)?.trim() ?? '';
+        mapEnumValues[key] = value;
+      }
+      print('Created map with ${mapEnumValues.length} entries:');
+      mapEnumValues.forEach((key, value) {
+        print('  $key: $value');
+      });
+    } else {
+      print('No table found in description');
+    }
+
+    final result = KabuEnumDescription(
+      type: type,
+      enumDescription: enumDescription,
+      kiKey: kiKey,
+      kiValue: kiValue,
+      mapEnumValues: mapEnumValues,
+    );
+    print('result: $result');
+    return result;
+  }
+}
+
 class ModelGenerator {
   final OpenApiSpec spec;
   final String outputPath;
@@ -99,12 +172,14 @@ class ModelGenerator {
                             : null,
                         enum_: v.enum_,
                         required: v.required,
+                        description: v.description,
                       ))),
                   items: value.items != null
                       ? OpenApiSchema.fromJson(value.items!.toJson())
                       : null,
                   enum_: value.enum_,
                   required: value.required,
+                  description: value.description,
                 ))) ??
             {});
   }
@@ -272,102 +347,213 @@ class ModelGenerator {
   }
 
   /// enum型のファイルを生成します。
-  ///
-  /// 以下の処理を実行します：
-  /// 1. スキーマからenumを収集
-  /// 2. プロパティからenumを収集
-  /// 3. enumファイルの生成
-  ///    - ヘッダーコメント
-  ///    - Freezedアノテーション
-  ///    - enum値の定義
-  ///    - JSONシリアライズ/デシリアライズメソッド
-  ///
-  /// [enumsDir] enumファイルを出力するディレクトリ
   Future<void> _generateEnums(Directory enumsDir) async {
-    print('Generating enums...');
-    // スキーマからenumを収集
+    print('============== Start Generating enums... ==============');
     final enumSchemas = <String, OpenApiSchema>{};
+    _collectEnumsFromSchemas(enumSchemas);
+    _collectEnumsFromProperties(enumSchemas);
+    _collectEnumsFromParameters(enumSchemas);
+
+    // enumファイルを生成
+    for (final entry in enumSchemas.entries) {
+      await _generateEnumFile(enumsDir, entry.key, entry.value);
+    }
+    print('============== Enum generation completed ==============');
+  }
+
+  // 拡張実装: スキーマからのenum収集を分離
+  void _collectEnumsFromSchemas(Map<String, OpenApiSchema> enumSchemas) {
     spec.components?.schemas?.forEach((key, schema) {
       if (schema.enum_?.isNotEmpty ?? false) {
         print('Found enum schema: $key');
+        // Schema型からOpenApiSchema型に変換
         enumSchemas[key] = OpenApiSchema(
           type: schema.type,
-          properties: schema.properties
-              ?.map((k, v) => MapEntry(k, OpenApiSchema.fromJson(v.toJson()))),
-          items: schema.items != null
-              ? OpenApiSchema.fromJson(schema.items!.toJson())
-              : null,
+          properties: _convertSchemaMap(schema.properties),
+          items: schema.items != null ? _convertSchema(schema.items!) : null,
           enum_: schema.enum_,
           required: schema.required,
+          description: schema.description,
         );
       }
     });
+  }
 
-    // プロパティからenumを収集
+  // 拡張実装: プロパティからのenum収集を分離
+  void _collectEnumsFromProperties(Map<String, OpenApiSchema> enumSchemas) {
     spec.components?.schemas?.forEach((key, schema) {
       schema.properties?.forEach((propName, propSchema) {
         if (propSchema.enum_?.isNotEmpty ?? false) {
           final enumName =
               '${NameUtils.toPascalCase(key)}${NameUtils.toPascalCase(propName)}Type';
           print('Found enum property: $enumName in $key.$propName');
+          // Schema型からOpenApiSchema型に変換
           enumSchemas[enumName] = OpenApiSchema(
             type: propSchema.type,
-            properties: propSchema.properties?.map(
-                (k, v) => MapEntry(k, OpenApiSchema.fromJson(v.toJson()))),
+            properties: _convertSchemaMap(propSchema.properties),
             items: propSchema.items != null
-                ? OpenApiSchema.fromJson(propSchema.items!.toJson())
+                ? _convertSchema(propSchema.items!)
                 : null,
             enum_: propSchema.enum_,
             required: propSchema.required,
+            description: propSchema.description,
           );
         }
       });
     });
+  }
 
-    print('Found ${enumSchemas.length} enums to generate');
+  // 拡張実装: パラメータからのenum収集を追加
+  void _collectEnumsFromParameters(Map<String, OpenApiSchema> enumSchemas) {
+    spec.paths.forEach((path, pathItem) {
+      // パスレベルのパラメータを処理
+      final operations = [
+        pathItem.get,
+        pathItem.post,
+        pathItem.put,
+        pathItem.delete
+      ].whereType<Operation>();
 
-    // enumファイルを生成
-    for (final entry in enumSchemas.entries) {
-      final enumName = entry.key;
-      final schema = entry.value;
-      final snakeCaseName = NameUtils.toSnakeCase(enumName);
-      final enumFile = File('${enumsDir.path}/$snakeCaseName.dart');
-      print('Generating enum file: $snakeCaseName.dart');
-      final buffer = StringBuffer();
+      // 各オペレーションのパラメータを処理
+      for (final operation in operations) {
+        _processParameters(operation.parameters, path, enumSchemas);
+      }
+    });
+  }
 
-      buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
-      buffer.writeln(
-          "import 'package:freezed_annotation/freezed_annotation.dart';\n");
+  // 拡張実装: パラメータの処理
+  void _processParameters(List<Parameter>? parameters, String path,
+      Map<String, OpenApiSchema> enumSchemas) {
+    parameters?.forEach((param) {
+      if (param.schema.enum_?.isNotEmpty ?? false) {
+        final enumName = _generateEnumNameFromParameter(path, param.name);
+        print('Found enum parameter: $enumName in $path');
+        // Schema型からOpenApiSchema型に変換
+        enumSchemas[enumName] = OpenApiSchema(
+          type: param.schema.type,
+          properties: _convertSchemaMap(param.schema.properties),
+          items: param.schema.items != null
+              ? _convertSchema(param.schema.items!)
+              : null,
+          enum_: param.schema.enum_,
+          required: param.schema.required,
+          description: param.description,
+        );
+      }
+    });
+  }
 
-      buffer.writeln('@JsonEnum()');
-      buffer.writeln('enum $enumName {');
+  // 拡張実装: Schema型からOpenApiSchema型への変換ヘルパーメソッド
+  Map<String, OpenApiSchema>? _convertSchemaMap(
+      Map<String, Schema>? schemaMap) {
+    if (schemaMap == null) return null;
+    return schemaMap.map(
+      (key, schema) => MapEntry(key, _convertSchema(schema)),
+    );
+  }
 
-      schema.enum_?.forEach((value) {
-        final camelCaseValue = NameUtils.toCamelCase(value);
-        buffer.writeln("  @JsonValue('$value')");
-        buffer.writeln('  $camelCaseValue(\'$value\'),\n');
-      });
+  // 拡張実装: 単一のSchema型からOpenApiSchema型への変換
+  OpenApiSchema _convertSchema(Schema schema) {
+    return OpenApiSchema(
+      type: schema.type,
+      properties: _convertSchemaMap(schema.properties),
+      items: schema.items != null ? _convertSchema(schema.items!) : null,
+      enum_: schema.enum_,
+      required: schema.required,
+      description: schema.description,
+    );
+  }
 
-      // $unknownケースを追加
-      buffer.writeln(
-          '  /// Default value for all unparsed values, allows backward compatibility when adding new values on the backend.');
-      buffer.writeln('  \$unknown(null);\n');
+  // 拡張実装: パラメータからenum名を生成
+  String _generateEnumNameFromParameter(String path, String paramName) {
+    final cleanPath = path.replaceAll(RegExp(r'[/{}_-]'), ' ').trim();
+    final pathParts = cleanPath
+        .split(' ')
+        .where((part) => part.isNotEmpty)
+        .map(NameUtils.toPascalCase)
+        .join();
+    return '${pathParts}${NameUtils.toPascalCase(paramName)}Type';
+  }
 
-      buffer.writeln('  const $enumName(this.json);\n');
+  // 拡張実装: enumファイル生成を分離
+  Future<void> _generateEnumFile(
+      Directory enumsDir, String enumName, OpenApiSchema schema) async {
+    final snakeCaseName = NameUtils.toSnakeCase(enumName);
+    final enumFile = File('${enumsDir.path}/$snakeCaseName.dart');
+    final classType = (schema.type == 'string') ? 'String' : 'int';
+    print(
+        '============== Generating enum file: $snakeCaseName.dart ==============');
 
-      buffer.writeln(
-          '  factory $enumName.fromJson(String json) => values.firstWhere(');
-      buffer.writeln('        (e) => e.json == json,');
-      buffer.writeln('        orElse: () => \$unknown,');
-      buffer.writeln('      );\n');
+    final buffer = StringBuffer();
+    buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n');
 
-      buffer.writeln('  final String? json;');
-      buffer.writeln('}');
-
-      await enumFile.writeAsString(buffer.toString());
-      print('Generated enum file: $snakeCaseName.dart');
+    KabuEnumDescription? enumDescriptions;
+    if (schema.description != null) {
+      // descriptionがある場合はapiValueとlabelを取得
+      try {
+        enumDescriptions = KabuEnumDescription.fromDescription(
+            schema.description.toString(), schema.type ?? 'string');
+      } catch (e) {
+        print('Error generating enum descriptions: $e');
+      }
     }
-    print('Enum generation completed');
+
+    if (enumName == 'ExchangeSymbolSymbolType') {
+      print('enumDescriptions: $enumDescriptions');
+    }
+
+    if (enumDescriptions != null && enumDescriptions.mapEnumValues.isNotEmpty) {
+      buffer.writeln(
+          'const k${enumName}Description = \'\'\'${enumDescriptions.enumDescription}\'\'\';');
+      buffer.writeln('const k${enumName}Key = \'${enumDescriptions.kiKey}\';');
+      buffer.writeln(
+          'const k${enumName}Value = \'${enumDescriptions.kiValue}\';\n');
+
+      buffer.writeln('enum $enumName {');
+      for (final entry in enumDescriptions.mapEnumValues.entries) {
+        final typeName = int.tryParse(entry.key) != null //
+            ? 'type${int.parse(entry.key)}'
+            : '${entry.key}';
+        final camelCaseValue = NameUtils.toCamelCase(typeName);
+        buffer.writeln(
+            '  $camelCaseValue(apiValue: \'${entry.key}\' ,label: \'${entry.value}\'),');
+      }
+      buffer.writeln('  ;\n');
+
+      // const部分を定義
+      buffer.writeln(
+          '  const $enumName({required this.apiValue,required this.label});');
+
+      // 変数定義部分
+      buffer.writeln('  final $classType apiValue;');
+      buffer.writeln('  final String label;');
+    } else {
+      print('===== Using default enum generation ======');
+      buffer.writeln('enum $enumName {');
+      schema.enum_?.forEach((value) {
+        //文字列かつ数値の場合は数値に変換
+        final typeName = int.tryParse(value) != null //
+            ? 'type${int.parse(value)}'
+            : '$value';
+        final camelCaseValue = NameUtils.toCamelCase(typeName);
+        final apiValue = (classType == 'int') ? value : '\'$value\'';
+        print(
+            'Adding default enum value: $camelCaseValue with apiValue: $apiValue');
+        buffer.writeln('  $camelCaseValue(apiValue: $apiValue ,label: \'\'),');
+      });
+      buffer.writeln('  ;\n');
+
+      // const部分を定義
+      buffer.writeln(
+          '  const $enumName({required this.apiValue,required this.label});');
+
+      // 変数定義部分
+      buffer.writeln('  final $classType apiValue;');
+      buffer.writeln('  final String label;');
+    }
+    buffer.writeln('}');
+    await enumFile.writeAsString(buffer.toString());
+    print('Generated enum file: $snakeCaseName.dart');
   }
 
   /// モデル名からカテゴリを抽出します。

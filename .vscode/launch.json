@@ -2,18 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Generate API Client",
+            "name": "Generate All API Clients",
             "type": "dart",
             "request": "launch",
-            "program": "bin/generate.dart",
+            "program": "build_runner",
             "args": [
-                "--input",
-                "kabu_STATION_API.yaml",
-                "--output",
-                "lib/generated",
-                "--base-url",
-                "https://api.kabu.com.net/kabusapi"
-            ]
+                "build",
+                "--delete-conflicting-outputs"
+            ],
+            "cwd": "${workspaceFolder}/example"
         }
     ]
 } 

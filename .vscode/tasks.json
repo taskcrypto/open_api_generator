@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "generate-all-apis",
+      "dependsOn": [
+        "generate-kabu-station-api",
+        "generate-petstore-api"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "generate-kabu-station-api",
+      "type": "shell",
+      "command": "dart",
+      "args": [
+        "run",
+        "generate.dart",
+        "--input",
+        "example/open_api_files/kabu_station_api.yaml",
+        "--output",
+        "example/lib/generated/kabu_station_api",
+        "--base-url",
+        "https://localhost:18080"
+      ]
+    },
+    {
+      "label": "generate-petstore-api",
+      "type": "shell",
+      "command": "dart",
+      "args": [
+        "run",
+        "generate.dart",
+        "--input",
+        "example/open_api_files/petstore.yaml",
+        "--output",
+        "example/lib/generated/petstore_api",
+        "--base-url",
+        "https://petstore3.swagger.io/api/v3"
+      ]
+    }
+  ]
+} 

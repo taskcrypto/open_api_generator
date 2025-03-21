@@ -47,23 +47,8 @@ Future<void> mergeIndexFiles(String outputDir) async {
 
   // Create merged content
   final exports = <String>{};
-
-  // Add model exports
-  for (final file in modelFiles) {
-    final relativePath =
-        file.path.replaceFirst(dir.path, '').replaceFirst('/', '');
-    exports.add('export \'./$relativePath\';');
-  }
-
-  // Add client exports
-  for (final file in clientFiles) {
-    final relativePath =
-        file.path.replaceFirst(dir.path, '').replaceFirst('/', '');
-    exports.add('export \'./$relativePath\';');
-  }
-
-  // Add main client export
-  exports.add('export \'./client.dart\';');
+  exports.add('export \'models_index.dart\';');
+  exports.add('export \'retrofit_index.dart\';');
 
   // Create new index.dart in root
   final newIndexFile = File('${dir.path}/index.dart');

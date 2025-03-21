@@ -1,6 +1,6 @@
 name: openapi_generator_flutter
 description: OpenAPI仕様からDartのAPIクライアントとモデルを生成するツール
-version: 0.3.2
+version: 0.3.3
 publish_to: none
 
 environment:

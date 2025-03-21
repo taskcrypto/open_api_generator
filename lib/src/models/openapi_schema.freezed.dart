@@ -22,6 +22,7 @@ OpenApiSchema _$OpenApiSchemaFromJson(Map<String, dynamic> json) {
 mixin _$OpenApiSchema {
   String? get type => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   Map<String, OpenApiSchema>? get properties =>
       throw _privateConstructorUsedError;
   OpenApiSchema? get items => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $OpenApiSchemaCopyWith<$Res> {
   $Res call(
       {String? type,
       String? title,
+      String? description,
       Map<String, OpenApiSchema>? properties,
       OpenApiSchema? items,
       List<String>? required,
@@ -66,6 +68,7 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
   $Res call({
     Object? type = freezed,
     Object? title = freezed,
+    Object? description = freezed,
     Object? properties = freezed,
     Object? items = freezed,
     Object? required = freezed,
@@ -79,6 +82,10 @@ class _$OpenApiSchemaCopyWithImpl<$Res, $Val extends OpenApiSchema>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       properties: freezed == properties
           ? _value.properties
@@ -123,6 +130,7 @@ abstract class _$$OpenApiSchemaImplCopyWith<$Res>
   $Res call(
       {String? type,
       String? title,
+      String? description,
       Map<String, OpenApiSchema>? properties,
       OpenApiSchema? items,
       List<String>? required,
@@ -145,6 +153,7 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
   $Res call({
     Object? type = freezed,
     Object? title = freezed,
+    Object? description = freezed,
     Object? properties = freezed,
     Object? items = freezed,
     Object? required = freezed,
@@ -158,6 +167,10 @@ class __$$OpenApiSchemaImplCopyWithImpl<$Res>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       properties: freezed == properties
           ? _value._properties
@@ -185,6 +198,7 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
   const _$OpenApiSchemaImpl(
       {this.type,
       this.title,
+      this.description,
       final Map<String, OpenApiSchema>? properties,
       this.items,
       final List<String>? required,
@@ -200,6 +214,8 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
   final String? type;
   @override
   final String? title;
+  @override
+  final String? description;
   final Map<String, OpenApiSchema>? _properties;
   @override
   Map<String, OpenApiSchema>? get properties {
@@ -234,7 +250,7 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
 
   @override
   String toString() {
-    return 'OpenApiSchema(type: $type, title: $title, properties: $properties, items: $items, required: $required, enum_: $enum_)';
+    return 'OpenApiSchema(type: $type, title: $title, description: $description, properties: $properties, items: $items, required: $required, enum_: $enum_)';
   }
 
   @override
@@ -244,6 +260,8 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
             other is _$OpenApiSchemaImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
             (identical(other.items, items) || other.items == items) &&
@@ -257,6 +275,7 @@ class _$OpenApiSchemaImpl implements _OpenApiSchema {
       runtimeType,
       type,
       title,
+      description,
       const DeepCollectionEquality().hash(_properties),
       items,
       const DeepCollectionEquality().hash(_required),
@@ -280,6 +299,7 @@ abstract class _OpenApiSchema implements OpenApiSchema {
   const factory _OpenApiSchema(
       {final String? type,
       final String? title,
+      final String? description,
       final Map<String, OpenApiSchema>? properties,
       final OpenApiSchema? items,
       final List<String>? required,
@@ -292,6 +312,8 @@ abstract class _OpenApiSchema implements OpenApiSchema {
   String? get type;
   @override
   String? get title;
+  @override
+  String? get description;
   @override
   Map<String, OpenApiSchema>? get properties;
   @override

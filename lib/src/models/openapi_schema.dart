@@ -8,6 +8,7 @@ class OpenApiSchema with _$OpenApiSchema {
   const factory OpenApiSchema({
     String? type,
     String? title,
+    String? description,
     Map<String, OpenApiSchema>? properties,
     OpenApiSchema? items,
     List<String>? required,
