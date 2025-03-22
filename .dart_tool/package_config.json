@@ -3,15 +3,21 @@
   "packages": [
     {
       "name": "_fe_analyzer_shared",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-61.0.0",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-72.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "_macros",
+      "rootUri": "file:///Users/task/fvm/versions/3.24.4/bin/cache/dart-sdk/pkg/_macros",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "analyzer",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/analyzer-5.13.0",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/analyzer-6.7.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.3"
     },
     {
       "name": "args",
@@ -80,6 +86,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "characters",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/characters-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "checked_yaml",
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
       "packageUri": "lib/",
@@ -93,9 +105,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/collection-1.19.1",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/collection-1.18.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "2.18"
     },
     {
       "name": "convert",
@@ -146,6 +158,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "flutter",
+      "rootUri": "file:///Users/task/fvm/versions/3.24.4/packages/flutter",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "freezed",
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/freezed-2.5.2",
       "packageUri": "lib/",
@@ -183,9 +201,9 @@
     },
     {
       "name": "http_parser",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/http_parser-4.1.2",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "2.12"
     },
     {
       "name": "io",
@@ -213,13 +231,19 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/lints-5.0.0",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.0"
     },
     {
       "name": "logging",
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/logging-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "macros",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/macros-0.1.2-main.4",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -230,8 +254,14 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "material_color_utilities",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/material_color_utilities-0.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "meta",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/meta-1.16.0",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/meta-1.15.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -278,22 +308,10 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "retrofit",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/retrofit-4.4.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
-      "name": "retrofit_generator",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/retrofit_generator-7.0.8",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "shelf",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/shelf-1.4.2",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/shelf-1.4.1",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "2.17"
     },
     {
       "name": "shelf_packages_handler",
@@ -312,6 +330,12 @@
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/shelf_web_socket-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "sky_engine",
+      "rootUri": "file:///Users/task/fvm/versions/3.24.4/bin/cache/pkg/sky_engine",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "source_gen",
@@ -398,16 +422,16 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "tuple",
-      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/tuple-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "typed_data",
       "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
+    },
+    {
+      "name": "vector_math",
+      "rootUri": "file:///Users/task/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "vm_service",
@@ -458,7 +482,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-03-21T07:27:42.666956Z",
+  "generated": "2025-03-22T22:14:00.516865Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/task/fvm/versions/3.24.4",

@@ -2,6 +2,14 @@
 
 OpenAPI Generator Flutterのサンプルプロジェクトです。
 
+## 概要
+
+このプロジェクトは、[OpenAPI Generator Flutter](../README.md)の使用例を示すサンプルプロジェクトです。
+
+## バージョン
+
+このサンプルは OpenAPI Generator Flutter 0.3.4 を使用しています。
+
 ## セットアップ
 
 1. 依存関係をインストールします：
@@ -10,7 +18,7 @@ OpenAPI Generator Flutterのサンプルプロジェクトです。
 flutter pub get
 ```
 
-2. OpenAPI仕様ファイルを`openapi`ディレクトリに配置します。
+2. OpenAPI仕様ファイルを`open_api_files`ディレクトリに配置します。
 
 3. コードを生成します：
 

@@ -81,8 +81,40 @@ class OpenApiBuilder extends Builder {
     final outputFolder = config['output_folder'] as String? ?? 'lib/generated';
     final inputUrls = _parseInputUrls(config);
 
-    for (final urlConfig in inputUrls) {
-      await _processApiSpec(urlConfig, inputFolder, outputFolder);
+    // input_urlsが指定されている場合はダウンロードして実行
+    if (inputUrls.isNotEmpty) {
+      for (final urlConfig in inputUrls) {
+        await _processApiSpec(urlConfig, inputFolder, outputFolder);
+      }
+    } else {
+      // input_urlsが指定されていない場合は、input_folderのファイルを確認
+      final inputDir = Directory(inputFolder);
+      if (!await inputDir.exists()) {
+        print('Error: Input folder does not exist: $inputFolder');
+        return;
+      }
+
+      final files = await inputDir
+          .list()
+          .where((entity) =>
+              entity is File &&
+              (entity.path.endsWith('.yaml') || entity.path.endsWith('.yml')))
+          .toList();
+
+      if (files.isEmpty) {
+        print('Error: No YAML files found in input folder: $inputFolder');
+        return;
+      }
+
+      for (final file in files) {
+        if (file is File) {
+          await _processApiSpec(
+            {'url': file.path},
+            inputFolder,
+            outputFolder,
+          );
+        }
+      }
     }
   }
 

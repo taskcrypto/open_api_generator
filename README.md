@@ -1,161 +1,110 @@
 # OpenAPI Generator Flutter
 
-OpenAPI仕様からFlutter用のAPIクライアントとモデルを生成するツールです。
-
-## 機能
-
-- OpenAPI仕様（YAML/JSON）からFlutter用のコードを生成
-- モデルクラスの生成（freezedを使用）
-- Retrofitクライアントの生成
-- カテゴリ別のファイル構造
-- 複数のOpenAPI仕様ファイルのサポート
-- enum型の自動生成と管理
-- 必須フィールドの適切な処理
-- JSONシリアライズ/デシリアライズの自動生成
+OpenAPI仕様からFlutter/Dartのコードを生成するツールです。
 
 ## バージョン
 
-現在のバージョン: 0.2.0
+現在のバージョン: 0.3.4
+
+## 機能概要
+
+### 1. OpenAPI仕様からのコード生成
+
+- OpenAPI仕様（YAML/JSON）からDartのコードを自動生成
+- 生成されるコード：
+  - APIクライアント
+  - データモデル
+  - 列挙型（Enum）
+  - 型定義
+  - バリデーション
 
 ## インストール
 
-`pubspec.yaml`に以下の依存関係を追加してください：
-
-```yaml
-dependencies:
-  openapi_generator_flutter: ^0.2.0
-  freezed_annotation: ^2.4.1
-  json_annotation: ^4.8.1
-  retrofit: ^4.1.0
-  dio: ^5.4.0
-
-dev_dependencies:
-  build_runner: ^2.4.8
-  freezed: ^2.4.6
-  json_serializable: ^6.7.1
-  retrofit_generator: ^8.1.0
+```bash
+dart pub add openapi_generator_flutter:0.3.4 --dev
 ```
 
 ## 使用方法
 
-1. OpenAPI仕様ファイル（YAML/JSON）を`openapi`ディレクトリに配置します。
+### スキーマ定義のenum値更新
 
-2. `build.yaml`に以下の設定を追加します：
-
-```yaml
-targets:
-  openapi_generator_flutter:openapi_generator_flutter:
-    builders:
-      openapi_generator_flutter:
-        enabled: true
-        options:
-          run_generator: true
-          input_folder: "openapi"
-          output_folder: "lib/generated"
-          input_urls: ["openapi/openapi.yaml"]
-```
-
-3. 以下のコマンドを実行してコードを生成します：
+YAMLファイル内のスキーマ定義のenum値を自動的に更新します。テーブル形式の説明文から値を抽出し、適切な形式でenum定義を追加します。
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run bin/update_schema_enums.dart -i <YAMLファイルのパス>
 ```
 
-## 生成されるファイル構造
+#### オプション
 
-```
-lib/generated/
-  ├── models/           # モデルクラス
-  │   ├── auth/        # 認証関連のモデル
-  │   ├── order/       # 注文関連のモデル
-  │   ├── user/        # ユーザー関連のモデル
-  │   ├── common/      # 共通のモデル
-  │   └── enums/       # enum型の定義
-  ├── retrofit/        # Retrofitクライアント
-  │   ├── auth/        # 認証関連のクライアント
-  │   ├── order/       # 注文関連のクライアント
-  │   └── user/        # ユーザー関連のクライアント
-  ├── models_index.dart # モデルのエクスポート
-  └── retrofit_index.dart # クライアントのエクスポート
-```
+- `-i, --input`: 入力YAMLファイルのパス（必須）
 
-## モデルの分類
+#### 機能
 
-モデルは以下のルールで自動的に分類されます：
+1. テーブル形式の説明文からenum値を抽出
+   - `<table>`、`<thead>`、`<tbody>`、`<tr>`、`<td>`タグを含む説明文を検出
+   - テーブルの最初の列から値を抽出
+   - 重複する値を自動的に除外
 
-1. APIパスから使用されているエンドポイントを探す
-2. エンドポイントのタグからカテゴリを決定
-3. モデル名からカテゴリを推測
-   - "request"を含む場合 -> "request"
-   - "response"を含む場合 -> "response"
-   - "error"を含む場合 -> "common"
-4. 上記に該当しない場合 -> "common"
+2. 既存のenum定義の検出と保護
+   - 既存のenum定義がある場合は、新しい値を追加しない
+   - 既存の定義をそのまま保持
 
-## enum型の生成
+3. 型に応じた適切な形式での出力
+   - 文字列型：一重引用符で囲む（例：`'value'`）
+   - 数値型：数値として出力（例：`123`）
 
-OpenAPI仕様で定義されたenum型は自動的にDartのenumに変換されます：
+4. バックアップ機能
+   - 処理前に自動的にバックアップファイルを作成（`.bak`拡張子）
+   - 元のファイルは`<ファイル名>.bak`として保存
 
-```dart
-@JsonEnum()
-enum PetStatusType {
-  @JsonValue('available')
-  available('available'),
-  @JsonValue('pending')
-  pending('pending'),
-  @JsonValue('sold')
-  sold('sold'),
-  $unknown(null);
+#### 使用例
 
-  const PetStatusType(this.json);
-
-  factory PetStatusType.fromJson(String json) => values.firstWhere(
-        (e) => e.json == json,
-        orElse: () => $unknown,
-      );
-
-  final String? json;
-}
+```bash
+# 例：kabu_station_api.yamlのenum値を更新
+dart run bin/update_schema_enums.dart -i example/open_api_files/kabu_station_api.yaml
 ```
 
-## 使用例
+#### 注意点
 
-```dart
-import 'package:dio/dio.dart';
-import 'package:your_app/generated/retrofit/auth/auth_client.dart';
-import 'package:your_app/generated/models/auth/request_token.dart';
+1. 入力ファイルは有効なYAML形式である必要があります
+2. テーブル形式の説明文は以下の形式である必要があります：
+   ```yaml
+   description: |
+     <table>
+       <thead>
+         <tr>
+           <th>値</th>
+           <th>説明</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td>value1</td>
+           <td>説明1</td>
+         </tr>
+         <tr>
+           <td>value2</td>
+           <td>説明2</td>
+         </tr>
+       </tbody>
+     </table>
+   ```
 
-void main() async {
-  final dio = Dio();
-  final client = AuthClient(dio, baseUrl: 'https://api.example.com');
+3. 既存のenum定義がある場合、その定義は保持されます
+4. 処理前に必ずバックアップが作成されます
 
-  try {
-    final response = await client.postToken(
-      body: RequestToken(aPIPassword: 'your-api-password'),
-    );
-    print(response.data);
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-```
+#### ログ出力
 
-## 生成されるモデルの例
+スクリプトは処理の各段階でログを出力します：
 
-```dart
-@freezed
-class Pet with _$Pet {
-  const factory Pet({
-    @JsonKey(name: 'id') required int id,
-    @JsonKey(name: 'name') required String name,
-    @JsonKey(name: 'category') Category? category,
-    @JsonKey(name: 'photoUrls') required List<String> photoUrls,
-    @JsonKey(name: 'tags') List<Tag>? tags,
-    @JsonKey(name: 'status') PetStatusType? status,
-  }) = _Pet;
+- スキーマセクションの検出
+- プロパティの検出
+- 型の検出
+- 既存のenum定義の検出
+- テーブルからの値抽出
+- enum値の追加
 
-  factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
-}
-```
+これらのログにより、処理の進行状況や問題の特定が容易になります。
 
 ## ライセンス
 
