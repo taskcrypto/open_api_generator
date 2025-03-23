@@ -50,8 +50,6 @@ class SchemaEnumUpdater {
     bool inProperty = false;
     bool inDescription = false;
     bool inEnum = false;
-    bool inFormat = false;
-    String currentProperty = '';
     String currentType = '';
     String descriptionBuffer = '';
     List<String> currentEnumValues = [];
@@ -87,8 +85,6 @@ class SchemaEnumUpdater {
         inProperty = true;
         inDescription = false;
         inEnum = false;
-        inFormat = false;
-        currentProperty = trimmedLine.substring(1).trim();
         currentType = '';
         descriptionBuffer = '';
         currentEnumValues = [];
@@ -126,14 +122,6 @@ class SchemaEnumUpdater {
           }
         }
 
-        // format定義を検出
-        if (trimmedLine.startsWith('format:')) {
-          print('Found format definition');
-          inFormat = true;
-          updatedLines.add(line);
-          continue;
-        }
-
         // description定義を検出
         if (trimmedLine.startsWith('description:')) {
           print('Found description');
@@ -146,7 +134,6 @@ class SchemaEnumUpdater {
         // description内のテーブルデータを収集
         if (inDescription) {
           if (trimmedLine.startsWith('type:') ||
-              trimmedLine.startsWith('format:') ||
               trimmedLine.startsWith('enum:') ||
               trimmedLine.startsWith('-')) {
             inDescription = false;
@@ -169,8 +156,7 @@ class SchemaEnumUpdater {
         // プロパティの終わりまたはformat定義の後にenum値を追加（既存のenumがない場合のみ）
         if (!hasExistingEnum &&
             currentEnumValues.isNotEmpty &&
-            (trimmedLine.startsWith('format:') ||
-                trimmedLine.startsWith('-'))) {
+            (trimmedLine.startsWith('-'))) {
           print('Adding enum values after format/property end');
           _addEnumValues(updatedLines, currentEnumValues, currentType);
           hasExistingEnum = true;

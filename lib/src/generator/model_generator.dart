@@ -124,21 +124,6 @@ class ModelGenerator {
   /// 3. modelsディレクトリの作成
   /// 4. enumsディレクトリの作成
   Future<void> _initializeDirectories() async {
-    // 既存のgeneratorディレクトリを削除
-    final generatorDir = Directory('$outputPath/generator');
-    if (await generatorDir.exists()) {
-      await generatorDir.delete(recursive: true);
-    }
-
-    // 既存のmodelsディレクトリを削除
-    final modelsDir = Directory('$outputPath/models');
-    if (await modelsDir.exists()) {
-      await modelsDir.delete(recursive: true);
-    }
-
-    // modelsディレクトリを作成
-    await modelsDir.create(recursive: true);
-
     // enumsディレクトリを作成
     final enumsDir = Directory('$outputPath/models/enums');
     if (!await enumsDir.exists()) {

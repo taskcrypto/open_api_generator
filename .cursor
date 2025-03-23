@@ -1,0 +1,37 @@
+{
+  "test_steps": {
+    "api_client_generation": {
+      "documentation": "docs/ai_test_step.md",
+      "type": "build_yaml",
+      "description": "build.yamlを使用したAPIクライアントの生成テスト",
+      "required_checks": [
+        "インターネット接続の確認",
+        "生成されたコードのlintエラーチェック",
+        "認証関連のテスト実行"
+      ]
+    },
+    "regenerate_api_client": {
+      "documentation": "docs/regenerate_api_client.md",
+      "type": "shell_script",
+      "description": "シェルスクリプトを使用したAPIクライアントの再生成テスト",
+      "required_checks": [
+        "OpenAPI仕様ファイルの存在確認",
+        "シェルスクリプトの実行権限確認",
+        "生成されたコードの検証"
+      ]
+    }
+  },
+  "flutter": {
+    "version": "3.27.4",
+    "documentation": {
+      "url": "https://docs.flutter.dev/releases/3.27.4",
+      "local_path": "docs/flutter/3.27.4",
+      "required_packages": [
+        "build_runner",
+        "freezed",
+        "json_annotation",
+        "openapi_generator_flutter"
+      ]
+    }
+  }
+} 

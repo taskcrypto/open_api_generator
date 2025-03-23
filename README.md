@@ -1,111 +1,87 @@
 # OpenAPI Generator Flutter
 
-OpenAPI仕様からFlutter/Dartのコードを生成するツールです。
+OpenAPI (Swagger) client generator for Flutter applications. This tool generates type-safe API clients from OpenAPI specifications.
 
-## バージョン
+## Features
 
-現在のバージョン: 0.3.4
+- Generates type-safe API clients from OpenAPI specifications
+- Supports both YAML and JSON formats
+- Generates Freezed models for request/response types
+- Supports Retrofit for API calls
+- Configurable through build.yaml
+- Supports URL-based OpenAPI specifications
 
-## 機能概要
+## Installation
 
-### 1. OpenAPI仕様からのコード生成
+Add this to your package's `pubspec.yaml` file:
 
-- OpenAPI仕様（YAML/JSON）からDartのコードを自動生成
-- 生成されるコード：
-  - APIクライアント
-  - データモデル
-  - 列挙型（Enum）
-  - 型定義
-  - バリデーション
-
-## インストール
-
-```bash
-dart pub add openapi_generator_flutter:0.3.4 --dev
+```yaml
+dependencies:
+  openapi_generator_flutter: ^0.3.6
 ```
 
-## 使用方法
+## Usage
 
-### スキーマ定義のenum値更新
+### 1. Add dependencies to your `pubspec.yaml`
 
-YAMLファイル内のスキーマ定義のenum値を自動的に更新します。テーブル形式の説明文から値を抽出し、適切な形式でenum定義を追加します。
+```yaml
+dependencies:
+  openapi_generator_flutter: ^0.3.6
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  retrofit: ^4.1.0
+  dio: ^5.8.0
 
-```bash
-dart run bin/update_schema_enums.dart -i <YAMLファイルのパス>
+dev_dependencies:
+  build_runner: ^2.4.15
+  freezed: ^2.5.8
+  json_serializable: ^6.9.4
+  retrofit_generator: ^9.1.9
 ```
 
-#### オプション
+### 2. Create a `build.yaml` file in your project root
 
-- `-i, --input`: 入力YAMLファイルのパス（必須）
-
-#### 機能
-
-1. テーブル形式の説明文からenum値を抽出
-   - `<table>`、`<thead>`、`<tbody>`、`<tr>`、`<td>`タグを含む説明文を検出
-   - テーブルの最初の列から値を抽出
-   - 重複する値を自動的に除外
-
-2. 既存のenum定義の検出と保護
-   - 既存のenum定義がある場合は、新しい値を追加しない
-   - 既存の定義をそのまま保持
-
-3. 型に応じた適切な形式での出力
-   - 文字列型：一重引用符で囲む（例：`'value'`）
-   - 数値型：数値として出力（例：`123`）
-
-4. バックアップ機能
-   - 処理前に自動的にバックアップファイルを作成（`.bak`拡張子）
-   - 元のファイルは`<ファイル名>.bak`として保存
-
-#### 使用例
-
-```bash
-# 例：kabu_station_api.yamlのenum値を更新
-dart run bin/update_schema_enums.dart -i example/open_api_files/kabu_station_api.yaml
+```yaml
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - open_api_files/**
+    builders:
+      openapi_generator_flutter:
+        enabled: true
+        options:
+          run_generator: true
+          input_folder: "open_api_files"
+          output_folder: "lib/generated"
+          input_urls:
+            - url: "https://example.com/api/openapi.yaml"
 ```
 
-#### 注意点
+### 3. Run the generator
 
-1. 入力ファイルは有効なYAML形式である必要があります
-2. テーブル形式の説明文は以下の形式である必要があります：
-   ```yaml
-   description: |
-     <table>
-       <thead>
-         <tr>
-           <th>値</th>
-           <th>説明</th>
-         </tr>
-       </thead>
-       <tbody>
-         <tr>
-           <td>value1</td>
-           <td>説明1</td>
-         </tr>
-         <tr>
-           <td>value2</td>
-           <td>説明2</td>
-         </tr>
-       </tbody>
-     </table>
-   ```
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
 
-3. 既存のenum定義がある場合、その定義は保持されます
-4. 処理前に必ずバックアップが作成されます
+## Configuration
 
-#### ログ出力
+### build.yaml Options
 
-スクリプトは処理の各段階でログを出力します：
+- `run_generator`: Enable/disable the generator (default: true)
+- `input_folder`: Directory containing OpenAPI specification files
+- `output_folder`: Directory where generated code will be placed
+- `input_urls`: List of URLs to OpenAPI specification files
 
-- スキーマセクションの検出
-- プロパティの検出
-- 型の検出
-- 既存のenum定義の検出
-- テーブルからの値抽出
-- enum値の追加
+## Example
 
-これらのログにより、処理の進行状況や問題の特定が容易になります。
+See the [example](example) directory for a complete example.
 
-## ライセンス
+## Contributing
 
-MIT License
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

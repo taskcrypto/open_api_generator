@@ -1,35 +1,38 @@
 name: openapi_generator_flutter
 description: OpenAPI (Swagger) client generator for Flutter applications
-version: 0.3.4
+version: 0.3.6
 repository: https://github.com/taskcrypto/openapi_generator_flutter
 homepage: https://github.com/taskcrypto/openapi_generator_flutter
 issue_tracker: https://github.com/taskcrypto/openapi_generator_flutter/issues
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=3.0.0"
+  flutter: ">=3.24.4"
 
 dependencies:
-  flutter: #Default
+  flutter:
     sdk: flutter
 
   build: ^2.4.1
-  source_gen: ^1.5.0
-  analyzer: ^6.2.0
+  source_gen: ^2.0.0
+  analyzer: ^7.3.0
   code_builder: ^4.9.0
   yaml: ^3.1.2
   json_annotation: ^4.9.0
   dio: ^5.4.1
   path: ^1.8.3
   args: ^2.4.2
-  freezed_annotation: ^2.4.1
-  json_serializable: ^6.7.1
-  build_runner: ^2.4.8
-  freezed: ^2.4.7
+  freezed_annotation: ^2.4.4
+  json_serializable: ^6.9.4
+  build_runner: ^2.4.15
+  freezed: ^2.5.8
+  retrofit: ^4.1.0
+  retrofit_generator: ^9.1.9
 
 dev_dependencies:
-  lints: ^2.1.1
-  test: ^1.24.0
+  flutter_test:
+    sdk: flutter
+  lints: ^5.1.1
 
 flutter:
   uses-material-design: true

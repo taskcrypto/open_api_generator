@@ -10,19 +10,25 @@ class NameUtils {
   static String toSnakeCase(String input) {
     if (input.isEmpty) return input;
 
-    return input
-        // キャメルケースやパスカルケースの単語の境界に_を挿入
-        .replaceAllMapped(
-          RegExp(r'[A-Z]'),
-          (match) => '_${match.group(0)?.toLowerCase()}',
-        )
-        // 特殊文字を_に置換
-        .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_')
-        // 先頭の_を削除
-        .replaceAll(RegExp(r'^_'), '')
-        // 連続する_を1つにまとめる
-        .replaceAll(RegExp(r'_+'), '_')
-        .toLowerCase();
+    // 既存の区切り文字を_に置換
+    var result = input.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
+
+    // 大文字の連続を1つの単語として扱う
+    result = result.replaceAllMapped(
+      RegExp(r'[A-Z]+'),
+      (match) {
+        final word = match.group(0)!;
+        // 単語の先頭でない場合は_を追加
+        return match.start > 0 ? '_${word.toLowerCase()}' : word.toLowerCase();
+      },
+    );
+
+    // 連続する_を1つにまとめる
+    result = result.replaceAll(RegExp(r'_+'), '_');
+    // 先頭と末尾の_を削除
+    result = result.replaceAll(RegExp(r'^_|_$'), '');
+
+    return result.toLowerCase();
   }
 
   /// URLからAPI名を生成します

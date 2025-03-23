@@ -6,8 +6,8 @@ part of 'openapi_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$OpenApiSchemaImpl _$$OpenApiSchemaImplFromJson(Map<String, dynamic> json) =>
-    _$OpenApiSchemaImpl(
+OpenApiSchema _$OpenApiSchemaFromJson(Map<String, dynamic> json) =>
+    OpenApiSchema(
       type: json['type'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
@@ -21,11 +21,10 @@ _$OpenApiSchemaImpl _$$OpenApiSchemaImplFromJson(Map<String, dynamic> json) =>
       required: (json['required'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      enum_:
-          (json['enum_'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      enum_: (json['enum'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
+Map<String, dynamic> _$OpenApiSchemaToJson(OpenApiSchema instance) =>
     <String, dynamic>{
       'type': instance.type,
       'title': instance.title,
@@ -33,5 +32,5 @@ Map<String, dynamic> _$$OpenApiSchemaImplToJson(_$OpenApiSchemaImpl instance) =>
       'properties': instance.properties,
       'items': instance.items,
       'required': instance.required,
-      'enum_': instance.enum_,
+      'enum': instance.enum_,
     };

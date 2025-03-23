@@ -1,20 +1,30 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'openapi_schema.freezed.dart';
 part 'openapi_schema.g.dart';
 
-@freezed
-class OpenApiSchema with _$OpenApiSchema {
-  const factory OpenApiSchema({
-    String? type,
-    String? title,
-    String? description,
-    Map<String, OpenApiSchema>? properties,
-    OpenApiSchema? items,
-    List<String>? required,
-    List<String>? enum_,
-  }) = _OpenApiSchema;
+@JsonSerializable()
+class OpenApiSchema {
+  final String? type;
+  final String? title;
+  final String? description;
+  final Map<String, OpenApiSchema>? properties;
+  final OpenApiSchema? items;
+  final List<String>? required;
+  @JsonKey(name: 'enum')
+  final List<String>? enum_;
+
+  const OpenApiSchema({
+    this.type,
+    this.title,
+    this.description,
+    this.properties,
+    this.items,
+    this.required,
+    this.enum_,
+  });
 
   factory OpenApiSchema.fromJson(Map<String, dynamic> json) =>
       _$OpenApiSchemaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OpenApiSchemaToJson(this);
 }

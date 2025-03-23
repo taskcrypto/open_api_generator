@@ -119,7 +119,7 @@ class Parameter {
   @JsonKey(defaultValue: false)
   final bool required;
   final Schema schema;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final String? originalName;
 
   Parameter({

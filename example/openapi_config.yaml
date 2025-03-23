@@ -1,0 +1,2 @@
+input: ../open_api_files/kabu_STATION_API.yaml
+output: lib/generated 

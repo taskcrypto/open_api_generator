@@ -1,0 +1,17 @@
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - open_api_files/**
+    builders:
+      openapi_generator_flutter:
+        enabled: true
+        options:
+          run_generator: true
+          input_folder: "open_api_files"
+          output_folder: "lib/generated"
+          # input_urlsはオプショナル
+          # 指定がない場合はinput_folderのファイルを使用
+          # input_urls:
+          #   - "open_api_files/kabu_station_api.yaml"
