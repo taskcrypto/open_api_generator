@@ -1,3 +1,11 @@
+# builders:
+#   openapi_generator_flutter:
+#     import: "package:openapi_generator_flutter/builder.dart"
+#     builder_factories: ["openapi_generator_flutter"]
+#     build_extensions: {".yaml": [".dart"]}
+#     auto_apply: dependents
+#     build_to: source
+
 targets:
   $default:
     sources:

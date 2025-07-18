@@ -1,20 +1,47 @@
-# AIテスト手順
+# Pyth Network ベンチマークAPI テスト手順
 
 ## 前提条件
 
+- Flutter SDK 3.0.0以上がインストールされていること
+- Dart SDK 3.0.0以上がインストールされていること
 - `example`ディレクトリが存在すること
-- 必要なパッケージがインストールされていること
-- インターネット接続が利用可能であること（OpenAPI仕様のダウンロードに必要）
+- 以下のパッケージが正しいバージョンでインストールされていること：
+  - openapi_generator_flutter: 0.3.6
+  - build_runner: ^2.4.15
+  - freezed: ^2.5.8
+  - json_serializable: ^6.9.4
+  - retrofit_generator: ^9.1.9
+- インターネット接続が利用可能であること
 
 ## テスト手順
 
-### 1. build.yamlの作成
+### 1. ディレクトリ構造の準備
 
-`example`ディレクトリに`build.yaml`を作成します：
+以下はexampleディレクトリで実施する
+
+```bash
+cd example
+```
+
+```bash
+mkdir -p lib/generated
+mkdir -p open_api_files
+```
+
+[参考] OpenAPI仕様を手動でダウンロードする場合はこのコマンドが使える  
+ただし、build.yamlで取得するのが正規手順なので使う必要は無い
+
+```bash
+curl -o open_api_files/pyth_benchmark.json https://benchmarks.pyth.network/openapi.json
+```
+
+### 2. build.yamlの設定
+
+`example/build.yaml`を作成：
 
 ```yaml
 targets:
-  $default:
+  openapi_generator_example:
     sources:
       - $package$
       - lib/**
@@ -27,85 +54,65 @@ targets:
           input_folder: "open_api_files"
           output_folder: "lib/generated"
           input_urls:
-            - url: "https://kabucom.github.io/kabusapi/reference/kabu_STATION_API.yaml"
+            - "https://benchmarks.pyth.network/openapi.json"
 ```
 
-### 2. APIクライアントの生成
-
-`build.yaml`を使用してAPIクライアントを生成します：
+### 3. APIクライアントの生成
 
 ```bash
-cd example && dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 
-## 生成されるファイル構造
+## エラーハンドリング
 
-生成後、以下のようなファイル構造が作成されます：
+### 1. バリデーションエラー
 
-```bash
-example/lib/generated/
-├── index.dart
-├── retrofit/
-├── retrofit_index.dart
-├── models_index.dart
-└── models/
-    ├── common/
-    ├── register/
-    ├── wallet/
-    ├── auth/
-    ├── info/
-    ├── response/
-    ├── order/
-    └── enums/
-```
+- 422エラーのハンドリング
+- `HTTPValidationError`レスポンスの処理
 
-### 認証関連ファイルの例
+### 2. ネットワークエラー
 
-`models/auth/`ディレクトリには以下のファイルが生成されます：
-
-- `error_response.dart`（および`.g.dart`と`.freezed.dart`）
-- `request_token.dart`（および`.g.dart`と`.freezed.dart`）
-- `token_success.dart`（および`.g.dart`と`.freezed.dart`）
+- タイムアウト処理
+- 接続エラー処理
 
 ## 注意事項
 
-- 生成前に既存のファイルを削除する必要がある場合は、`example/lib/generated`ディレクトリを削除してください
-- `build.yaml`の設定が正しいことを確認してください
-- 生成されたコードは`example/lib/generated`ディレクトリに配置されます
-- インターネット接続が必要です（OpenAPI仕様のダウンロードに使用）
+1. レート制限
+   - APIのレート制限に注意
+   - テスト実行間隔の調整
+
+2. データ検証
+   - 価格データの妥当性確認
+   - タイムスタンプの連続性確認
+
+3. タイムゾーン
+   - UTCタイムスタンプの取り扱い
+   - タイムゾーン変換の正確性
 
 ## トラブルシューティング
 
-- エラーが発生した場合は、以下を確認してください：
-  1. インターネット接続が利用可能か
-  2. `build.yaml`の設定が正しいか
-  3. 必要なパッケージがインストールされているか
-  4. `example`ディレクトリが存在するか
-  5. 出力ディレクトリに書き込み権限があるか
+### 1. 生成コードのエラー
 
-## 生成されたコードの修正
+- freezedの生成コード確認
+- retrofitの生成コード確認
+- 必要に応じて手動修正
 
-生成されたコードにlintエラーがある場合は、以下の手順で修正します：
+### 2. APIアクセスエラー
 
-1. `example/lib/generated/models/`ディレクトリ内の各モデルファイルを確認
-2. 以下のようなlintエラーを修正：
-   - 不要なimportの削除
-   - 未使用の変数の削除
-   - コードフォーマットの修正
-3. 修正後、再度コードを生成：
+- URLの有効性確認
+- ネットワーク接続確認
+- プロキシ設定の確認
 
-   ```bash
-   cd example && dart run build_runner build --delete-conflicting-outputs
-   ```
+## 確認項目
 
-## テスト実行
+1. レスポンス形式
+   - JSONフォーマットの正確性
+   - 必須フィールドの存在
 
-修正後のコードが正しく動作することを確認するために、以下のテストを実行します：
+2. データ整合性
+   - 価格データの連続性
+   - タイムスタンプの正確性
 
-1. 認証関連のテスト
-   - トークン取得のテスト
-   - エラーレスポンスのテスト
-
-2. その他のAPIエンドポイントのテスト
-   - 各エンドポイントのリクエスト/レスポンスの型チェック
-   - 実際のAPI呼び出しのテスト
+3. エラーハンドリング
+   - 各種エラーケースの適切な処理
+   - エラーメッセージの正確な表示
